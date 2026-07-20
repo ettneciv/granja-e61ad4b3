@@ -1,0 +1,1680 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Plan técnico y operativo para una granja modular de 100 a 500 pollos de engorde en la costa de La Guaira, Venezuela.">
+  <title>Proyecto de pollos de engorde · La Guaira</title>
+  <style>
+    :root {
+      --bg: #f3f6f1;
+      --surface: #ffffff;
+      --ink: #172019;
+      --muted: #5c6a60;
+      --brand: #246b43;
+      --brand-2: #dcecdf;
+      --accent: #d98924;
+      --danger: #a73a32;
+      --line: #d9e1da;
+      --shadow: 0 8px 26px rgba(28, 58, 38, .08);
+      --radius: 16px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 15.5px/1.55 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    a { color: var(--brand); }
+    header {
+      background: linear-gradient(135deg, #174d32 0%, #2f7e50 65%, #4c9063 100%);
+      color: white;
+      padding: 42px 20px 34px;
+    }
+    .wrap { width: min(1180px, calc(100% - 30px)); margin: auto; }
+    .eyebrow { letter-spacing: .12em; text-transform: uppercase; font-size: 12px; opacity: .8; }
+    h1 { margin: 8px 0 8px; font-size: clamp(30px, 6vw, 54px); line-height: 1.03; }
+    header p { max-width: 760px; margin: 0; font-size: 18px; opacity: .92; }
+    .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+    .pill { display: inline-flex; padding: 6px 10px; border-radius: 999px; background: rgba(255,255,255,.14); font-size: 13px; }
+    nav {
+      position: sticky; top: 0; z-index: 20; overflow-x: auto;
+      background: rgba(255,255,255,.96); border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(10px); white-space: nowrap;
+    }
+    nav .wrap { display: flex; gap: 4px; padding: 8px 0; }
+    nav a { text-decoration: none; color: var(--ink); padding: 8px 10px; border-radius: 8px; font-size: 14px; }
+    nav a:hover { background: var(--brand-2); color: var(--brand); }
+    main { padding: 24px 0 60px; }
+    section { scroll-margin-top: 70px; margin: 24px 0; }
+    h2 { font-size: clamp(24px, 4vw, 34px); margin: 0 0 6px; }
+    h3 { margin: 0 0 8px; font-size: 18px; }
+    .section-intro { color: var(--muted); max-width: 850px; margin: 0 0 18px; }
+    .card {
+      background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+      box-shadow: var(--shadow); padding: 20px; margin: 14px 0;
+    }
+    .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 14px; }
+    .span-4 { grid-column: span 4; }
+    .span-6 { grid-column: span 6; }
+    .span-8 { grid-column: span 8; }
+    .span-12 { grid-column: span 12; }
+    .metric { border-left: 4px solid var(--brand); }
+    .metric strong { display: block; font-size: 28px; line-height: 1.15; color: var(--brand); }
+    .metric span { color: var(--muted); }
+    .callout { border-left: 5px solid var(--accent); background: #fff8ed; }
+    .danger { border-left-color: var(--danger); background: #fff3f1; }
+    .ok { border-left-color: var(--brand); background: #eff8f1; }
+    table { width: 100%; border-collapse: collapse; min-width: 720px; }
+    th, td { padding: 11px 10px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+    th { background: #edf4ee; color: #254a32; font-size: 13px; position: sticky; top: 52px; }
+    tr:last-child td { border-bottom: 0; }
+    .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; }
+    .tag { display: inline-block; padding: 3px 8px; border-radius: 999px; background: var(--brand-2); color: var(--brand); font-size: 12px; font-weight: 650; }
+    .tag.warn { background: #fff0d7; color: #865210; }
+    .tag.red { background: #fde4e1; color: var(--danger); }
+    details { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; margin: 9px 0; overflow: hidden; }
+    summary { cursor: pointer; padding: 14px 16px; font-weight: 700; list-style: none; }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; float: right; color: var(--brand); font-size: 20px; line-height: 1; }
+    details[open] summary::after { content: "−"; }
+    details[open] summary { background: #edf4ee; }
+    .details-body { padding: 2px 16px 16px; }
+    ul, ol { padding-left: 22px; }
+    li + li { margin-top: 5px; }
+    code { background: #edf1ed; padding: 2px 5px; border-radius: 5px; }
+    .checklist { display: grid; gap: 8px; }
+    .check { display: flex; gap: 10px; align-items: flex-start; padding: 10px; border: 1px solid var(--line); border-radius: 10px; }
+    .check input { margin-top: 4px; width: 18px; height: 18px; accent-color: var(--brand); }
+    .check:has(input:checked) { background: #eef8f0; color: #43604b; }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+    button, .button {
+      border: 0; border-radius: 9px; padding: 9px 12px; cursor: pointer; text-decoration: none;
+      background: var(--brand); color: white; font-weight: 650;
+    }
+    button.secondary { background: #e5ece6; color: var(--ink); }
+    input[type="search"] { width: min(100%, 420px); border: 1px solid var(--line); border-radius: 10px; padding: 11px 13px; font: inherit; }
+    .small { font-size: 13px; color: var(--muted); }
+    .price { white-space: nowrap; font-weight: 700; }
+    footer { padding: 25px 0 45px; color: var(--muted); border-top: 1px solid var(--line); }
+    @media (max-width: 840px) {
+      .span-4, .span-6, .span-8 { grid-column: span 12; }
+      header { padding-top: 30px; }
+      th { position: static; }
+    }
+    @media print {
+      nav, .toolbar, #glossarySearch { display: none !important; }
+      body { background: white; font-size: 11px; }
+      .card, details { box-shadow: none; break-inside: avoid; }
+      details .details-body { display: block !important; }
+      details:not([open]) .details-body { display: block !important; }
+      header { padding: 20px; }
+      a { color: black; text-decoration: none; }
+    }
+  </style>
+  <style>
+    :root{--water:#2f77c2;--air:#1f9c98;--feed:#c07a1e;--sensor:#246b43;--cam:#7a54c0;--heat:#c0492f}
+    .intro{color:var(--muted);max-width:900px;margin:0 0 14px}
+    .fig{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px}
+    .fig svg{display:block;max-width:100%;height:auto;margin:auto}
+    .legend{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:6px 18px;margin-top:12px}
+    .lg{display:flex;gap:9px;align-items:flex-start;font-size:13.5px;padding:3px 0}
+    .num{flex:0 0 auto;display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--brand);color:#fff;font-size:12px;font-weight:700;line-height:1}
+    .sw{flex:0 0 auto;width:20px;height:12px;border-radius:3px;margin-top:3px}
+    .callout.open{border-left-color:var(--danger);background:#fff3f1}
+    .tag.confirm{background:var(--brand-2);color:var(--brand)}
+    .tag.est{background:#fff0d7;color:#865210}
+    .tag.open{background:#fde4e1;color:var(--danger)}
+    .tabnav{white-space:normal;overflow:visible}
+    .tabnav .wrap{display:flex;flex-wrap:wrap;gap:4px;padding:8px 0}
+    .tabbtn{border:0;background:transparent;color:var(--ink);padding:8px 12px;border-radius:8px;font:inherit;font-size:14px;cursor:pointer;white-space:nowrap}
+    .tabbtn:hover{background:var(--brand-2);color:var(--brand)}
+    .tabbtn.active{background:var(--brand);color:#fff}
+    @media print{nav{display:none!important}#pane-layout,main>section{display:block!important}}
+    .qz input{width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:6px;padding:5px 6px;font:inherit;font-size:13px;background:#fff}
+    .qz table{min-width:680px}
+    .qz .rowlabel{font-weight:650;white-space:nowrap;background:#f3f7f3}
+    @media print{.qz input{border:0;border-bottom:1px solid #bbb;border-radius:0}}
+    .ec-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:10px}
+    .ec-grid label{display:flex;flex-direction:column;gap:4px;font-size:12.5px;color:var(--muted)}
+    #modelo tbody td:not(.rowlabel){text-align:right;font-variant-numeric:tabular-nums}
+    #modelo tr.ec-margin{font-weight:700;background:#eff8f1}
+    .cmp td:first-child{font-weight:600}
+    .cmp .grp td{background:#edf4ee;font-weight:700;color:#254a32}
+    .cmp tr.diff td{background:#fff8ed}
+    .cmp tr.diff td:first-child::after{content:" ★";color:var(--accent)}
+    #ponedoras tbody td:not(.rowlabel){text-align:right;font-variant-numeric:tabular-nums}
+    #ponedoras tr.ec-margin{font-weight:700;background:#eff8f1}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="eyebrow">Documento de trabajo · Versión 1.0</div>
+      <h1>Granja modular de pollos de engorde</h1>
+      <p>Plan técnico, operativo y económico para comenzar con 100 aves y escalar de forma controlada hasta 500 en Todasana o Naiguatá, La Guaira.</p>
+      <div class="meta">
+        <span class="pill">Última revisión: 18 julio 2026</span>
+        <span class="pill">Clima tropical costero</span>
+        <span class="pill">Galpón propuesto: 6 × 12 m</span>
+        <span class="pill">Objetivo inicial de venta: 35–38 días</span>
+      </div>
+    </div>
+  </header>
+
+  <nav aria-label="Navegación principal">
+    <div class="wrap">
+      <a href="#resumen">Resumen</a>
+      <a href="#ejecucion">Ejecución</a>
+      <a href="#galpon">Galpón</a>
+      <a href="#layout">Layout del galpón</a>
+      <a href="#materiales">Materiales y precios</a>
+      <a href="#alimentacion">Alimento</a>
+      <a href="#dosificacion">Dosificación</a>
+      <a href="#ventilacion">Ventilación</a>
+      <a href="#automatizacion">Automatización</a>
+      <a href="#situaciones">Situaciones</a>
+      <a href="#glosario">Glosario</a>
+      <a href="#fuentes">Fuentes</a>
+    </div>
+  </nav>
+
+  <main class="wrap">
+    <section id="resumen">
+      <h2>Resumen de la propuesta</h2>
+      <p class="section-intro">Se construye una sola infraestructura preparada para 500, pero se utiliza una división de 18 m² durante el piloto de 100. El crecimiento depende de resultados medidos, no de una fecha fija.</p>
+      <div class="grid">
+        <div class="card metric span-4"><strong>100 → 250 → 500</strong><span>Escalado después de dos lotes estables por etapa.</span></div>
+        <div class="card metric span-4"><strong>35–38 días</strong><span>Ventana inicial de venta; se recalcula con costos y rendimiento reales.</span></div>
+        <div class="card metric span-4"><strong>&lt; 4%</strong><span>Objetivo de mortalidad total antes de escalar.</span></div>
+        <div class="card callout span-12">
+          <h3>Decisión técnica principal</h3>
+          <p>No se recomienda “dar una cantidad exacta” de alimento a cada pollo. El sistema correcto mantiene alimento disponible, minimiza desperdicio y mide cuánto se suministró. La decisión económica se realiza con peso, consumo, mortalidad y precio de venta.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="ejecucion">
+      <h2>Plan resumido de ejecución</h2>
+      <p class="section-intro">Duraciones orientativas. La compra de pollitos ocurre solamente después de probar agua, calefacción, ventilación, alarmas y procedimientos.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Fase</th><th>Duración</th><th>Trabajo</th><th>Resultado requerido</th></tr></thead>
+          <tbody>
+            <tr><td>0. Modelo de negocio</td><td>1 semana</td><td>Cotizar pollito, tres alimentos, pollo vivo/beneficiado, transporte y procesamiento.</td><td>Costo por kg y precio mínimo de venta.</td></tr>
+            <tr><td>1. Selección del sitio</td><td>4–6 semanas</td><td>Registrar clima en Todasana y Naiguatá; revisar drenaje, acceso, viento, salinidad y seguridad.</td><td>Sitio aprobado y eje del galpón definido.</td></tr>
+            <tr><td>2. Ingeniería</td><td>2–3 semanas</td><td>Plano civil, layout, ventilación, agua, electricidad, I/O, causa-efecto y presupuesto.</td><td>Diseño congelado para construcción.</td></tr>
+            <tr><td>3. Construcción</td><td>4–8 semanas</td><td>Piso, estructura, techo, malla, cortinas, drenajes y cuarto técnico.</td><td>Galpón lavable, seco y protegido.</td></tr>
+            <tr><td>4. Instalación y pruebas</td><td>1–2 semanas</td><td>Montaje, calibración, prueba de fallos, velocidad de aire y operación de 72 h sin aves.</td><td>SAT aprobado y alarmas verificadas.</td></tr>
+            <tr><td>5. Piloto</td><td>35–42 días</td><td>Lote de 100; registrar datos diarios y pesar muestra semanalmente.</td><td>Informe real de mortalidad, peso, FCR y margen.</td></tr>
+            <tr><td>6. Optimización</td><td>2 lotes</td><td>Corregir ventilación, distribución, agua, alimento y procedimientos.</td><td>Dos lotes con mortalidad ≤4% y FCR ≤1,70.</td></tr>
+            <tr><td>7. Escalado</td><td>Por etapas</td><td>200–250 aves y finalmente 500.</td><td>Producción repetible, sin mezclar edades.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card">
+        <h3>Checklist inmediato</h3>
+        <div class="checklist" data-checklist="initial">
+          <label class="check"><input type="checkbox"><span>Solicitar tres cotizaciones de pollitos Cobb 500 o Ross 308, incluyendo vacunas aplicadas en incubadora.</span></label>
+          <label class="check"><input type="checkbox"><span>Solicitar cotización por saco y ficha técnica de preinicio/inicio, crecimiento y finalizador.</span></label>
+          <label class="check"><input type="checkbox"><span>Confirmar si la venta será viva, beneficiada o ambas y obtener precio real por kg.</span></label>
+          <label class="check"><input type="checkbox"><span>Instalar registradores climáticos en las dos ubicaciones candidatas.</span></label>
+          <label class="check"><input type="checkbox"><span>Levantar nivel del terreno, drenaje, dirección de viento y riesgo de quebrada/escorrentía.</span></label>
+          <label class="check"><input type="checkbox"><span>Contactar veterinario avícola local para programa sanitario y necropsias.</span></label>
+        </div>
+      </div>
+    </section>
+
+    <section id="galpon">
+      <h2>Galpón modular</h2>
+      <div class="grid">
+        <div class="card span-6">
+          <h3>Dimensiones base</h3>
+          <ul>
+            <li>Área productiva: 6 × 12 m = 72 m².</li>
+            <li>Cuarto técnico/almacén separado: aproximadamente 3 × 4 m.</li>
+            <li>Altura al alero: 3 m; cumbrera: 4–4,5 m.</li>
+            <li>Eje longitudinal este-oeste para reducir carga solar.</li>
+            <li>Aleros amplios y cumbrera ventilada protegida contra lluvia.</li>
+            <li>Piso de concreto elevado con pendiente suave hacia drenajes exteriores.</li>
+          </ul>
+        </div>
+        <div class="card span-6">
+          <h3>Uso del espacio</h3>
+          <ul>
+            <li>100 aves: 6 × 3 m = 18 m².</li>
+            <li>250 aves: 6 × 6 m = 36 m².</li>
+            <li>500 aves: 6 × 12 m = 72 m².</li>
+            <li>Divisiones de malla o tubos cada 3 m; no deben bloquear el aire.</li>
+            <li>Durante los primeros días se utiliza una cámara de crianza menor y se expande gradualmente.</li>
+          </ul>
+        </div>
+        <div class="card callout danger span-12">
+          <h3>No mezclar lotes</h3>
+          <p>Las divisiones sirven para ampliar un lote de la misma edad. Si desean iniciar un lote nuevo mientras el anterior todavía está presente, deben construir otro galpón con manejo sanitario separado.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="panel" id="pane-layout">
+    <section id="layout">
+      <h2>Layout del galpón — plano y ubicación de equipos</h2>
+      <p class="section-intro">Detalle del galpón de la sección anterior: forma recomendada, plano en planta, cortes, ubicación de sensores, ventiladores, agua y alimento, tabla de coordenadas, razonamiento y galería ilustrada con fotos reales.</p>
+    </section>
+
+
+  <section>
+    <h2>1 · La forma en una frase</h2>
+    <div class="card ok">
+      <p style="margin:0"><strong>Un rectángulo largo de 6 × 12 m con el eje largo orientado este-oeste, los dos lados largos (norte y sur) abiertos con malla y cortinas enrollables, techo a dos aguas con cumbrera ventilada, piso de concreto elevado con caída hacia los dos lados, y todos los servicios (agua, alimento, tablero, gas) concentrados en un cuarto técnico pegado al extremo oeste.</strong> El lote empieza en el extremo oeste (junto a los servicios) y se expande hacia el este a medida que crece: 0–3 m para 100 aves, 0–6 m para 250, y los 12 m completos para 500.</p>
+    </div>
+    <div class="intro">
+      <span class="tag confirm">confirmado</span> Dimensiones, eje E-O, laterales abiertos y piso elevado ya estaban decididos (D-003).
+      <span class="tag est">recomendación</span> La disposición interna (dónde va cada cosa) es la propuesta de este documento.
+      <span class="tag confirm">Naiguatá</span> Sitio decidido. La calefacción de crianza es <strong>eléctrica</strong> (sin gas).
+    </div>
+  </section>
+
+  <section>
+    <h2>2 · Vista en planta (desde arriba)</h2>
+    <p class="intro">Norte hacia arriba. Cuadrícula de 1 m. Los números corresponden a la lista debajo del plano. Colores por sistema: <span style="color:var(--water);font-weight:700">agua</span>, <span style="color:var(--feed);font-weight:700">alimento</span>, <span style="color:var(--air);font-weight:700">aire</span>, <span style="color:var(--sensor);font-weight:700">sensores</span>, <span style="color:var(--cam);font-weight:700">cámaras</span>.</p>
+
+    <div class="fig">
+      <svg viewBox="0 0 820 430" role="img" aria-labelledby="pltitle pdesc" font-family="system-ui,Segoe UI,sans-serif">
+        <title id="pltitle">Vista en planta del galpón</title>
+        <desc id="pdesc">Rectángulo de 12 por 6 metros, eje este-oeste, cuarto técnico al oeste, dos líneas de bebederos, una línea central de alimento, cinco puntos de ventiladores, sensores y cámaras distribuidos.</desc>
+
+        <!-- North arrow -->
+        <g transform="translate(770,44)">
+          <line x1="0" y1="26" x2="0" y2="2" stroke="#333" stroke-width="2"/>
+          <path d="M0,-2 L5,9 L-5,9 Z" fill="#333"/>
+          <text x="0" y="40" text-anchor="middle" font-size="12" font-weight="700" fill="#333">N</text>
+        </g>
+        <text x="700" y="30" font-size="12" fill="#5c6a60">☀ sol recorre E→O · lados largos N/S sombreados</text>
+
+        <!-- labels N/S -->
+        <text x="428" y="58" text-anchor="middle" font-size="12" font-weight="700" fill="#5c6a60">LADO NORTE — cortina enrollable + malla</text>
+        <text x="428" y="392" text-anchor="middle" font-size="12" font-weight="700" fill="#5c6a60">LADO SUR — cortina enrollable + malla</text>
+        <text x="120" y="200" text-anchor="middle" font-size="12" font-weight="700" fill="#5c6a60" transform="rotate(-90 120 200)">OESTE (servicios)</text>
+        <text x="712" y="200" text-anchor="middle" font-size="12" font-weight="700" fill="#5c6a60" transform="rotate(90 712 200)">ESTE (carga/limpieza)</text>
+
+        <!-- Technical room (west, outside 72 m2) -->
+        <rect x="44" y="132" width="112" height="136" rx="6" fill="#eef2ee" stroke="#9bb0a1" stroke-width="1.5"/>
+        <text x="100" y="120" text-anchor="middle" font-size="12" font-weight="700" fill="#254a32">Cuarto técnico 3×4 m</text>
+        <text x="100" y="182" text-anchor="middle" font-size="10.5" fill="#42604b">Tanque 1000 L</text>
+        <text x="100" y="197" text-anchor="middle" font-size="10.5" fill="#42604b">Bomba·filtro</text>
+        <text x="100" y="212" text-anchor="middle" font-size="10.5" fill="#42604b">Tablero·PLC·UPS</text>
+        <text x="100" y="227" text-anchor="middle" font-size="10.5" fill="#42604b">NVR·alimento</text>
+
+        <!-- House interior 12x6 : x 176..680 (504px=12m,42/m), y 70..322 (252=6m) -->
+        <rect x="176" y="70" width="504" height="252" fill="#fbfdfb" stroke="#2f5b3f" stroke-width="2.5"/>
+        <!-- grid 1m -->
+        <g stroke="#d9e1da" stroke-width="1">
+          <line x1="218" y1="70" x2="218" y2="322"/><line x1="260" y1="70" x2="260" y2="322"/>
+          <line x1="302" y1="70" x2="302" y2="322"/><line x1="344" y1="70" x2="344" y2="322"/>
+          <line x1="386" y1="70" x2="386" y2="322"/><line x1="428" y1="70" x2="428" y2="322"/>
+          <line x1="470" y1="70" x2="470" y2="322"/><line x1="512" y1="70" x2="512" y2="322"/>
+          <line x1="554" y1="70" x2="554" y2="322"/><line x1="596" y1="70" x2="596" y2="322"/>
+          <line x1="638" y1="70" x2="638" y2="322"/>
+          <line x1="176" y1="112" x2="680" y2="112"/><line x1="176" y1="154" x2="680" y2="154"/>
+          <line x1="176" y1="196" x2="680" y2="196"/><line x1="176" y1="238" x2="680" y2="238"/>
+          <line x1="176" y1="280" x2="680" y2="280"/>
+        </g>
+
+        <!-- Zone dividers (mesh) at x=3m(302) and x=6m(428) -->
+        <line x1="302" y1="70" x2="302" y2="322" stroke="#8a6d3b" stroke-width="2.5" stroke-dasharray="3 4"/>
+        <line x1="428" y1="70" x2="428" y2="322" stroke="#8a6d3b" stroke-width="2.5" stroke-dasharray="3 4"/>
+        <text x="239" y="86" text-anchor="middle" font-size="10.5" font-weight="700" fill="#7a5a2a">Piloto 100</text>
+        <text x="239" y="98" text-anchor="middle" font-size="9.5" fill="#7a5a2a">0–3 m · 18 m²</text>
+        <text x="365" y="86" text-anchor="middle" font-size="10.5" font-weight="700" fill="#7a5a2a">+250</text>
+        <text x="365" y="98" text-anchor="middle" font-size="9.5" fill="#7a5a2a">3–6 m</text>
+        <text x="554" y="86" text-anchor="middle" font-size="10.5" font-weight="700" fill="#7a5a2a">+500</text>
+        <text x="554" y="98" text-anchor="middle" font-size="9.5" fill="#7a5a2a">6–12 m</text>
+
+        <!-- Water nipple lines Y=2(238) Y=4(154) -->
+        <line x1="176" y1="154" x2="680" y2="154" stroke="var(--water)" stroke-width="3"/>
+        <line x1="176" y1="238" x2="680" y2="238" stroke="var(--water)" stroke-width="3"/>
+        <g fill="var(--water)">
+          <circle cx="230" cy="154" r="2.4"/><circle cx="290" cy="154" r="2.4"/><circle cx="350" cy="154" r="2.4"/><circle cx="410" cy="154" r="2.4"/><circle cx="470" cy="154" r="2.4"/><circle cx="530" cy="154" r="2.4"/><circle cx="590" cy="154" r="2.4"/><circle cx="650" cy="154" r="2.4"/>
+          <circle cx="230" cy="238" r="2.4"/><circle cx="290" cy="238" r="2.4"/><circle cx="350" cy="238" r="2.4"/><circle cx="410" cy="238" r="2.4"/><circle cx="470" cy="238" r="2.4"/><circle cx="530" cy="238" r="2.4"/><circle cx="590" cy="238" r="2.4"/><circle cx="650" cy="238" r="2.4"/>
+        </g>
+
+        <!-- Feed line Y=3 (196) -->
+        <line x1="188" y1="196" x2="668" y2="196" stroke="var(--feed)" stroke-width="3"/>
+        <g fill="var(--feed)">
+          <circle cx="260" cy="196" r="4.5"/><circle cx="344" cy="196" r="4.5"/><circle cx="386" cy="196" r="4.5"/><circle cx="470" cy="196" r="4.5"/><circle cx="512" cy="196" r="4.5"/><circle cx="596" cy="196" r="4.5"/>
+        </g>
+        <!-- hopper (load cells) west -->
+        <rect x="182" y="186" width="20" height="20" rx="3" fill="#fff" stroke="var(--feed)" stroke-width="2.5"/>
+        <!-- control pan east -->
+        <circle cx="662" cy="196" r="6" fill="#fff" stroke="var(--feed)" stroke-width="2.5"/>
+
+        <!-- Fans: X=2,4,6,8,10 => 260,344,428,512,596 ; arrows pointing east -->
+        <g>
+          <!-- installed (filled) at 260,344 -->
+          <g fill="var(--air)" stroke="var(--air)">
+            <g transform="translate(260,128)"><circle r="7" fill="var(--air)"/><path d="M-6,10 L0,22 L6,10" fill="none" stroke="var(--air)" stroke-width="2.2"/></g>
+            <g transform="translate(344,128)"><circle r="7" fill="var(--air)"/><path d="M-6,10 L0,22 L6,10" fill="none" stroke="var(--air)" stroke-width="2.2"/></g>
+          </g>
+          <!-- future (hollow) at 428,512,596 -->
+          <g>
+            <g transform="translate(428,128)"><circle r="7" fill="#fff" stroke="var(--air)" stroke-width="2"/><path d="M-6,10 L0,22 L6,10" fill="none" stroke="var(--air)" stroke-width="1.6" stroke-dasharray="2 2"/></g>
+            <g transform="translate(512,128)"><circle r="7" fill="#fff" stroke="var(--air)" stroke-width="2"/><path d="M-6,10 L0,22 L6,10" fill="none" stroke="var(--air)" stroke-width="1.6" stroke-dasharray="2 2"/></g>
+            <g transform="translate(596,128)"><circle r="7" fill="#fff" stroke="var(--air)" stroke-width="2"/><path d="M-6,10 L0,22 L6,10" fill="none" stroke="var(--air)" stroke-width="1.6" stroke-dasharray="2 2"/></g>
+          </g>
+        </g>
+
+        <!-- Markers -->
+        <g font-size="11.5" font-weight="700" text-anchor="middle">
+          <!-- brooder 1 -->
+          <g transform="translate(230,272)"><circle r="10" fill="var(--heat)"/><text y="4" fill="#fff">1</text></g>
+          <!-- T/RH sensors 2,3,4 at X=2,6,10 bird height (near south) -->
+          <g transform="translate(260,300)"><circle r="10" fill="var(--sensor)"/><text y="4" fill="#fff">2</text></g>
+          <g transform="translate(428,300)"><circle r="10" fill="var(--sensor)"/><text y="4" fill="#fff">3</text></g>
+          <g transform="translate(596,300)"><circle r="10" fill="var(--sensor)"/><text y="4" fill="#fff">4</text></g>
+          <!-- NH3 5 (pilot low) CO2 6 (mid) CO 7 (near brooder) -->
+          <g transform="translate(285,128)"><circle r="10" fill="var(--sensor)"/><text y="4" fill="#fff">5</text></g>
+          <g transform="translate(455,128)"><circle r="10" fill="var(--sensor)"/><text y="4" fill="#fff">6</text></g>
+          <!-- water flow header 8 (west) -->
+          <g transform="translate(196,238)"><circle r="10" fill="var(--water)"/><text y="4" fill="#fff">8</text></g>
+          <!-- cameras 9 cenital,10 crianza,11 este,12 acceso -->
+          <g transform="translate(428,238)"><circle r="10" fill="var(--cam)"/><text y="4" fill="#fff">9</text></g>
+          <g transform="translate(230,112)"><circle r="10" fill="var(--cam)"/><text y="4" fill="#fff">10</text></g>
+          <g transform="translate(650,112)"><circle r="10" fill="var(--cam)"/><text y="4" fill="#fff">11</text></g>
+          <g transform="translate(156,238)"><circle r="10" fill="var(--cam)"/><text y="4" fill="#fff">12</text></g>
+        </g>
+
+        <!-- Doors -->
+        <rect x="150" y="285" width="26" height="14" fill="#c9a24a" stroke="#8a6d3b"/>
+        <text x="163" y="315" text-anchor="middle" font-size="9.5" fill="#7a5a2a">acceso</text>
+        <rect x="680" y="180" width="10" height="34" fill="#c9a24a" stroke="#8a6d3b"/>
+        <text x="700" y="245" text-anchor="middle" font-size="9.5" fill="#7a5a2a">portón</text>
+
+        <!-- Exterior weather station NW -->
+        <g transform="translate(150,86)"><circle r="10" fill="#fff" stroke="var(--sensor)" stroke-width="2.5"/><text y="4" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--sensor)">E</text></g>
+        <text x="150" y="66" text-anchor="middle" font-size="9.5" fill="#42604b">estación exterior</text>
+
+        <!-- Drains outside long sides -->
+        <line x1="176" y1="66" x2="680" y2="66" stroke="var(--water)" stroke-width="1.5" stroke-dasharray="5 3"/>
+        <line x1="176" y1="326" x2="680" y2="326" stroke="var(--water)" stroke-width="1.5" stroke-dasharray="5 3"/>
+        <text x="620" y="340" font-size="9.5" fill="#2f77c2">drenaje perimetral (ambos lados)</text>
+
+        <!-- direction of airflow note -->
+        <text x="428" y="418" text-anchor="middle" font-size="11" fill="var(--air)">↓ Ventiladores altos e inclinados soplando hacia las aves (flechas hacia abajo). El sentido a lo largo (oeste→este) se ve en la vista longitudinal, §3.</text>
+      </svg>
+
+      <div class="legend">
+        <div class="lg"><span class="num" style="background:var(--heat)">1</span> Calefacción de crianza <strong>eléctrica</strong> (lámpara infrarroja o placa calefactora), sobre la zona de crianza. Sin gas.</div>
+        <div class="lg"><span class="num">2</span> Sensor T/RH interior — zona de crianza (X≈2 m), a altura de ave.</div>
+        <div class="lg"><span class="num">3</span> Sensor T/RH interior — medio (X≈6 m).</div>
+        <div class="lg"><span class="num">4</span> Sensor T/RH interior — extremo (X≈10 m). <span class="small">Mediana = control · máximo = alarma de calor.</span></div>
+        <div class="lg"><span class="num">5</span> Sensor NH₃ (amoníaco) — bajo, cerca de la cama, en zona ocupada.</div>
+        <div class="lg"><span class="num">6</span> Sensor CO₂ — a ~1 m del piso, zona central.</div>
+        <div class="lg"><span class="num" style="background:var(--water)">8</span> Caudalímetro + temperatura de agua, en el cabezal (oeste).</div>
+        <div class="lg"><span class="num" style="background:var(--cam)">9</span> Cámara cenital central — distribución de las aves.</div>
+        <div class="lg"><span class="num" style="background:var(--cam)">10</span> Cámara zona de crianza — comportamiento de pollitos.</div>
+        <div class="lg"><span class="num" style="background:var(--cam)">11</span> Cámara extremo este — cobertura / carga.</div>
+        <div class="lg"><span class="num" style="background:var(--cam)">12</span> Cámara acceso + cuarto técnico — seguridad.</div>
+        <div class="lg"><span class="sw" style="background:var(--water)"></span> 2 líneas de nipples (bebederos) a lo largo · cabezal al oeste, purga al este.</div>
+        <div class="lg"><span class="sw" style="background:var(--feed)"></span> 1 línea central de alimento · tolva sobre celdas de carga (oeste) + plato de control (este).</div>
+        <div class="lg"><span class="sw" style="background:var(--air)"></span> 5 puntos de ventilador (2 instalados en el piloto, 3 futuros).</div>
+        <div class="lg"><span class="sw" style="background:#8a6d3b"></span> Divisiones de malla (X=3 y 6 m) — expanden el lote sin bloquear el aire.</div>
+        <div class="lg"><span class="num" style="background:#fff;color:var(--sensor);border:2px solid var(--sensor)">E</span> Estación climática exterior (T/RH/viento/lluvia), a barlovento y a la sombra.</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>3 · Cortes del galpón (transversal y longitudinal)</h2>
+    <p class="intro"><strong>Corte transversal (a lo ancho, 6 m):</strong> muestra el techo, cumbrera ventilada, cortinas, altura del ventilador, caída del piso y el aire que cruza y sube por la cumbrera.</p>
+    <div class="fig">
+      <svg viewBox="0 0 820 360" role="img" aria-labelledby="ctitle cdesc" font-family="system-ui,Segoe UI,sans-serif">
+        <title id="ctitle">Corte transversal del galpón</title>
+        <desc id="cdesc">Sección de 6 metros de ancho: techo a dos aguas con cumbrera ventilada, aleros de un metro, cortinas enrollables en ambos lados, alero a 3 metros y cumbrera a 4 a 4,5 metros, piso elevado con caída a los dos lados y drenaje perimetral.</desc>
+
+        <!-- ground -->
+        <line x1="40" y1="300" x2="780" y2="300" stroke="#9c8a6a" stroke-width="2"/>
+        <rect x="40" y="300" width="740" height="30" fill="#efe7d6"/>
+        <!-- elevated floor (crown center) -->
+        <path d="M150,262 L410,252 L670,262" fill="none" stroke="#5c6a60" stroke-width="2"/>
+        <path d="M150,262 L150,286 L670,286 L670,262" fill="#e7ede7" stroke="#9bb0a1" stroke-width="1.5"/>
+        <text x="410" y="278" text-anchor="middle" font-size="10.5" fill="#5c6a60">piso de concreto elevado · caída ~1,5% a los dos lados</text>
+
+        <!-- posts (eave 3m) -->
+        <line x1="150" y1="130" x2="150" y2="262" stroke="#3a3a3a" stroke-width="3"/>
+        <line x1="670" y1="130" x2="670" y2="262" stroke="#3a3a3a" stroke-width="3"/>
+        <!-- roof gable -->
+        <path d="M120,132 L410,60 L700,132" fill="none" stroke="#2f5b3f" stroke-width="3"/>
+        <!-- eaves overhang already via 120 and 700 -->
+        <!-- ridge vent -->
+        <path d="M392,64 L392,48 L428,48 L428,64" fill="none" stroke="#2f5b3f" stroke-width="2"/>
+        <path d="M405,44 L405,30 M415,44 L415,30" stroke="var(--air)" stroke-width="2"/>
+        <path d="M405,30 L401,36 M405,30 L409,36 M415,30 L411,36 M415,30 L419,36" stroke="var(--air)" stroke-width="1.6" fill="none"/>
+        <text x="410" y="24" text-anchor="middle" font-size="10.5" fill="var(--air)">cumbrera ventilada (aire caliente sale) · protegida de lluvia</text>
+
+        <!-- dimension labels -->
+        <text x="120" y="150" text-anchor="end" font-size="10.5" fill="#5c6a60">alero ~3 m</text>
+        <text x="410" y="92" text-anchor="middle" font-size="10.5" fill="#5c6a60">cumbrera 4–4,5 m</text>
+        <text x="90" y="120" font-size="10.5" fill="#5c6a60">alero ~1 m ↴</text>
+
+        <!-- curtains both sides -->
+        <line x1="150" y1="132" x2="150" y2="250" stroke="var(--water)" stroke-width="2" stroke-dasharray="2 3"/>
+        <line x1="670" y1="132" x2="670" y2="250" stroke="var(--water)" stroke-width="2" stroke-dasharray="2 3"/>
+        <text x="118" y="210" text-anchor="middle" font-size="10" fill="#2f77c2" transform="rotate(-90 118 210)">cortina + malla</text>
+        <text x="702" y="210" text-anchor="middle" font-size="10" fill="#2f77c2" transform="rotate(90 702 210)">cortina + malla</text>
+
+        <!-- fan high -->
+        <g transform="translate(300,150)"><circle r="10" fill="var(--air)"/><path d="M14,0 L34,0" stroke="var(--air)" stroke-width="2"/><path d="M30,-5 L38,0 L30,5" fill="var(--air)"/></g>
+        <text x="300" y="140" text-anchor="middle" font-size="10.5" fill="var(--air)">ventilador de circulación (alto)</text>
+        <!-- airflow over birds -->
+        <g stroke="var(--air)" stroke-width="1.6" fill="none" opacity=".8">
+          <path d="M360,235 L470,235"/><path d="M462,231 L472,235 L462,239"/>
+          <path d="M360,245 L470,245"/><path d="M462,241 L472,245 L462,249"/>
+        </g>
+        <text x="470" y="228" font-size="10" fill="var(--air)">1,5–2,0 m/s a nivel de ave</text>
+
+        <!-- nipple line + feed pan at bird level -->
+        <circle cx="330" cy="238" r="3" fill="var(--water)"/><line x1="330" y1="225" x2="330" y2="238" stroke="var(--water)" stroke-width="1.5"/>
+        <text x="330" y="222" text-anchor="middle" font-size="9.5" fill="#2f77c2">nipple</text>
+        <path d="M405,244 q6,-10 12,0" fill="none" stroke="var(--feed)" stroke-width="2"/>
+        <text x="411" y="258" text-anchor="middle" font-size="9.5" fill="#c07a1e">plato</text>
+        <!-- sensor bird height -->
+        <g transform="translate(560,236)"><circle r="8" fill="var(--sensor)"/><text y="3.5" text-anchor="middle" font-size="10" font-weight="700" fill="#fff">S</text></g>
+        <text x="560" y="222" text-anchor="middle" font-size="9.5" fill="var(--sensor)">T/RH a altura de ave</text>
+
+        <!-- drains -->
+        <path d="M150,286 L138,300 L120,300" fill="none" stroke="var(--water)" stroke-width="1.6"/>
+        <path d="M670,286 L682,300 L700,300" fill="none" stroke="var(--water)" stroke-width="1.6"/>
+        <text x="105" y="296" text-anchor="end" font-size="9.5" fill="#2f77c2">drenaje</text>
+        <text x="715" y="296" font-size="9.5" fill="#2f77c2">drenaje</text>
+
+        <text x="410" y="345" text-anchor="middle" font-size="11" fill="#5c6a60">Ancho total: 6 m · lados largos abiertos · el aire cruza y sube por la cumbrera</text>
+      </svg>
+    </div>
+
+    <p class="intro" style="margin-top:18px"><strong>Corte longitudinal (a lo largo, 12 m):</strong> esta es la vista que aclara los ventiladores. Van <strong>en una sola fila, altos (cerca del techo), uno detrás del otro y TODOS soplando en el mismo sentido: oeste→este</strong>. No soplan hacia el centro ni de esquina a esquina: forman una sola corriente que barre el aire sobre las aves. En el piloto se instalan 2 (los del extremo oeste); los otros 3 puntos quedan listos.</p>
+    <div class="fig">
+      <svg viewBox="0 0 820 300" role="img" aria-labelledby="ltitle ldesc" font-family="system-ui,Segoe UI,sans-serif">
+        <title id="ltitle">Corte longitudinal del galpón</title>
+        <desc id="ldesc">Vista a lo largo de 12 metros: cinco ventiladores en fila cerca del techo, todos soplando de oeste a este, creando una corriente longitudinal que barre el aire sobre las aves.</desc>
+
+        <!-- roof + floor -->
+        <line x1="70" y1="250" x2="760" y2="250" stroke="#9c8a6a" stroke-width="2"/>
+        <path d="M60,92 L760,92" stroke="#2f5b3f" stroke-width="3"/>
+        <path d="M60,92 L60,250 M760,92 L760,250" stroke="#3a3a3a" stroke-width="2"/>
+        <text x="60" y="270" text-anchor="middle" font-size="11" font-weight="700" fill="#5c6a60">OESTE</text>
+        <text x="760" y="270" text-anchor="middle" font-size="11" font-weight="700" fill="#5c6a60">ESTE</text>
+
+        <!-- ridge vent centre -->
+        <path d="M395,92 L395,74 L445,74 L445,92" fill="none" stroke="#2f5b3f" stroke-width="2"/>
+        <path d="M414,72 L414,58 M426,72 L426,58" stroke="var(--air)" stroke-width="2"/>
+        <path d="M414,58 L410,64 M414,58 L418,64 M426,58 L422,64 M426,58 L430,64" stroke="var(--air)" stroke-width="1.6" fill="none"/>
+        <text x="420" y="52" text-anchor="middle" font-size="10" fill="var(--air)">cumbrera ventilada (sale aire caliente)</text>
+
+        <!-- brooding zone west 0-3m -->
+        <rect x="70" y="150" width="115" height="100" fill="#fff3ef" opacity=".7"/>
+        <text x="127" y="168" text-anchor="middle" font-size="10.5" font-weight="700" fill="#c0492f">zona de crianza</text>
+        <text x="127" y="181" text-anchor="middle" font-size="9.5" fill="#c0492f">(0–3 m)</text>
+
+        <!-- long ceiling airstream arrow -->
+        <line x1="120" y1="112" x2="720" y2="112" stroke="var(--air)" stroke-width="3"/>
+        <path d="M712,106 L726,112 L712,118" fill="var(--air)"/>
+        <text x="420" y="106" text-anchor="middle" font-size="10.5" fill="var(--air)">una sola corriente a lo largo → hacia el este</text>
+
+        <!-- fans in a row, all pointing east; 2 installed (filled) west, 3 hollow -->
+        <g>
+          <g transform="translate(185,132)"><circle r="9" fill="var(--air)"/><path d="M12,-6 L26,0 L12,6" fill="none" stroke="var(--air)" stroke-width="2.4"/></g>
+          <g transform="translate(300,132)"><circle r="9" fill="var(--air)"/><path d="M12,-6 L26,0 L12,6" fill="none" stroke="var(--air)" stroke-width="2.4"/></g>
+          <g transform="translate(415,132)"><circle r="9" fill="#fff" stroke="var(--air)" stroke-width="2"/><path d="M12,-6 L26,0 L12,6" fill="none" stroke="var(--air)" stroke-width="1.6" stroke-dasharray="2 2"/></g>
+          <g transform="translate(530,132)"><circle r="9" fill="#fff" stroke="var(--air)" stroke-width="2"/><path d="M12,-6 L26,0 L12,6" fill="none" stroke="var(--air)" stroke-width="1.6" stroke-dasharray="2 2"/></g>
+          <g transform="translate(645,132)"><circle r="9" fill="#fff" stroke="var(--air)" stroke-width="2"/><path d="M12,-6 L26,0 L12,6" fill="none" stroke="var(--air)" stroke-width="1.6" stroke-dasharray="2 2"/></g>
+        </g>
+        <text x="242" y="128" text-anchor="middle" font-size="9.5" fill="var(--air)">2 instalados (piloto)</text>
+        <text x="587" y="128" text-anchor="middle" font-size="9.5" fill="#5c6a60">3 puntos futuros</text>
+
+        <!-- sweep arrows down over birds -->
+        <g stroke="var(--air)" stroke-width="1.5" fill="none" opacity=".8">
+          <path d="M300,148 q10,40 40,70"/><path d="M333,212 L342,220 L331,222"/>
+          <path d="M530,148 q10,40 40,70"/><path d="M563,212 L572,220 L561,222"/>
+        </g>
+
+        <!-- bird-level wind -->
+        <g stroke="var(--air)" stroke-width="1.6" fill="none">
+          <path d="M200,238 L360,238"/><path d="M352,234 L362,238 L352,242"/>
+          <path d="M420,238 L580,238"/><path d="M572,234 L582,238 L572,242"/>
+        </g>
+        <text x="470" y="232" text-anchor="middle" font-size="10" fill="var(--air)">1,5–2,0 m/s a nivel de ave</text>
+
+        <!-- birds -->
+        <g fill="#8a6d3b">
+          <ellipse cx="150" cy="246" rx="6" ry="4"/><ellipse cx="240" cy="246" rx="6" ry="4"/><ellipse cx="330" cy="246" rx="6" ry="4"/><ellipse cx="430" cy="246" rx="6" ry="4"/><ellipse cx="520" cy="246" rx="6" ry="4"/><ellipse cx="610" cy="246" rx="6" ry="4"/><ellipse cx="690" cy="246" rx="6" ry="4"/>
+        </g>
+
+        <text x="420" y="290" text-anchor="middle" font-size="11" fill="#5c6a60">Los lados largos (norte/sur) están abiertos — no se ven en este corte — y dejan entrar brisa cruzada además de esta corriente.</text>
+      </svg>
+    </div>
+  </section>
+
+  <section>
+    <h2>4 · Tabla de ubicación</h2>
+    <p class="intro">Coordenadas aproximadas. Origen (0,0) en la esquina suroeste interior. <code>X</code> = a lo largo (0–12 m, oeste→este) · <code>Y</code> = a lo ancho (0–6 m, sur→norte) · altura de ave ≈ 0,3–0,5 m.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>#</th><th>Elemento</th><th>Posición</th><th>Por qué ahí</th></tr></thead>
+        <tbody>
+          <tr><td>—</td><td>Cuarto técnico</td><td>Pegado al extremo oeste</td><td>Recorridos cortos de agua/alimento/gas/energía; se atiende la crianza cerca de los servicios.</td></tr>
+          <tr><td>1</td><td>Calefacción eléctrica + respaldo</td><td>X≈1,5 · zona 0–3 m</td><td>Calor localizado sobre los pollitos (lámpara infrarroja o placa). Sin gas → sin riesgo de CO.</td></tr>
+          <tr><td>2·3·4</td><td>3 × T/RH interior</td><td>X≈2 · 6 · 10 · altura de ave (≈0,3–0,5 m)</td><td>Distribuidos a lo largo; mediana controla, máximo alarma.</td></tr>
+          <tr><td>5</td><td>NH₃ (amoníaco)</td><td>Zona ocupada, ~0,2–0,3 m (bajo)</td><td>El amoníaco sale de la cama; se concentra abajo, donde respira el ave.</td></tr>
+          <tr><td>6</td><td>CO₂</td><td>Zona central, ~1 m de altura</td><td>Indicador de renovación de aire; el CO₂ se mezcla parejo.</td></tr>
+          <tr><td>—</td><td>CO (monóxido)</td><td>No se instala</td><td>El CO solo aparece con combustión (gas). Con calefacción eléctrica no aplica.</td></tr>
+          <tr><td>8</td><td>Caudal + T de agua</td><td>Cabezal, oeste</td><td>Totaliza consumo y detecta falta de agua / agua caliente.</td></tr>
+          <tr><td>E</td><td>Estación climática exterior</td><td>Fuera, esquina NO, mástil 2–3 m</td><td>A barlovento, a la sombra, lejos del techo caliente.</td></tr>
+          <tr><td>9–12</td><td>4–5 cámaras IP66</td><td>Cenital · crianza · este · acceso</td><td>Distribución, comportamiento, cobertura y seguridad.</td></tr>
+          <tr><td>—</td><td>2 líneas de nipples</td><td>Y=2 y Y=4 · todo el largo</td><td>~10–12 aves/nipple; cabezal al oeste, purga al este.</td></tr>
+          <tr><td>—</td><td>Línea de alimento + tolva</td><td>Y=3 (centro) · tolva al oeste</td><td>Tolva sobre celdas de carga mide consumo; plato de control al este arranca/para el sinfín.</td></tr>
+          <tr><td>—</td><td>5 puntos de ventilador</td><td>X≈2·4·6·8·10 · altos</td><td>2 instalados para el piloto; se agregan según medición con anemómetro.</td></tr>
+          <tr><td>—</td><td>Divisiones de malla</td><td>X=3 y X=6</td><td>Expanden el mismo lote sin cortar el flujo de aire.</td></tr>
+          <tr><td>—</td><td>Pediluvio + acceso único</td><td>Puerta oeste</td><td>Bioseguridad: un solo punto controlado de entrada de personas.</td></tr>
+          <tr><td>—</td><td>Portón de carga/limpieza</td><td>Extremo este</td><td>Entrada/salida de aves y limpieza; se mantiene cerrado.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>5 · Por qué cada decisión</h2>
+    <div class="card">
+      <h3>Forma y orientación (eje este-oeste)</h3>
+      <p>Con el eje largo E-O, los dos lados largos y abiertos quedan mirando al norte y al sur, que reciben menos sol directo; el sol recorre de este a oeste y pega sobre los frontones cortos, no sobre las grandes caras abiertas. Reduce la carga térmica — el riesgo #1 en esta costa.</p>
+      <h3>Servicios y crianza al oeste, expansión al este</h3>
+      <p>Concentrar tanque, bomba, tablero, alimento y gas en un cuarto técnico junto al extremo donde arranca el lote acorta todos los recorridos y facilita la atención intensiva de la primera semana. El lote crece hacia el este (18 → 36 → 72 m²) alejándose de los servicios, no hacia ellos.</p>
+      <h3>Sensores redundantes y a altura de ave</h3>
+      <p>Tres T/RH repartidos permiten usar la <em>mediana</em> para controlar (robusto ante un sensor sucio) y el <em>máximo</em> para alarma de calor. Medir a altura de ave, no cerca del techo, es lo que de verdad siente el pollo. NH₃ abajo (viene de la cama), CO junto a la criadora (seguridad).</p>
+      <h3>Ventiladores de circulación, no túnel</h3>
+      <p>A baja densidad y con laterales abiertos, la meta es <strong>velocidad de aire sobre las aves</strong> (enfriamiento por viento), no un túnel cerrado costoso. Se empieza con 2, se dejan 5 puntos preparados y se agregan según medición real con anemómetro (1,5–2,0 m/s, sin zonas muertas).</p>
+      <h3>Agua y alimento medidos, no racionados</h3>
+      <p>Bebederos y comederos con acceso libre; la tolva sobre celdas de carga <em>mide</em> cuánto se suministró (FCR, inventario, fugas) sin limitar la comida. Los objetivos Cobb son referencia y alarma, no un tope.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>6 · Lo que falta confirmar (afecta el plano)</h2>
+    <div class="callout open">
+      <ul style="margin:0">
+        <li><strong>Plataforma de control (PLC vs Arduino/ESP32).</strong> No cambia la ubicación física de los elementos, pero sí la cantidad y tipo de I/O que llega al tablero del cuarto técnico.</li>
+        <li><strong>Número final de nipples/platos y ventiladores.</strong> Los puntos están reservados; las cantidades se cierran con las cotizaciones y las pruebas del piloto.</li>
+        <li><strong>Datos de viento/drenaje de Naiguatá.</strong> El sitio ya está decidido; el registrador climático ahora solo sirve para afinar la ventilación cruzada por los lados abiertos, la lógica de cortinas y el drenaje — no la dirección de la fila de ventiladores (esa ya es oeste→este, decisión interna).</li>
+        <li><strong>Gas vs eléctrico para 500.</strong> El piloto va con calefacción eléctrica (tu preferencia). Para 500 se reevalúa con el costo y la fiabilidad eléctrica reales de Naiguatá.</li>
+      </ul>
+    </div>
+    <p class="small">Documento de trabajo · PolloEngorde · Entregable 3 (layout). Las medidas y posiciones son de planificación; se ajustan tras la ingeniería de detalle y el piloto. <span class="tag confirm">confirmado</span> = ya en decisiones · <span class="tag est">recomendación</span> = propuesta de este documento · <span class="tag open">por confirmar</span> = depende de datos por levantar.</p>
+  </section>
+
+  <section>
+    <h2>7 · Galería ilustrada + referencias</h2>
+    <p class="intro">Cada elemento lleva una <strong>ilustración</strong> (siempre se ve, sin conexión) y, donde encontré una <strong>foto real libre de derechos</strong> (Wikimedia Commons), la incrusté con su atribución. Para el <em>comedero</em> y los <em>pollitos</em> hay foto real; para <em>nipple</em> y <em>ventilador</em>, Commons no tenía una foto limpia y verificable, así que queda solo la ilustración. Debajo de cada uno están los enlaces de referencia. Las fotos se cargan desde Wikimedia (necesitan Internet); si alguna no carga, simplemente se oculta.</p>
+    <div class="card">
+      <h3>💧 Nipple / línea de bebederos</h3>
+      <div class="fig" style="margin:6px 0 10px;padding:8px">
+        <svg viewBox="0 0 380 165" role="img" aria-label="Ilustración de una línea de nipples" font-family="system-ui,Segoe UI,sans-serif">
+          <text x="190" y="18" text-anchor="middle" font-size="11" fill="var(--muted)">Un tubo de agua a lo largo, con válvulas (nipples) cada ~30–40 cm</text>
+          <rect x="40" y="38" width="300" height="15" rx="4" fill="#dcebf7" stroke="var(--water)" stroke-width="2"/>
+          <text x="44" y="34" font-size="10" fill="var(--water)">tubo de agua</text>
+          <g stroke="var(--water)" stroke-width="2" fill="#fff">
+            <path d="M110,53 l-6,10 h12 z"/><line x1="110" y1="63" x2="110" y2="72"/>
+            <path d="M190,53 l-6,10 h12 z"/><line x1="190" y1="63" x2="190" y2="72"/>
+            <path d="M270,53 l-6,10 h12 z"/><line x1="270" y1="63" x2="270" y2="72"/>
+          </g>
+          <text x="288" y="60" font-size="10" fill="var(--water)">← nipple (válvula)</text>
+          <circle cx="190" cy="80" r="3.5" fill="var(--water)"/>
+          <g transform="translate(178,118)">
+            <ellipse cx="0" cy="0" rx="12" ry="9" fill="#e8c27a"/>
+            <circle cx="10" cy="-9" r="6" fill="#e8c27a"/>
+            <path d="M15,-11 L22,-9 L15,-7 Z" fill="var(--accent)"/>
+            <line x1="-3" y1="9" x2="-3" y2="18" stroke="var(--accent)" stroke-width="1.6"/>
+            <line x1="4" y1="9" x2="4" y2="18" stroke="var(--accent)" stroke-width="1.6"/>
+          </g>
+          <text x="190" y="150" text-anchor="middle" font-size="10.5" fill="var(--ink)">El pollo toca el pin con el pico → cae una gota. El agua queda limpia.</text>
+        </svg>
+      </div>
+      <ul>
+        <li><a href="https://lubingsystem.com/en/drinkers/" target="_blank" rel="noreferrer">Lubing — líneas de bebederos de nipple</a> (fotos del tubo con las tetinas).</li>
+        <li><a href="https://www.roxell.com/swiiflo-drinking-nipples" target="_blank" rel="noreferrer">Roxell Swii'Flo — nipples de plástico/metal</a> (primer plano de la tetina).</li>
+        <li><a href="https://www.poultryfarmbusinessplan.com/news/news/how-to-use-nipple-drinkers-for-poultry-farms.html" target="_blank" rel="noreferrer">Guía: cómo funciona un nipple, paso a paso</a>.</li>
+      </ul>
+      <h3>🌾 Comedero de plato + sinfín + tolva sobre celdas de carga</h3>
+      <div class="fig" style="margin:6px 0 10px;padding:8px">
+        <svg viewBox="0 0 460 190" role="img" aria-label="Ilustración del sistema de alimento" font-family="system-ui,Segoe UI,sans-serif">
+          <text x="80" y="20" text-anchor="middle" font-size="10.5" fill="var(--feed)">tolva (guarda alimento)</text>
+          <path d="M42,28 L118,28 L102,74 L58,74 Z" fill="#f7ecd8" stroke="var(--feed)" stroke-width="2"/>
+          <rect x="70" y="74" width="20" height="10" fill="#f7ecd8" stroke="var(--feed)" stroke-width="2"/>
+          <rect x="58" y="84" width="12" height="10" fill="#fff" stroke="var(--sensor)" stroke-width="1.8"/>
+          <rect x="90" y="84" width="12" height="10" fill="#fff" stroke="var(--sensor)" stroke-width="1.8"/>
+          <text x="80" y="108" text-anchor="middle" font-size="10" fill="var(--sensor)">⚖ celdas de carga</text>
+          <text x="80" y="120" text-anchor="middle" font-size="9" fill="var(--sensor)">(pesan el alimento = consumo)</text>
+          <text x="300" y="46" text-anchor="middle" font-size="10" fill="var(--feed)">sinfín (espiral que empuja el alimento →)</text>
+          <rect x="100" y="56" width="330" height="14" rx="4" fill="#f0e2c8" stroke="var(--feed)" stroke-width="2"/>
+          <path d="M112,63 q9,-6 18,0 q9,6 18,0 q9,-6 18,0 q9,6 18,0 q9,-6 18,0 q9,6 18,0 q9,-6 18,0 q9,6 18,0 q9,-6 18,0 q9,6 18,0 q9,-6 18,0 q9,6 18,0 q9,-6 18,0 q9,6 18,0" fill="none" stroke="var(--feed)" stroke-width="1.1" opacity=".7"/>
+          <g>
+            <line x1="200" y1="70" x2="200" y2="86" stroke="var(--feed)" stroke-width="1.5"/>
+            <line x1="300" y1="70" x2="300" y2="86" stroke="var(--feed)" stroke-width="1.5"/>
+            <line x1="400" y1="70" x2="400" y2="86" stroke="var(--feed)" stroke-width="1.5"/>
+            <ellipse cx="200" cy="92" rx="18" ry="7" fill="#f7ecd8" stroke="var(--feed)" stroke-width="2"/>
+            <ellipse cx="300" cy="92" rx="18" ry="7" fill="#f7ecd8" stroke="var(--feed)" stroke-width="2"/>
+            <ellipse cx="400" cy="92" rx="18" ry="7" fill="#fff" stroke="var(--sensor)" stroke-width="2.5"/>
+            <circle cx="400" cy="78" r="4" fill="var(--sensor)"/>
+          </g>
+          <text x="250" y="118" text-anchor="middle" font-size="10" fill="var(--feed)">platos (comen aquí)</text>
+          <text x="400" y="140" text-anchor="middle" font-size="9.5" fill="var(--sensor)">plato de control</text>
+          <text x="400" y="152" text-anchor="middle" font-size="9" fill="var(--sensor)">(lleno → apaga el sinfín)</text>
+          <g transform="translate(240,158)">
+            <ellipse cx="0" cy="0" rx="11" ry="8" fill="#e8c27a"/><circle cx="9" cy="-8" r="5.5" fill="#e8c27a"/>
+            <path d="M14,-10 L20,-8 L14,-6.5 Z" fill="var(--accent)"/>
+          </g>
+        </svg>
+      </div>
+      <figure style="margin:8px 0">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Comedero_met%C3%A1lico_de_tolva_para_aves.jpg/960px-Comedero_met%C3%A1lico_de_tolva_para_aves.jpg" alt="Comedero de tolva metálico para aves" loading="lazy" style="max-width:320px;width:100%;border-radius:10px;border:1px solid var(--line)" onerror="this.parentNode.style.display='none'">
+        <figcaption class="small">Foto real: “Comedero metálico de tolva para aves” — ELTORO.VET, dominio público (CC0), vía <a href="https://commons.wikimedia.org/wiki/File:Comedero_met%C3%A1lico_de_tolva_para_aves.jpg" target="_blank" rel="noreferrer">Wikimedia Commons</a>. Ejemplo de comedero de tolva (versión manual pequeña, como para el piloto).</figcaption>
+      </figure>
+      <ul>
+        <li><a href="https://www.choretime.com/wp-content/uploads/2022/12/CT_2613_202201_Chore_Time_Broiler_Feeding_Systems_EM.pdf" target="_blank" rel="noreferrer">Chore-Time — sistema de platos + sinfín + tolva (PDF con fotos)</a>. Sus tolvas guardan ~68 kg (coincide con nuestros 100–150 kg).</li>
+        <li><a href="https://chickenlayercage.com/general-poultry-equipment/feeding-system/pan-feeding-system/" target="_blank" rel="noreferrer">Sistema de platos: silo, tolva, sinfín, motor y plato de control</a> (explica cada pieza).</li>
+        <li><a href="https://skapoultryequipment.com/es/productos-avicola/comederos-para-avicultura/comederos-para-pollos/" target="_blank" rel="noreferrer">SKA (en español)</a> · <a href="https://www.cumberlandpoultry.com/sa/es/productos/sistema-de-alimentacion-para-aves/" target="_blank" rel="noreferrer">Cumberland (en español)</a>.</li>
+      </ul>
+      <h3>🔥 Calefacción eléctrica de crianza (lámpara vs placa)</h3>
+      <div class="fig" style="margin:6px 0 10px;padding:8px">
+        <svg viewBox="0 0 460 205" role="img" aria-label="Comparación lámpara infrarroja vs placa calefactora" font-family="system-ui,Segoe UI,sans-serif">
+          <line x1="230" y1="18" x2="230" y2="185" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="4 4"/>
+          <text x="115" y="22" text-anchor="middle" font-size="11" font-weight="700" fill="var(--heat)">Lámpara infrarroja</text>
+          <line x1="115" y1="30" x2="115" y2="46" stroke="#888" stroke-width="2"/>
+          <path d="M103,66 L72,150 L158,150 L127,66 Z" fill="#ffe9c2" opacity=".55"/>
+          <circle cx="115" cy="56" r="12" fill="#ffd27a" stroke="var(--heat)" stroke-width="2"/>
+          <g stroke="var(--heat)" stroke-width="1.3">
+            <line x1="115" y1="70" x2="115" y2="148"/><line x1="107" y1="70" x2="86" y2="148"/><line x1="123" y1="70" x2="144" y2="148"/>
+          </g>
+          <g fill="#e8c27a"><ellipse cx="88" cy="158" rx="9" ry="6.5"/><ellipse cx="115" cy="160" rx="9" ry="6.5"/><ellipse cx="142" cy="158" rx="9" ry="6.5"/></g>
+          <text x="115" y="182" text-anchor="middle" font-size="9.5" fill="var(--ink)">150–250 W · da luz · cubre ~100</text>
+          <text x="115" y="196" text-anchor="middle" font-size="9" fill="var(--muted)">calor concentrado bajo el foco</text>
+          <text x="345" y="22" text-anchor="middle" font-size="11" font-weight="700" fill="var(--heat)">Placa calefactora</text>
+          <rect x="300" y="118" width="90" height="13" rx="3" fill="#cf7a4a" stroke="var(--heat)" stroke-width="2"/>
+          <line x1="312" y1="131" x2="312" y2="150" stroke="#888" stroke-width="2"/>
+          <line x1="378" y1="131" x2="378" y2="150" stroke="#888" stroke-width="2"/>
+          <g fill="#e8c27a"><ellipse cx="322" cy="150" rx="8" ry="6"/><ellipse cx="345" cy="151" rx="8" ry="6"/><ellipse cx="368" cy="150" rx="8" ry="6"/></g>
+          <text x="345" y="182" text-anchor="middle" font-size="9.5" fill="var(--ink)">~15 W · sin luz · cubre menos (2–3)</text>
+          <text x="345" y="196" text-anchor="middle" font-size="9" fill="var(--muted)">el pollito se mete debajo, como con la mamá</text>
+        </svg>
+      </div>
+      <figure style="margin:8px 0">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Broiler_chicks_around_a_week_old.jpg/960px-Broiler_chicks_around_a_week_old.jpg" alt="Pollitos de engorde de aproximadamente una semana" loading="lazy" style="max-width:320px;width:100%;border-radius:10px;border:1px solid var(--line)" onerror="this.parentNode.style.display='none'">
+        <figcaption class="small">Foto real: “Broiler chicks around a week old” — Shadow Ayush, <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>, vía <a href="https://commons.wikimedia.org/wiki/File:Broiler_chicks_around_a_week_old.jpg" target="_blank" rel="noreferrer">Wikimedia Commons</a>. Así se ven los pollitos en la etapa de crianza que calienta la lámpara/placa.</figcaption>
+      </figure>
+      <ul>
+        <li><a href="https://kummerhomestead.com/heating-lamps-vs-heating-plates/" target="_blank" rel="noreferrer">Comparación lámpara infrarroja vs placa calefactora</a> (fotos de ambas + pros y contras).</li>
+        <li>Referencia de consumo: una lámpara usa 150–250 W; una placa ~15 W pero cubre menos pollitos (a veces 2–3 placas por lote).</li>
+      </ul>
+      <h3>🌬️ Ventiladores de circulación en galpón abierto</h3>
+      <div class="fig" style="margin:6px 0 10px;padding:8px">
+        <svg viewBox="0 0 320 175" role="img" aria-label="Ilustración de un ventilador de circulación" font-family="system-ui,Segoe UI,sans-serif">
+          <text x="160" y="18" text-anchor="middle" font-size="10.5" fill="var(--muted)">Alto y algo inclinado; el aire barre a la altura del ave</text>
+          <line x1="62" y1="28" x2="62" y2="48" stroke="#888" stroke-width="2"/>
+          <g transform="translate(72,62) rotate(20)">
+            <circle r="20" fill="#e6f4f3" stroke="var(--air)" stroke-width="2"/>
+            <g stroke="var(--air)" stroke-width="2.4" fill="none" stroke-linecap="round">
+              <path d="M0,0 L0,-16"/><path d="M0,0 L14,9"/><path d="M0,0 L-14,9"/>
+            </g>
+            <circle r="3" fill="var(--air)"/>
+          </g>
+          <g stroke="var(--air)" stroke-width="1.8" fill="none">
+            <path d="M96,66 Q185,82 252,120"/><path d="M245,114 L255,121 L244,124"/>
+            <path d="M96,82 Q185,102 252,134"/><path d="M245,128 L255,135 L244,138"/>
+          </g>
+          <line x1="30" y1="150" x2="300" y2="150" stroke="#9c8a6a" stroke-width="2"/>
+          <g transform="translate(250,142)">
+            <ellipse cx="0" cy="0" rx="11" ry="8" fill="#e8c27a"/><circle cx="9" cy="-8" r="5.5" fill="#e8c27a"/>
+            <path d="M14,-10 L20,-8 L14,-6.5 Z" fill="var(--accent)"/>
+          </g>
+          <text x="250" y="168" text-anchor="middle" font-size="9.5" fill="var(--air)">1,5–2,0 m/s a nivel de ave</text>
+        </svg>
+      </div>
+      <ul>
+        <li><a href="https://www.poultryventilation.com/resources/basic-circulation-fan-system-design/" target="_blank" rel="noreferrer">UGA — diseño de ventiladores de circulación</a> (por qué en fila y un solo sentido; por qué NO en dos filas junto a las paredes).</li>
+        <li><a href="https://www.thepoultrysite.com/articles/key-factors-for-poultry-house-ventilation" target="_blank" rel="noreferrer">The Poultry Site — factores de ventilación</a>.</li>
+      </ul>
+      <h3>🏠 Galpón de laterales abiertos con cortinas (clima tropical)</h3>
+      <ul>
+        <li><a href="https://listado.mercadolibre.com.ve/climatizacion-ventiladores/extractor-industrial-para-galpon" target="_blank" rel="noreferrer">Ventiladores/extractores en Venezuela (Mercado Libre)</a> — fotos de equipos locales y precios.</li>
+        <li><a href="https://listado.mercadolibre.com.ve/aves-bebederos-comederos/nuevo/comederos-y-bebederos-para-pollos" target="_blank" rel="noreferrer">Comederos y bebederos en Venezuela (Mercado Libre)</a>.</li>
+      </ul>
+      <p class="small">No se ha verificado inventario, precio, transporte ni garantía de ningún proveedor. Sirven para <em>ver el elemento</em>, no como recomendación de compra.</p>
+    </div>
+  </section>
+
+    </div>
+
+    <section id="comparacion">
+      <h2>Engorde (carne) vs Ponedoras (huevos)</h2>
+      <p class="intro">Comparación para decidir entre producir <strong>pollo de engorde</strong> o <strong>huevos de gallina ponedora</strong>. Pensado para dos personas que empiezan, en la costa caliente de Naiguatá.</p>
+
+      <div class="card ok">
+        <h3>Recomendación en una frase</h3>
+        <p>Para dos principiantes en clima caliente que buscan <strong>menor riesgo y ingreso estable</strong>, las <strong>ponedoras</strong> son la entrada más perdonadora — aceptando que <strong>tardas ~4–5 meses en el primer ingreso</strong> y que te vuelves <strong>vendedor diario</strong> de un producto perecedero. Si prefieren <strong>ciclos cortos que puedan pausar e ingreso en golpes</strong>, el <strong>engorde</strong> encaja mejor (y ya tienen el diseño hecho). Ninguna es "mala": resuelven perfiles distintos.</p>
+      </div>
+
+      <h3>1 · Comparación general</h3>
+      <div class="cmp">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Criterio</th><th>🍗 Engorde (carne)</th><th>🥚 Ponedoras (huevos)</th></tr></thead>
+          <tbody>
+            <tr><td>Producto</td><td>Pollo (carne)</td><td>Huevos</td></tr>
+            <tr><td>Ciclo por lote</td><td>35–42 días</td><td>~12–14 meses de postura</td></tr>
+            <tr class="diff"><td>Primer ingreso</td><td>~6 semanas</td><td>~4–5 meses (menos si compras pollonas a punto de postura)</td></tr>
+            <tr class="diff"><td>Patrón de ingreso</td><td>En golpes (vendes el lote entero)</td><td>Diario y estable (huevos)</td></tr>
+            <tr class="diff"><td>Ritmo de trabajo</td><td>Intenso a ráfagas, con descansos entre lotes</td><td>Bajo pero diario, 365 días sin pausa</td></tr>
+            <tr><td>Facilidad de manejo</td><td>Sprint preciso, poco margen de error</td><td>Más perdonador, pero constancia de ~1 año</td></tr>
+            <tr class="diff"><td>Riesgo por calor (costa)</td><td>🔴 Alto — el calor puede matar el lote</td><td>🟠 Medio — baja la postura y el cascarón, rara vez mata</td></tr>
+            <tr><td>Riesgo de pérdida total</td><td>Concentrado (una mala semana)</td><td>Repartido en el tiempo</td></tr>
+            <tr><td>Velocidad de aprendizaje</td><td>Rápida (6–8 ciclos/año)</td><td>Lenta (1 ciclo largo)</td></tr>
+            <tr class="diff"><td>Marketing</td><td>1 venta grande por lote</td><td>Venta continua de un perecedero</td></tr>
+            <tr><td>Rotación de capital</td><td>Rápida</td><td>Lenta</td></tr>
+            <tr><td>Ave típica</td><td>Cobb 500 / Ross 308</td><td>Hy-Line, Lohmann, Isa Brown</td></tr>
+            <tr><td>Mejor si quieren…</td><td>Aprender rápido, ingreso en golpes, poder pausar</td><td>Ingreso estable, menor riesgo catastrófico, rutina diaria</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>2 · Materiales y sensores (qué comparten y en qué difieren)</h3>
+      <p class="small">Las filas resaltadas con ★ son las <strong>diferencias reales</strong>. Todo lo demás es prácticamente igual para las dos.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Elemento</th><th>🍗 Engorde</th><th>🥚 Ponedoras</th></tr></thead>
+          <tbody>
+            <tr class="grp"><td colspan="3">Infraestructura y clima — compartido</td></tr>
+            <tr><td>Galpón (laterales abiertos, cortinas, piso lavable)</td><td>Sí</td><td>Sí</td></tr>
+            <tr><td>Ventiladores de circulación</td><td>Sí (crítico)</td><td>Sí (importante)</td></tr>
+            <tr><td>Cama (viruta / cascarilla)</td><td>Sí</td><td>Sí (si es sistema de piso)</td></tr>
+
+            <tr class="grp"><td colspan="3">Agua — compartido</td></tr>
+            <tr><td>Tanque 1000 L + bomba + filtro + regulador</td><td>Sí</td><td>Sí</td></tr>
+            <tr><td>Línea de nipples (bebederos)</td><td>Sí</td><td>Sí</td></tr>
+
+            <tr class="grp"><td colspan="3">Alimento</td></tr>
+            <tr><td>Comederos / línea de platos + tolva</td><td>Sí</td><td>Sí (comen menos por día)</td></tr>
+            <tr class="diff"><td>Tipo de alimento</td><td>Preinicio → crecimiento → finalizador (alta energía/proteína)</td><td>Alimento de postura (con CALCIO para el cascarón)</td></tr>
+
+            <tr class="grp"><td colspan="3">Crianza / calor</td></tr>
+            <tr class="diff"><td>Criadora eléctrica de crianza</td><td>Sí (para los pollitos)</td><td>Solo si crías pollitas desde el día 1 (no si compras pollonas)</td></tr>
+
+            <tr class="grp"><td colspan="3">Específico de PONEDORAS (lo que hay que sumar)</td></tr>
+            <tr class="diff"><td>Nidales / ponederos</td><td>No</td><td>Sí — imprescindible</td></tr>
+            <tr class="diff"><td>Programa de luz + temporizador + luces</td><td>Básico</td><td>Sí, CLAVE (sostiene la postura; se automatiza)</td></tr>
+            <tr class="diff"><td>Recolección + bandejas/cartones + almacenamiento fresco</td><td>No</td><td>Sí (manejo diario del huevo)</td></tr>
+            <tr class="diff"><td>Perchas (en sistema de piso)</td><td>No</td><td>Opcional</td></tr>
+
+            <tr class="grp"><td colspan="3">Sensores — casi todos compartidos</td></tr>
+            <tr><td>3 × sensor T/RH interior</td><td>Sí</td><td>Sí</td></tr>
+            <tr><td>Estación climática exterior</td><td>Sí</td><td>Sí</td></tr>
+            <tr><td>Sensor NH₃ (amoníaco)</td><td>Sí</td><td>Sí</td></tr>
+            <tr><td>Sensor CO₂</td><td>Sí</td><td>Sí</td></tr>
+            <tr><td>Caudalímetro + temperatura de agua</td><td>Sí</td><td>Sí</td></tr>
+            <tr><td>Celdas de carga (alimento)</td><td>Sí</td><td>Sí</td></tr>
+            <tr><td>Cámaras CCTV</td><td>Sí</td><td>Sí</td></tr>
+
+            <tr class="grp"><td colspan="3">Control</td></tr>
+            <tr class="diff"><td>PLC / controlador + HMI</td><td>Sí</td><td>Sí (+ control central de iluminación)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      </div>
+
+      <div class="card callout">
+        <h3>La conclusión que importa</h3>
+        <p>Casi todo — <strong>galpón, agua, ventilación y CASI TODOS los sensores</strong> — es compartido. Las diferencias reales son pocas: <strong>nidales, programa de luz, manejo del huevo y el tipo de alimento (con calcio)</strong>. Es decir, tu inversión en automatización y sensores <strong>sirve para las dos</strong>, así que decidir más adelante no bota ese trabajo.</p>
+      </div>
+
+      <div class="card">
+        <h3>Antes de decidir — verificar (no inventar)</h3>
+        <ul>
+          <li>Precio real del <strong>huevo</strong> (cartón/unidad) vs. del <strong>pollo</strong> en Naiguatá → ¿cuál deja mejor margen ahí?</li>
+          <li>Disponibilidad de <strong>pollitas ponedoras / pollonas</strong> vs. pollitos de engorde.</li>
+          <li>¿Pueden aguantar <strong>4–5 meses sin ingreso</strong> (ponedoras) o necesitan flujo pronto (engorde)?</li>
+          <li>¿Quieren <strong>rutina diaria fija</strong> o <strong>ciclos que puedan pausar</strong>?</li>
+        </ul>
+        <p class="small">Esta es una decisión estratégica grande; los precios y el mercado deben cotizarse localmente antes de tratarla como cerrada.</p>
+      </div>
+    </section>
+
+    <section id="precios">
+      <h2>Precios de mercado · Venezuela vs Colombia</h2>
+      <p class="intro">Fotografía de <strong>julio de 2026</strong>. Los precios son <strong>volátiles</strong> (sobre todo en Venezuela por el tipo de cambio) — úsalos como orientación, no como cotización firme. Conversión usada: <strong>~700 Bs/US$</strong> y <strong>~4.000 COP/US$</strong>. <span class="tag confirm">obs.</span> = observado en una fuente · <span class="tag est">est.</span> = estimado / por cotizar.</p>
+
+      <div class="cmp">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Concepto</th><th>🇻🇪 Venezuela</th><th>🇨🇴 Colombia</th><th>Nota</th></tr></thead>
+          <tbody>
+            <tr class="grp"><td colspan="4">Venta (lo que TÚ cobras)</td></tr>
+            <tr><td>Huevo — cartón de 30</td><td>≈ US$5,7–6,0 (≈ $0,19–0,20/huevo)</td><td>Al productor ≈ $1,5; al detal bastante más</td><td><span class="tag confirm">obs.</span> VE al detal · CO al productor</td></tr>
+            <tr><td>Pollo entero beneficiado (kg)</td><td>≈ US$3,8–5,9</td><td>≈ US$3,0 (12.284 COP, 4-jul)</td><td><span class="tag confirm">obs.</span></td></tr>
+            <tr><td>Presas de pollo (kg)</td><td>Muslo/pechuga ≈ $5,5–6,7</td><td>—</td><td><span class="tag confirm">obs.</span> VE</td></tr>
+
+            <tr class="grp"><td colspan="4">Insumos (lo que TÚ compras)</td></tr>
+            <tr class="diff"><td>Pollito de engorde (1 día)</td><td>Por cotizar (se vende en cajas de 100; ~$1 est.)</td><td>≈ US$0,45–0,65 (≈ 1.800–2.500 COP)</td><td><span class="tag est">est.</span></td></tr>
+            <tr class="diff"><td>Pollona ponedora (punto de postura)</td><td>≈ US$12 (14 sem, Carabobo)</td><td>≈ US$5,5–6,6 (15–18 sem: ISA Brown, Shaver)</td><td><span class="tag confirm">obs.</span></td></tr>
+            <tr><td>Alimento engorde (saco 40 kg)</td><td>≈ US$42 (Conave)</td><td>≈ US$24 (Tierragro $96.600 COP)</td><td><span class="tag confirm">obs.</span></td></tr>
+            <tr class="diff"><td>Alimento de POSTURA (saco 40 kg)</td><td>≈ US$40–45 <span class="tag est">est.</span></td><td>≈ US$23,6 (Solla Ponedoras I, $94.300 COP)</td><td><span class="tag confirm">obs.</span> CO</td></tr>
+          </tbody>
+        </table>
+      </div>
+      </div>
+
+      <h3>Diferencia de precio — comprar en Venezuela vs Colombia (insumos)</h3>
+      <p class="small">Solo insumos (lo que compras). El ahorro mostrado es <strong>bruto</strong>: réstale transporte + aduana + merma. Valores aproximados jul-2026.</p>
+      <div class="cmp">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Insumo</th><th>🇻🇪 Venezuela</th><th>🇨🇴 Colombia</th><th>Ahorro comprando en CO</th><th>A escala</th><th>Fricción / riesgo</th></tr></thead>
+          <tbody>
+            <tr><td>Pollito de engorde (c/u)</td><td>~$1,00 <span class="tag est">est.</span></td><td>~$0,57 (2.300 COP)</td><td style="color:var(--brand);font-weight:700">~$0,43 (~43%)</td><td>500 aves ≈ <strong>$215/lote</strong></td><td>🔴 Ave viva: permiso + bioseguridad + mortalidad</td></tr>
+            <tr><td>Pollona ponedora (c/u)</td><td>~$12</td><td>~$6 (22–26k COP)</td><td style="color:var(--brand);font-weight:700">~$6 (~50%)</td><td>500 aves ≈ <strong>$3.000</strong> (1 vez por lote ~14 m)</td><td>🔴 Ave viva, pero ahorro grande</td></tr>
+            <tr><td>Alimento engorde (saco 40 kg)</td><td>~$42 (Conave)</td><td>~$24 (Tierragro)</td><td style="color:var(--brand);font-weight:700">~$18 (~43%)</td><td>500 engorde a día 35 (~48 sacos) ≈ <strong>$860/lote</strong></td><td>🟠 Voluminoso y recurrente</td></tr>
+            <tr class="diff"><td>Alimento de POSTURA (saco 40 kg)</td><td>~$40–45</td><td>~$23,6 (Solla)</td><td style="color:var(--brand);font-weight:700">~$17–21 (~45%)</td><td>500 gallinas/año (~525 sacos) ≈ <strong>$9.000–11.000/año</strong> 🔥</td><td>🟢 Enorme por el ciclo largo → aquí el flete SÍ compensa</td></tr>
+          </tbody>
+        </table>
+      </div>
+      </div>
+      <div class="card ok">
+        <h3>¿Qué conviene traer de Colombia?</h3>
+        <ul>
+          <li><strong>Compra única (pollonas, equipos):</strong> lo más rentable de cruzar — pagas el flete una vez y el ahorro es grande (p. ej. ~$3.000 en 500 pollonas).</li>
+          <li><strong>Alimento:</strong> el ahorro por lote es real (~30–40%), pero es pesado y se compra seguido → el flete recurrente se lo come en parte. Solo compensa en compras grandes.</li>
+          <li><strong>Aves vivas (pollitos/pollonas):</strong> el mayor riesgo — permisos sanitarios, decomiso, enfermedades y mortalidad del viaje. El ahorro debe superar TODO eso.</li>
+          <li><strong>Regla simple:</strong> traer de Colombia solo si <em>ahorro &gt; transporte + aduana + merma</em>. Y vende siempre en Venezuela, donde el precio es alto.</li>
+        </ul>
+      </div>
+
+      <div class="card callout">
+        <h3>La lectura estratégica (lo importante)</h3>
+        <p>Aparece justo la oportunidad que ustedes intuyeron:</p>
+        <ul>
+          <li><strong>Venezuela = precios de VENTA altos</strong> (huevo ~$0,20/unidad, pollo ~$4–6/kg). Excelente para <strong>vender ahí</strong>.</li>
+          <li><strong>Colombia = insumos más baratos</strong> (pollito ~$0,50 vs ~$1; pollona ~$6 vs ~$12; pollo y huevo más baratos). Bueno para <strong>comprar</strong>, malo para vender.</li>
+          <li>Idea de negocio: <strong>comprar insumos en Colombia y producir/vender en Venezuela</strong> donde el precio es alto.</li>
+        </ul>
+      </div>
+
+      <div class="card callout danger" style="border-left:5px solid var(--danger);background:#fff3f1">
+        <h3>Ojo antes de cruzar la frontera por insumos</h3>
+        <ul>
+          <li><strong>Aves vivas (pollitos/pollonas) es lo más delicado:</strong> requieren permisos sanitarios, hay riesgo de decomiso y, sobre todo, riesgo de <strong>traer enfermedades</strong> (bioseguridad) y mortalidad por estrés del viaje.</li>
+          <li><strong>Alimento y equipos</strong> cruzan mucho más fácil que aves vivas — ahí el ahorro puede valer más la pena y con menos riesgo.</li>
+          <li>Suma siempre <strong>transporte + aduana + merma</strong>: un pollito $0,50 más barato deja de serlo si el flete y las pérdidas se lo comen.</li>
+        </ul>
+      </div>
+
+      <p class="small">Fuentes (jul 2026): huevo VE — Contrapunto, Crónica Uno, Diario Avance; pollo VE — El Pitazo, Radio Fe y Alegría, Expatistan; pollona VE — MercadoLibre/Carabobo; pollo CO — Agronegocios.co (DANE-SIPSA); huevo CO — FENAVI/Infobae; pollona CO — Pulzo. Verificar con proveedores antes de comprar; los enlaces están en el chat.</p>
+    </section>
+
+    <section id="cotizaciones">
+      <h2>Plantilla de cotizaciones</h2>
+      <p class="intro">Herramienta para <strong>pedir y comparar</strong> cotizaciones reales en Naiguatá. Rellénala en el navegador (se guarda solo en ESTE navegador) o imprímela en blanco para llenarla a mano. Regla de oro: <strong>compara el costo total puesto en Naiguatá</strong> (con flete e instalación), no solo el precio unitario — el saco de alimento más barato puede producir el kg de pollo más caro.</p>
+      <div class="qz">
+        <div class="card callout">
+          <h3>Qué pedirle a TODO proveedor (antes de comparar)</h3>
+          <ul>
+            <li>RIF y factura; ubicación y tiempo de entrega.</li>
+            <li><strong>Flete hasta Naiguatá</strong> (aparte del precio); garantía y repuestos.</li>
+            <li>Ficha técnica y referencias de otros clientes.</li>
+            <li><strong>Alimento:</strong> fecha de fabricación, análisis garantizado, coccidiostato y periodo de retiro.</li>
+            <li><strong>Pollitos:</strong> línea genética (Cobb 500 / Ross 308), vacunas aplicadas en incubadora, edad y cantidad disponible.</li>
+          </ul>
+        </div>
+
+        <div class="toolbar" style="margin:10px 0">
+          <button type="button" onclick="window.print()">Imprimir plantilla</button>
+          <button type="button" class="secondary qz-clear">Limpiar lo escrito</button>
+          <span class="small">Se guarda automáticamente en este navegador.</span>
+        </div>
+
+        <h3>1 · Pollitos de un día</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Campo</th><th>Proveedor 1</th><th>Proveedor 2</th><th>Proveedor 3</th></tr></thead>
+            <tbody>
+              <tr><td class="rowlabel">Nombre del proveedor</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+              <tr><td class="rowlabel">Línea (Cobb 500 / Ross 308)</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+              <tr><td class="rowlabel">Precio por pollito (USD)</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+              <tr><td class="rowlabel">Vacunas de incubadora</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+              <tr><td class="rowlabel">Edad al entregar</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+              <tr><td class="rowlabel">Cantidad disponible</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+              <tr><td class="rowlabel">Flete a Naiguatá (USD)</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+              <tr><td class="rowlabel">RIF y factura (sí/no)</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+              <tr><td class="rowlabel">Referencias</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+              <tr><td class="rowlabel">Notas</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>2 · Alimento balanceado (por fase)</h3>
+        <p class="small">Dos candidatas por fase para comparar marcas. La etiqueta del fabricante manda sobre las edades.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Fase</th><th>Marca</th><th>Precio saco 40 kg (USD)</th><th>Proteína %</th><th>Coccidiostato</th><th>Periodo de retiro</th><th>Fecha fab.</th><th>Notas</th></tr></thead>
+            <tbody>
+              <tr><td class="rowlabel">Preinicio/inicio — A</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+              <tr><td class="rowlabel">Preinicio/inicio — B</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+              <tr><td class="rowlabel">Crecimiento — A</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+              <tr><td class="rowlabel">Crecimiento — B</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+              <tr><td class="rowlabel">Finalizador — A</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+              <tr><td class="rowlabel">Finalizador — B</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>3 · Equipos y materiales</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Ítem</th><th>Precio (USD)</th><th>Proveedor</th><th>Flete a Naiguatá</th><th>Garantía</th><th>Ficha técnica</th><th>Notas</th></tr></thead>
+            <tbody>
+              <tr><td class="rowlabel">Tanque 1000 L</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+              <tr><td class="rowlabel">Bomba + filtro + regulador</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+              <tr><td class="rowlabel">Línea de nipples</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+              <tr><td class="rowlabel">Comederos (piloto)</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+              <tr><td class="rowlabel">Línea de platos + sinfín (500)</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+              <tr><td class="rowlabel">Ventilador axial 24–30&quot;</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+              <tr><td class="rowlabel">Calefacción eléctrica de crianza</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+              <tr><td class="rowlabel">Cama (viruta / cascarilla)</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+              <tr><td class="rowlabel">Tablero de control (PLC / Arduino)</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+              <tr><td class="rowlabel">Instrumentación (T/RH, agua, peso)</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+              <tr><td class="rowlabel">CCTV (cámaras + NVR)</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card ok">
+          <h3>Cómo decidir</h3>
+          <ul>
+            <li>Suma el <strong>costo puesto en Naiguatá</strong> (precio + flete + instalación), no solo el precio de lista.</li>
+            <li>En alimento, elige por <strong>FCR real del lote</strong>, no solo por el precio del saco.</li>
+            <li>Guarda RIF/factura de cada compra; no confundas el precio minorista del pollo con el ingreso de la granja.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="modelo">
+      <h2>Modelo económico 100 / 250 / 500</h2>
+      <p class="intro">Calculadora editable: cambia los parámetros y los resultados se recalculan solos para las tres escalas. <strong>Los precios que traen valor de ejemplo son solo orientativos</strong> — reemplázalos con los reales de la pestaña <em>Cotizaciones</em>. Se guarda en este navegador.</p>
+      <div class="qz">
+        <div class="card">
+          <h3>Parámetros (edítalos)</h3>
+          <div class="ec-grid">
+            <label>Precio del pollito (USD/ave) · <em>ejemplo</em><input id="ec-poll" type="number" step="0.01" value="1.20"></label>
+            <label>Precio alimento (USD/kg) · saco 40 kg ÷ 40<input id="ec-palim" type="number" step="0.01" value="1.05"></label>
+            <label>Alimento por ave hasta venta (kg)<input id="ec-falim" type="number" step="0.1" value="3.8"></label>
+            <label>Peso de venta por ave (kg)<input id="ec-peso" type="number" step="0.1" value="2.4"></label>
+            <label>Precio de venta (USD/kg vivo) · <em>ejemplo</em><input id="ec-pventa" type="number" step="0.01" value="3.50"></label>
+            <label>Mortalidad total (%)<input id="ec-mort" type="number" step="0.1" value="4"></label>
+            <label>Cama (USD/ave)<input id="ec-cama" type="number" step="0.01" value="0.30"></label>
+            <label>Sanidad/veterinario (USD/ave)<input id="ec-san" type="number" step="0.01" value="0.30"></label>
+            <label>Energía (USD/ave)<input id="ec-ener" type="number" step="0.01" value="0.20"></label>
+            <label>Transporte (USD/ave)<input id="ec-trans" type="number" step="0.01" value="0.15"></label>
+            <label>Procesamiento (USD/ave, 0 si vivo)<input id="ec-proc" type="number" step="0.01" value="0"></label>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Resultado</th><th>100 aves</th><th>250 aves</th><th>500 aves</th></tr></thead>
+            <tbody>
+              <tr><td class="rowlabel">Aves vendidas (tras mortalidad)</td><td id="r-vend-100"></td><td id="r-vend-250"></td><td id="r-vend-500"></td></tr>
+              <tr><td class="rowlabel">Kg vendidos</td><td id="r-kg-100"></td><td id="r-kg-250"></td><td id="r-kg-500"></td></tr>
+              <tr><td class="rowlabel">Ingreso</td><td id="r-ing-100"></td><td id="r-ing-250"></td><td id="r-ing-500"></td></tr>
+              <tr><td class="rowlabel">Costo pollitos</td><td id="r-poll-100"></td><td id="r-poll-250"></td><td id="r-poll-500"></td></tr>
+              <tr><td class="rowlabel">Costo alimento</td><td id="r-alim-100"></td><td id="r-alim-250"></td><td id="r-alim-500"></td></tr>
+              <tr><td class="rowlabel">Otros costos (cama+sanidad+energía+transp.+proc.)</td><td id="r-otros-100"></td><td id="r-otros-250"></td><td id="r-otros-500"></td></tr>
+              <tr><td class="rowlabel">Costo total</td><td id="r-tot-100"></td><td id="r-tot-250"></td><td id="r-tot-500"></td></tr>
+              <tr class="ec-margin"><td class="rowlabel">Margen</td><td id="r-margen-100"></td><td id="r-margen-250"></td><td id="r-margen-500"></td></tr>
+              <tr><td class="rowlabel">Margen por ave</td><td id="r-margave-100"></td><td id="r-margave-250"></td><td id="r-margave-500"></td></tr>
+              <tr><td class="rowlabel">Costo por kg vivo (= precio de equilibrio)</td><td id="r-costokg-100"></td><td id="r-costokg-250"></td><td id="r-costokg-500"></td></tr>
+              <tr><td class="rowlabel">Margen por kg</td><td id="r-margkg-100"></td><td id="r-margkg-250"></td><td id="r-margkg-500"></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card">
+          <h3>Comparar origen de insumos: 🇻🇪 Venezuela vs 🇨🇴 Colombia</h3>
+          <p class="small">Mismos parámetros de arriba; solo cambian el precio del pollito y del alimento. El precio de venta se mantiene (vendes en Venezuela). VE típico: pollito ~$1,00 · alimento ~$1,05/kg. CO: pollito ~$0,57 · alimento ~$0,60/kg.</p>
+          <div class="ec-grid">
+            <label>Pollito CO (USD/ave)<input id="ec-pollCO" type="number" step="0.01" value="0.57"></label>
+            <label>Alimento CO (USD/kg)<input id="ec-palimCO" type="number" step="0.01" value="0.60"></label>
+          </div>
+          <div class="table-wrap" style="margin-top:10px">
+            <table>
+              <thead><tr><th>Margen según origen de insumos</th><th>100</th><th>250</th><th>500</th></tr></thead>
+              <tbody>
+                <tr><td class="rowlabel">Margen con insumos 🇻🇪 VE (precios de arriba)</td><td id="r-mVE-100"></td><td id="r-mVE-250"></td><td id="r-mVE-500"></td></tr>
+                <tr><td class="rowlabel">Margen con insumos 🇨🇴 CO</td><td id="r-mCO-100"></td><td id="r-mCO-250"></td><td id="r-mCO-500"></td></tr>
+                <tr class="ec-margin"><td class="rowlabel">Ahorro por comprar en CO</td><td id="r-ahorro-100"></td><td id="r-ahorro-250"></td><td id="r-ahorro-500"></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card callout">
+          <h3>Cómo leerlo</h3>
+          <ul>
+            <li><strong>Costo por kg vivo = precio de equilibrio:</strong> es el precio/kg mínimo para no perder. Si el precio de venta real queda por debajo, el lote pierde dinero.</li>
+            <li>El <strong>alimento</strong> suele ser el mayor costo. Baja el FCR (kg de alimento por kg de pollo) antes de buscar el saco más barato.</li>
+            <li>Para venta <strong>beneficiada</strong>: sube el procesamiento y usa el <strong>peso beneficiado</strong> (menor que el vivo) con su precio real, no el precio minorista.</li>
+            <li>Valores por ave para "otros costos" son de arranque; ajústalos con datos reales del piloto.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="ponedoras">
+      <h2>Modelo económico — Ponedoras (huevos)</h2>
+      <p class="intro">Calculadora de la economía de huevos, en paralelo al modelo de engorde. Como el ciclo dura ~1 año, se muestra por <strong>día, mes y ciclo completo</strong>. Precios de ejemplo (VE) — edítalos. Se guarda en este navegador.</p>
+      <div class="qz">
+        <div class="card">
+          <h3>Parámetros (edítalos)</h3>
+          <div class="ec-grid">
+            <label>Postura promedio (%)<input id="ep-postura" type="number" step="1" value="80"></label>
+            <label>Precio del huevo (USD/unidad)<input id="ep-phuevo" type="number" step="0.01" value="0.19"></label>
+            <label>Alimento por gallina/día (kg)<input id="ep-falim" type="number" step="0.005" value="0.115"></label>
+            <label>Precio alimento (USD/kg) · VE ~1,05 · CO ~0,60<input id="ep-palim" type="number" step="0.01" value="1.05"></label>
+            <label>Costo de la pollona (USD/ave) · VE ~12 · CO ~6<input id="ep-pollona" type="number" step="0.1" value="6"></label>
+            <label>Meses de postura (ciclo)<input id="ep-meses" type="number" step="1" value="12"></label>
+            <label>Mortalidad en postura (%)<input id="ep-mort" type="number" step="0.5" value="5"></label>
+            <label>Otros costos gallina/día (USD)<input id="ep-otros" type="number" step="0.005" value="0.02"></label>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Resultado</th><th>100 gallinas</th><th>250</th><th>500</th></tr></thead>
+            <tbody>
+              <tr><td class="rowlabel">Huevos por día</td><td id="rp-hd-100"></td><td id="rp-hd-250"></td><td id="rp-hd-500"></td></tr>
+              <tr><td class="rowlabel">Ingreso por día</td><td id="rp-id-100"></td><td id="rp-id-250"></td><td id="rp-id-500"></td></tr>
+              <tr><td class="rowlabel">Costo alimento por día</td><td id="rp-ad-100"></td><td id="rp-ad-250"></td><td id="rp-ad-500"></td></tr>
+              <tr><td class="rowlabel">Margen operativo por día</td><td id="rp-md-100"></td><td id="rp-md-250"></td><td id="rp-md-500"></td></tr>
+              <tr><td class="rowlabel">Margen operativo por mes</td><td id="rp-mm-100"></td><td id="rp-mm-250"></td><td id="rp-mm-500"></td></tr>
+              <tr><td class="rowlabel">Inversión en pollonas (1 vez)</td><td id="rp-inv-100"></td><td id="rp-inv-250"></td><td id="rp-inv-500"></td></tr>
+              <tr class="ec-margin"><td class="rowlabel">Margen NETO del ciclo</td><td id="rp-neto-100"></td><td id="rp-neto-250"></td><td id="rp-neto-500"></td></tr>
+              <tr><td class="rowlabel">Meses para recuperar las pollonas</td><td id="rp-rec-100"></td><td id="rp-rec-250"></td><td id="rp-rec-500"></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card callout danger" style="border-left:5px solid var(--danger);background:#fff3f1">
+          <h3>El dato decisivo: el alimento manda</h3>
+          <p>Con <strong>alimento caro de Venezuela (~$1,05/kg)</strong> el margen de las ponedoras es <strong>mínimo o negativo</strong> (el huevo apenas cubre la comida). Con <strong>alimento de Colombia (~$0,59/kg — confirmado: Solla Ponedoras I, $94.300 COP/saco)</strong> se vuelve <strong>claramente rentable</strong>. Cambia el precio del alimento en la casilla y míralo: por eso, en ponedoras, <strong>abaratar el alimento es la decisión #1</strong> — para 500 gallinas, el alimento más barato de Colombia ahorra <strong>~$9.000–11.000 al año</strong> (comen todos los días durante ~1 año).</p>
+        </div>
+
+        <div class="card callout">
+          <h3>Cómo leerlo</h3>
+          <ul>
+            <li><strong>Margen operativo</strong> = huevos vendidos − alimento − otros (sin contar la compra de las pollonas).</li>
+            <li><strong>Margen neto del ciclo</strong> = margen operativo de todo el ciclo − la inversión en pollonas.</li>
+            <li>El ingreso es <strong>diario y estable</strong>; la inversión en pollonas se recupera en los primeros meses y el resto es ganancia.</li>
+            <li>La postura baja con el calor y al final del ciclo; 80% es un promedio optimista — ajústalo con datos reales.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="componentes">
+      <h2>Componentes de automatización — Arduino/ESP32 vs PLC</h2>
+      <p class="intro">Lista de componentes para el sistema de control, con una opción por el lado <strong>🔵 Arduino/ESP32</strong> (barato y flexible) y otra por el lado <strong>🟢 PLC</strong> (robusto e industrial). Casi todo sirve igual para engorde y ponedoras; las filas con ★ son <strong>clave para ponedoras</strong> (control de iluminación) o de <strong>seguridad</strong>.</p>
+
+      <div class="cmp">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Componente</th><th>Función</th><th>🔵 Arduino / ESP32</th><th>🟢 PLC</th></tr></thead>
+          <tbody>
+            <tr class="grp"><td colspan="4">Cerebro y visualización</td></tr>
+            <tr><td>Controlador principal</td><td>Lee sensores, decide y acciona</td><td>ESP32 (WiFi) o Arduino Mega 2560; robusto: ESP32 industrial (Norvi, M5Stack)</td><td>PLC compacto: Siemens LOGO! 8 (arranque) o S7-1200 CPU 1214C; alt. AB Micro820</td></tr>
+            <tr><td>HMI / pantalla</td><td>Ver estado y cambiar setpoints</td><td>Táctil Nextion u OLED + encoder, o panel web propio</td><td>HMI Siemens KTP400/700 o LOGO! TDE</td></tr>
+            <tr class="diff"><td>Reloj + programa de luz</td><td>Fotoperiodo (clave en ponedoras)</td><td>Módulo RTC DS3231</td><td>Reloj interno + bloque de horario del PLC</td></tr>
+
+            <tr class="grp"><td colspan="4">Entradas digitales</td></tr>
+            <tr><td>Sensor de plato de alimento</td><td>Arranca/para el sinfín</td><td>Sensor capacitivo NPN</td><td>A entrada 24 V</td></tr>
+            <tr><td>Finales de carrera de cortinas</td><td>Posición de la cortina</td><td>Microswitch / inductivo</td><td>Igual</td></tr>
+            <tr><td>Flotador de nivel</td><td>Nivel del tanque</td><td>Interruptor de flotador</td><td>Igual</td></tr>
+            <tr class="diff"><td>Paro de emergencia + botones</td><td>Mando manual y seguridad</td><td>Seta E-stop + pulsadores</td><td>Igual</td></tr>
+
+            <tr class="grp"><td colspan="4">Entradas analógicas (sensores)</td></tr>
+            <tr><td>Temp/Humedad interior (×3)</td><td>Clima a altura de ave</td><td>SHT31 / AM2315 (I²C, robusto)</td><td>Transmisor T/RH 4–20 mA o 0–10 V</td></tr>
+            <tr><td>Estación exterior</td><td>Clima exterior</td><td>T/RH + anemómetro + pluviómetro (pulsos)</td><td>Entradas 4–20 mA / pulso</td></tr>
+            <tr><td>CO₂</td><td>Calidad de aire</td><td>NDIR MH-Z19 (UART)</td><td>Transmisor CO₂ 4–20 mA</td></tr>
+            <tr><td>NH₃ (amoníaco)</td><td>Calidad de aire</td><td>Electroquímico (analógico/UART)</td><td>Transmisor NH₃ 4–20 mA</td></tr>
+            <tr><td>Nivel de tanque</td><td>Agua disponible</td><td>Ultrasónico JSN-SR04T o de presión</td><td>Transmisor de nivel 4–20 mA</td></tr>
+            <tr><td>Caudal de agua</td><td>Consumo / fugas</td><td>Caudalímetro de pulsos YF-S201</td><td>Pulso o 4–20 mA</td></tr>
+            <tr><td>Peso de tolva</td><td>Consumo / FCR</td><td>Celdas de carga + HX711</td><td>Celdas + transmisor de pesaje</td></tr>
+            <tr class="diff"><td>Luz (lux)</td><td>Verificar iluminación (ponedoras)</td><td>BH1750 (I²C)</td><td>Transmisor de luz 4–20 mA</td></tr>
+            <tr><td>Temperatura de agua</td><td>Detectar agua caliente</td><td>DS18B20 (1-Wire)</td><td>Pt100 + transmisor</td></tr>
+            <tr><td>Corriente de motores</td><td>Confirmar que giran de verdad</td><td>SCT-013 / ACS712</td><td>Relé de monitoreo de corriente</td></tr>
+
+            <tr class="grp"><td colspan="4">Salidas / actuadores</td></tr>
+            <tr><td>Relés y contactores</td><td>Encender fans, bomba, luces, calor</td><td>Módulo de relés + contactores para motores</td><td>Salidas relé/transistor + contactores</td></tr>
+            <tr class="diff"><td>Control de iluminación</td><td>Programa de luz de postura</td><td>Relé/contactor + driver LED regulable</td><td>Salida + contactor; dimming 0–10 V</td></tr>
+            <tr><td>Variador (VFD) para ventiladores</td><td>Velocidad de aire variable</td><td>VFD comandado por 0–10 V (DAC)</td><td>Salida analógica del PLC → VFD</td></tr>
+            <tr><td>Motor de cortinas</td><td>Abrir / cerrar</td><td>Contactores en 2 sentidos + finales</td><td>Igual</td></tr>
+            <tr><td>Sirena / baliza</td><td>Alarma</td><td>Baliza 24 V por relé</td><td>Igual</td></tr>
+
+            <tr class="grp"><td colspan="4">Energía y seguridad (crítico)</td></tr>
+            <tr><td>Fuente 24 VDC</td><td>Alimenta control y sensores</td><td>Fuente DIN Meanwell 24 V</td><td>Igual</td></tr>
+            <tr><td>UPS / respaldo de control</td><td>No perder el control</td><td>UPS 12/24 V + batería</td><td>UPS para PLC/HMI</td></tr>
+            <tr class="diff"><td>Termostato de alta independiente</td><td>Corta el calor sin depender del controlador</td><td>Termostato electromecánico aparte</td><td>Igual (obligatorio)</td></tr>
+            <tr class="diff"><td>Respaldo eléctrico + ATS</td><td>Fans y bomba en apagón</td><td>Generador + transferencia (ATS)</td><td>Igual</td></tr>
+            <tr><td>Protecciones</td><td>Sobretensión y cortos</td><td>Breakers + DPS + fusibles</td><td>Igual</td></tr>
+            <tr><td>Gabinete IP66</td><td>Ambiente marino salino</td><td>IP66 + prensaestopas</td><td>Igual</td></tr>
+
+            <tr class="grp"><td colspan="4">Red (lado control — el socio maneja CCTV/redes)</td></tr>
+            <tr><td>Gateway / comunicación</td><td>Datos + acceso remoto seguro</td><td>ESP32 → MQTT a un broker por VPN</td><td>Ethernet/Modbus TCP → gateway MQTT/OPC UA</td></tr>
+            <tr><td>Riel DIN, borneras, cable</td><td>Montaje ordenado y mantenible</td><td>Riel DIN + borneras + cable apantallado</td><td>Igual</td></tr>
+          </tbody>
+        </table>
+      </div>
+      </div>
+
+      <div class="card ok">
+        <h3>Cómo elegir Arduino/ESP32 vs PLC</h3>
+        <ul>
+          <li><strong>🔵 Arduino/ESP32:</strong> barato, flexible, ideal para el <strong>piloto y para tomar datos</strong>. Tú te encargas de la robustez (watchdog, buen cableado, protección). Menos tolerante a fallos.</li>
+          <li><strong>🟢 PLC:</strong> más caro, pero <strong>robusto, con soporte industrial</strong>, diagnóstico y mantenimiento más fáciles. Ideal para producción y cargas críticas.</li>
+          <li><strong>Regla de seguridad (para ambos):</strong> la protección va por <strong>hardware independiente</strong> — termostato de alta, mandos manuales y respaldo eléctrico — nunca depende del controlador ni de Internet.</li>
+          <li><strong>Sugerencia:</strong> arrancar el piloto con <strong>ESP32 + datos</strong>; para producción estable a 500, migrar a <strong>PLC (LOGO! 8 o S7-1200)</strong>. La decisión sigue abierta en el backlog.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="materiales">
+      <h2>Materiales, ejemplos y precios</h2>
+      <p class="section-intro">Valores en USD observados o estimados en julio de 2026. No incluyen flete a La Guaira, instalación ni variación cambiaria. “Observado” significa que existía una publicación; no constituye recomendación del vendedor.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Sistema</th><th>Material o equipo</th><th>Cantidad/base</th><th>Especificación mínima</th><th>Precio orientativo</th><th>Ejemplo de búsqueda/proveedor</th></tr></thead>
+          <tbody>
+            <tr><td>Obra civil</td><td>Estructura, piso, techo, malla y cortinas</td><td>72 m² productivos</td><td>Techo claro/aislado, estructura anticorrosiva, malla, drenaje</td><td class="price">US$4.000–10.000</td><td><span class="tag warn">Cotizar localmente</span> Rango presupuestario, no precio publicado.</td></tr>
+            <tr><td>Agua</td><td>Tanque doble capa</td><td>1 × 1.000 L</td><td>Opaco, tapa hermética, instalado bajo sombra</td><td class="price">US$141–250</td><td><a href="https://listado.mercadolibre.com.ve/plomeria-tanques-agua/tanque-para-agua-1000-litros" target="_blank" rel="noreferrer">Mercado Libre Venezuela</a></td></tr>
+            <tr><td>Agua</td><td>Bomba, filtro, regulador, manómetro y bypass</td><td>1 conjunto</td><td>Presión estable, filtro 40–50 μm, materiales aptos para agua</td><td class="price">US$180–500</td><td>Ferretería industrial/plomería; cotizar como conjunto.</td></tr>
+            <tr><td>Agua</td><td>Línea de nipples</td><td>60 nipples finales</td><td>10–12 aves/nipple, regulador y purga al final</td><td class="price">US$120–450</td><td><a href="https://www.cumberlandpoultry.com/sa/es/productos/sistema-de-alimentacion-para-aves/" target="_blank" rel="noreferrer">Referencia técnica Cumberland</a>; buscar kit local/importado.</td></tr>
+            <tr><td>Alimento</td><td>Comederos tolva manuales</td><td>4 piloto</td><td>10–13 kg, colgantes, altura regulable y antidesperdicio</td><td class="price">US$8–25 c/u</td><td><a href="https://listado.mercadolibre.com.ve/aves-bebederos-comederos/nuevo/comederos-y-bebederos-para-pollos" target="_blank" rel="noreferrer">Mercado Libre Venezuela</a></td></tr>
+            <tr><td>Alimento</td><td>Línea automática con platos</td><td>10–12 platos</td><td>Tolva pesada, sinfín flexible, último plato de control y malacate</td><td class="price">US$800–2.500</td><td><a href="https://skapoultryequipment.com/es/productos-avicola/comederos-para-avicultura/comederos-para-pollos/" target="_blank" rel="noreferrer">Ejemplo SKA</a>; <a href="https://www.cumberlandpoultry.com/sa/es/productos/sistema-de-alimentacion-para-aves/" target="_blank" rel="noreferrer">Cumberland</a>.</td></tr>
+            <tr><td>Ventilación</td><td>Ventilador axial 24–30 in</td><td>2 piloto; 4–6 puntos finales</td><td>Motor IP55, protección térmica, rejilla, datos de caudal y repuestos</td><td class="price">US$109–820 c/u</td><td><a href="https://listado.mercadolibre.com.ve/climatizacion-ventiladores/extractor-industrial-para-galpon" target="_blank" rel="noreferrer">Publicaciones Venezuela</a>; fabricantes locales <a href="https://www.instagram.com/reel/C-bGhQJvoRU/" target="_blank" rel="noreferrer">Dinafilex</a>.</td></tr>
+            <tr><td>Calefacción</td><td>Criadora infrarroja a gas</td><td>1 activa + respaldo</td><td>Capacidad ≥300 pollitos, piloto seguro, regulador y válvula de corte</td><td class="price">US$100–300</td><td><a href="https://servicios.mercadolibre.com.ve/criadora-de-pollo" target="_blank" rel="noreferrer">Referencia de mercado</a></td></tr>
+            <tr><td>Cama</td><td>Viruta de madera limpia o cascarilla</td><td>18 m² piloto</td><td>Seca, absorbente, sin hongos ni tratamiento químico</td><td class="price">US$30–100</td><td>Aserraderos/agrotiendas locales; confirmar ausencia de químicos.</td></tr>
+            <tr><td>Automatización</td><td>PLC, HMI, I/O, gabinete y protecciones</td><td>1 sistema</td><td>24 VDC, UPS, gabinete IP66, protección de sobretensión</td><td class="price">US$1.000–3.500</td><td>Depende de plataforma existente; ingeniería propia no incluida.</td></tr>
+            <tr><td>Instrumentación</td><td>T/RH, flujo, nivel, peso, corriente y estación exterior</td><td>Conjunto</td><td>Salidas industriales/Modbus, calibrables y protegidas del polvo</td><td class="price">US$700–2.500</td><td>Proveedores industriales o importación; evitar sensores domésticos como control único.</td></tr>
+            <tr><td>Red/seguridad</td><td>Cámaras IP, NVR, switch PoE y UPS</td><td>3–5 cámaras</td><td>IP66, visión nocturna, almacenamiento local y acceso remoto</td><td class="price">US$350–1.500</td><td>Distribuidores CCTV de Caracas/Venezuela.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="grid">
+        <div class="card span-6">
+          <h3>Presupuesto de infraestructura</h3>
+          <ul>
+            <li>Piloto funcional utilizando trabajo propio: aproximadamente US$2.000–6.000, sin obra civil.</li>
+            <li>Instalación final profesional para 500: aproximadamente US$7.000–22.000 incluyendo obra civil.</li>
+            <li>Los dos rangos son de planificación. Deben reemplazarse por cotizaciones locales.</li>
+          </ul>
+        </div>
+        <div class="card span-6">
+          <h3>Proveedores/leads encontrados</h3>
+          <ul>
+            <li><a href="https://www.instagram.com/p/DVcaqOljg4l/" target="_blank" rel="noreferrer">AgroElías</a>: publicación de alimento Conave.</li>
+            <li><a href="https://www.instagram.com/reel/DXKuBW5AU_8/" target="_blank" rel="noreferrer">Agrícola Bicolor</a>: pollitos Cobb 500 y equipos avícolas; confirmar transporte.</li>
+            <li><a href="https://www.instagram.com/reel/DUjy9wWEV9q/" target="_blank" rel="noreferrer">NutriOP+</a>: pollitos Cobb bajo pedido; confirmar ubicación y vacunación.</li>
+            <li><a href="https://listado.mercadolibre.com.ve/climatizacion-ventiladores/extractor-industrial-para-galpon" target="_blank" rel="noreferrer">Mercado Libre Venezuela</a>: ventiladores y componentes.</li>
+          </ul>
+          <p class="small">No se ha verificado inventario, reputación, transporte ni garantía. Solicitar RIF/factura, ficha técnica, referencias y condiciones de entrega.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="alimentacion">
+      <h2>Alimentos y programa</h2>
+      <p class="section-intro">Comprar alimento balanceado completo de una marca estable. No fabricar mezclas propias durante los primeros lotes. Las edades exactas de transición deben seguir la ficha del fabricante.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Fase</th><th>Edad orientativa</th><th>Forma</th><th>Qué debe buscarse</th><th>Acción</th></tr></thead>
+          <tbody>
+            <tr><td>Preiniciador/iniciador</td><td>0–10 días</td><td>Migaja uniforme</td><td>Alta digestibilidad; típicamente 21–23% proteína, vitaminas, minerales y aminoácidos balanceados</td><td>No usar pellet grande ni exceso de polvo.</td></tr>
+            <tr><td>Crecimiento</td><td>11–18/21 días</td><td>Pellet corto de buena calidad</td><td>Típicamente 19–21% proteína; transición gradual</td><td>Mezclar alimento viejo/nuevo durante varias cargas, no cambio brusco.</td></tr>
+            <tr><td>Finalizador</td><td>19/22 días–venta</td><td>Pellet</td><td>Típicamente 18–19% proteína; revisar coccidiostato y retiro</td><td>Confirmar por escrito el periodo de retiro antes del beneficio.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card callout">
+        <h3>Ejemplo de precio observado</h3>
+        <p>Una publicación venezolana mostraba alimento Conave a <strong>US$42 por saco de 40 kg</strong>. Úsese sólo como referencia presupuestaria; solicitar precio de cada fase, fecha de fabricación y análisis garantizado. <a href="https://www.instagram.com/p/DVcaqOljg4l/" target="_blank" rel="noreferrer">Ver publicación</a>.</p>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Periodo</th><th>100 aves</th><th>500 aves</th><th>Sacos de 40 kg para 100</th><th>Sacos de 40 kg para 500</th></tr></thead>
+          <tbody>
+            <tr><td>0–10 días</td><td>31 kg</td><td>157 kg</td><td>1</td><td>4</td></tr>
+            <tr><td>11–18 días</td><td>65 kg</td><td>326 kg</td><td>2</td><td>9</td></tr>
+            <tr><td>19–35 días</td><td>267 kg</td><td>1.335 kg</td><td>7</td><td>34</td></tr>
+            <tr><td><strong>Total hasta día 35</strong></td><td><strong>364 kg</strong></td><td><strong>1.818 kg</strong></td><td><strong>10</strong></td><td><strong>46</strong></td></tr>
+            <tr><td>Margen de compra 5%</td><td>382 kg</td><td>1.909 kg</td><td>10</td><td>48</td></tr>
+            <tr><td>Si se mantiene hasta día 42</td><td>510 kg</td><td>2.550 kg</td><td>13–14</td><td>64–67</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small">Cálculos basados en objetivos Cobb 500. El consumo real cambia con genética, alimento, temperatura, mortalidad y desperdicio.</p>
+
+      <details>
+        <summary>¿Cómo escoger entre Conave, Alipa u otra marca?</summary>
+        <div class="details-body">
+          <ol>
+            <li>Pedir ficha técnica y análisis garantizado de cada fase.</li>
+            <li>Comparar energía metabolizable, proteína, lisina, metionina, fecha de fabricación y presentación física.</li>
+            <li>Preguntar si contiene coccidiostato y periodo de retiro.</li>
+            <li>Comprar alimento reciente, sin humedad, grumos, insectos ni olor a moho.</li>
+            <li>Probar una misma marca durante todo un lote y medir FCR. El saco más barato puede producir el kg de pollo más caro.</li>
+          </ol>
+        </div>
+      </details>
+    </section>
+
+    <section id="dosificacion">
+      <h2>Mejor sistema de dosificación</h2>
+      <div class="card ok">
+        <h3>Recomendación: alimentación a demanda con medición gravimétrica</h3>
+        <p>Una tolva instalada sobre celdas de carga alimenta un sinfín flexible. Un sensor en el último plato arranca y detiene el sinfín para mantener disponibles todos los platos. Las celdas de carga calculan el consumo; no limitan la comida.</p>
+      </div>
+      <div class="grid">
+        <div class="card span-6">
+          <h3>Piloto de 100</h3>
+          <ul>
+            <li>4 comederos colgantes de 10–13 kg.</li>
+            <li>Tolva central de 100–150 kg sobre 3–4 celdas de carga.</li>
+            <li>Registrar automáticamente cada llenado.</li>
+            <li>Puede llenarse manualmente para evitar una inversión prematura.</li>
+          </ul>
+        </div>
+        <div class="card span-6">
+          <h3>Escala de 250–500</h3>
+          <ul>
+            <li>10–12 platos automáticos de aproximadamente 33 cm.</li>
+            <li>Sinfín flexible y motorreductor con protección de sobrecarga.</li>
+            <li>Sensor capacitivo en el plato de control.</li>
+            <li>Malacate para ajustar altura y levantar la línea durante limpieza.</li>
+          </ul>
+        </div>
+      </div>
+      <details>
+        <summary>Secuencia funcional del sistema</summary>
+        <div class="details-body">
+          <ol>
+            <li>Permiso: modo producción, tolva no vacía, motor disponible y línea bajada.</li>
+            <li>El plato de control solicita alimento.</li>
+            <li>Retardo corto para evitar arranques repetidos.</li>
+            <li>Arranca el sinfín; se supervisa corriente y tiempo máximo.</li>
+            <li>Cuando el último plato se llena, el sensor retira la solicitud y el sinfín se detiene.</li>
+            <li>La diferencia de peso de la tolva se registra como alimento suministrado.</li>
+            <li>Alarmas: tolva vacía, motor bloqueado, tiempo de llenado alto, consumo anormal o pérdida de peso con motor parado.</li>
+          </ol>
+        </div>
+      </details>
+      <details>
+        <summary>Por qué no usar un dosificador por porciones</summary>
+        <div class="details-body">
+          <p>El consumo cambia diariamente con peso, temperatura y salud. Una ración fija puede dejar aves sin alimento, crear competencia y reducir uniformidad. Los valores Cobb se utilizan como referencia y alarma, no como límite rígido.</p>
+        </div>
+      </details>
+    </section>
+
+    <section id="ventilacion">
+      <h2>Ventilación recomendada</h2>
+      <p class="section-intro">Para la costa: galpón abierto con cortinas y ventiladores axiales de circulación. No depender del viento natural y no comenzar con paneles evaporativos.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Edad/condición</th><th>Objetivo</th><th>Control</th><th>Qué evitar</th></tr></thead>
+          <tbody>
+            <tr><td>0–7 días</td><td>Aire fresco sin enfriar el piso</td><td>Ventilación mínima intermitente; criadora controlada</td><td>Corriente directa y aire estancado.</td></tr>
+            <tr><td>8–14 días</td><td>Retirar humedad y gases</td><td>Abrir cortinas gradualmente; ventilación suave</td><td>Ventilador fuerte directamente sobre pollitos.</td></tr>
+            <tr><td>15–21 días</td><td>Iniciar enfriamiento por aire</td><td>Ventiladores por etapas según temperatura y comportamiento</td><td>Zonas muertas o concentración de aves.</td></tr>
+            <tr><td>&gt;21 días / calor</td><td>1,5–2,0 m/s a nivel de las aves</td><td>Alta velocidad, laterales abiertos, agua fresca</td><td>Nebulizar si RH ≥70%.</td></tr>
+            <tr><td>Emergencia</td><td>Eliminar calor inmediatamente</td><td>Abrir cortinas y ventiladores al 100%; alarma</td><td>Esperar confirmación remota para actuar.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="grid">
+        <div class="card span-6">
+          <h3>Cómo seleccionar ventiladores</h3>
+          <ul>
+            <li>Solicitar curva de caudal contra presión, no aceptar sólo diámetro.</li>
+            <li>Motor IP55, clase F, rodamientos reemplazables y protección térmica.</li>
+            <li>Preferible motor trifásico + VFD para velocidad variable.</li>
+            <li>Rejilla en ambos lados y estructura resistente a corrosión salina.</li>
+            <li>Medir velocidad en una cuadrícula a 20–30 cm del piso.</li>
+            <li>Aceptación: ninguna zona ocupada debe permanecer sin movimiento de aire en modo calor.</li>
+          </ul>
+        </div>
+        <div class="card span-6">
+          <h3>Configuración inicial</h3>
+          <ul>
+            <li>Preparar 4–6 puntos de montaje a lo largo del galpón.</li>
+            <li>Instalar inicialmente 2 ventiladores para la sección de 100.</li>
+            <li>Orientarlos en el mismo sentido para evitar recirculaciones cortas.</li>
+            <li>Agregar unidades según medición, no por suposición.</li>
+            <li>Un ventilador doméstico de pedestal puede servir para prueba, pero no es solución final.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="automatizacion">
+      <h2>Automatización y supervisión</h2>
+      <div class="grid">
+        <div class="card span-4"><h3>Control</h3><p>PLC industrial, HMI local y modos Precalentar, Crianza, Crecimiento, Calor, Limpieza y Emergencia.</p></div>
+        <div class="card span-4"><h3>Datos</h3><p>Históricos de 1 minuto para proceso y resumen diario para producción y costos.</p></div>
+        <div class="card span-4"><h3>Red</h3><p>NVR local, VPN para acceso remoto, UPS y segmentación entre control, cámaras e invitados.</p></div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Variable</th><th>Instrumento</th><th>Uso de control</th><th>Recomendación</th></tr></thead>
+          <tbody>
+            <tr><td>Temperatura/RH interior</td><td>3 transmisores industriales</td><td>Mediana para control; máximo para alarma</td><td>Instalar a altura de ave, protegidos de agua directa.</td></tr>
+            <tr><td>Clima exterior</td><td>Estación T/RH, viento, lluvia</td><td>Cortinas, análisis de sitio y anticipación</td><td>Separada del techo caliente.</td></tr>
+            <tr><td>Agua</td><td>Caudalímetro, nivel y temperatura</td><td>Consumo, fugas, falta de agua y purga</td><td>Totalizador diario y tendencia por ave.</td></tr>
+            <tr><td>Alimento</td><td>Celdas de carga + transmisor</td><td>Consumo, inventario y FCR</td><td>Calibración con masas conocidas.</td></tr>
+            <tr><td>Ventiladores</td><td>Feedback, corriente y VFD</td><td>Confirmar movimiento real</td><td>No considerar una orden ON como prueba de funcionamiento.</td></tr>
+            <tr><td>Calidad de aire</td><td>NH₃, CO₂ y CO</td><td>Alarma y aumento de ventilación</td><td>Sensores electroquímicos/NDIR calibrables; CO obligatorio con combustión.</td></tr>
+            <tr><td>Cámaras</td><td>3–5 cámaras IP66</td><td>Distribución, acceso, equipos y seguridad</td><td>Una vista cenital ayuda a detectar agrupamientos.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <details>
+        <summary>Principios de control y seguridad</summary>
+        <div class="details-body">
+          <ul>
+            <li>La ventilación mínima nunca se bloquea por calefacción.</li>
+            <li>Termostato de alta temperatura independiente del PLC.</li>
+            <li>Ante pérdida de PLC: cortinas a posición segura y ventilación de emergencia disponible.</li>
+            <li>Mandos manuales locales para ventiladores, bomba, sinfín y cortinas.</li>
+            <li>UPS para PLC/red; respaldo eléctrico para ventiladores y bomba.</li>
+            <li>Alarmas críticas requieren reconocimiento, pero la protección actúa automáticamente.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary>Panel web compartido: versión posterior</summary>
+        <div class="details-body">
+          <p>Este archivo es estático: las marcas de checklist se guardan sólo en el navegador utilizado. Para trabajo compartido, la siguiente versión debe incorporar:</p>
+          <ul>
+            <li>Base de datos para lotes, mediciones, tareas, costos y comentarios.</li>
+            <li>Usuarios y permisos.</li>
+            <li>Dashboard de peso, consumo, FCR, mortalidad y margen.</li>
+            <li>Registro de cambios y aprobación de tareas.</li>
+            <li>Conexión segura desde PLC mediante gateway/MQTT u OPC UA, nunca exponiendo directamente el PLC a Internet.</li>
+          </ul>
+        </div>
+      </details>
+    </section>
+
+    <section id="situaciones">
+      <h2>Situaciones, interpretación y respuesta</h2>
+      <p class="section-intro">Matriz para que todos respondan de la misma manera. Los umbrales definitivos se ajustan después del piloto y con el veterinario.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Situación observada</th><th>Significado probable</th><th>Comprobaciones</th><th>Respuesta inmediata</th></tr></thead>
+          <tbody>
+            <tr><td>Pollitos agrupados bajo la criadora</td><td>Frío o piso frío</td><td>T aire/piso, distribución y potencia</td><td>Aumentar calor gradualmente; eliminar corrientes.</td></tr>
+            <tr><td>Pollitos alejados de la criadora</td><td>Exceso de calor</td><td>Temperatura a nivel de ave</td><td>Reducir calor y mejorar renovación de aire.</td></tr>
+            <tr><td>Aves acumuladas contra un lateral</td><td>Corriente, calor desigual o luz</td><td>Velocidad de aire, cortinas y lux</td><td>Corregir distribución; no empujarlas sin eliminar la causa.</td></tr>
+            <tr><td>Jadeo y alas separadas</td><td>Estrés térmico</td><td>T/RH, velocidad, agua y densidad</td><td>Ventiladores altos, cortinas abiertas, agua fresca; no nebulizar con RH alta.</td></tr>
+            <tr><td>Cama húmeda bajo nipples</td><td>Fuga, presión/altura incorrecta</td><td>Nipples, regulador, caudal y altura</td><td>Corregir sistema y retirar cama mojada.</td></tr>
+            <tr><td>Cama húmeda general</td><td>Humedad, ventilación baja, exceso de agua o problema intestinal</td><td>RH, agua/alimento, heces y dieta</td><td>Aumentar ventilación y consultar veterinario si hay diarrea.</td></tr>
+            <tr><td>Olor a amoníaco</td><td>Cama húmeda y ventilación insuficiente</td><td>NH₃, RH, fugas y cama</td><td>Ventilar, retirar zonas mojadas y encontrar la fuente.</td></tr>
+            <tr><td>Caída de consumo de agua</td><td>Falta de suministro, agua caliente o enfermedad</td><td>Tanque, presión, flujo, temperatura y comportamiento</td><td>Tratar como alarma prioritaria; resolver suministro y observar aves.</td></tr>
+            <tr><td>Aumento de agua sin aumento de alimento</td><td>Fuga, calor, sal/dieta o enfermedad intestinal</td><td>Líneas, RH/T, heces y alimento</td><td>Localizar fuga o escalar al veterinario.</td></tr>
+            <tr><td>Caída de consumo de alimento</td><td>Calor, alimento defectuoso, fallo mecánico o enfermedad</td><td>Tolva, sinfín, calidad, agua y aves</td><td>Restablecer acceso y evaluar salud.</td></tr>
+            <tr><td>Mortalidad diaria anormal</td><td>Problema agudo sanitario, ambiental o de suministro</td><td>Histórico, necropsia, T/RH, agua y alimento</td><td>Guardar muestras/registro y contactar veterinario; no medicar a ciegas.</td></tr>
+            <tr><td>Corte eléctrico</td><td>Riesgo rápido de calor y falta de agua</td><td>ATS, UPS, ventiladores y bomba</td><td>Arranque automático del respaldo; abrir cortinas; alarma inmediata.</td></tr>
+            <tr><td>RH interior ≥70%</td><td>Poca capacidad de enfriamiento evaporativo</td><td>Sensor redundante y clima exterior</td><td>Bloquear niebla/pads; usar velocidad de aire y renovación.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="economia">
+      <h2>Momento económico de venta</h2>
+      <div class="card">
+        <p><strong>Regla diaria:</strong> mantener las aves un día más sólo cuando el valor del peso adicional supera el alimento adicional, los costos diarios y el riesgo de mortalidad.</p>
+        <p><code>Margen = kg vendidos × precio/kg − pollitos − alimento − cama − sanidad − energía − transporte − procesamiento</code></p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Periodo</th><th>Peso adicional por ave</th><th>Alimento adicional</th><th>FCR marginal</th><th>Interpretación</th></tr></thead>
+          <tbody>
+            <tr><td>Día 28 → 35</td><td>0,738 kg</td><td>1,276 kg</td><td>1,73</td><td>Generalmente todavía eficiente.</td></tr>
+            <tr><td>Día 35 → 42</td><td>0,757 kg</td><td>1,465 kg</td><td>1,94</td><td>Requiere mejor precio y aumenta riesgo térmico.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>El primer lote debe planificarse para 35–38 días. Desde el día 28 se pesan 20 aves cada 2–3 días y se actualiza el margen. No utilizar el precio minorista de pollo beneficiado como si fuera el precio recibido por la granja.</p>
+    </section>
+
+    <section id="glosario">
+      <h2>Glosario detallado</h2>
+      <p class="section-intro">Buscar un término o abrir cada apartado. Las definiciones explican qué significa y por qué importa en este proyecto.</p>
+      <div class="toolbar">
+        <input id="glossarySearch" type="search" placeholder="Buscar: FCR, nipple, cama, coccidiostato…" aria-label="Buscar en el glosario">
+        <button type="button" class="secondary" id="expandGlossary">Abrir todos</button>
+        <button type="button" class="secondary" id="collapseGlossary">Cerrar todos</button>
+        <button type="button" onclick="window.print()">Imprimir / PDF</button>
+      </div>
+      <div id="glossaryList">
+        <details data-term="pollo broiler engorde genética"><summary>Broiler o pollo de engorde</summary><div class="details-body"><p>Pollo seleccionado genéticamente para producir carne rápidamente. Cobb 500 y Ross 308 son líneas comerciales, no razas tradicionales. Su rápido crecimiento exige agua, alimento, temperatura y ventilación consistentes.</p></div></details>
+        <details data-term="lote batch edad"><summary>Lote</summary><div class="details-body"><p>Grupo de aves recibido y criado al mismo tiempo. Cada lote tiene fecha, proveedor, cantidad, vacunas, consumo, mortalidad y resultado económico propios.</p></div></details>
+        <details data-term="todo dentro fuera all in all out bioseguridad"><summary>Todo dentro / todo fuera</summary><div class="details-body"><p>Todas las aves entran juntas y salen juntas. Después se vacía, limpia, desinfecta y seca el galpón antes del siguiente lote. Evita que aves mayores transmitan enfermedades a pollitos nuevos.</p></div></details>
+        <details data-term="densidad kg metro cuadrado aves"><summary>Densidad de alojamiento</summary><div class="details-body"><p>Kg de peso vivo por m², no sólo número de aves. 500 aves de 2,5 kg en 72 m² equivalen a 17,4 kg/m². Una densidad menor facilita ventilación, acceso a agua y cama seca.</p></div></details>
+        <details data-term="fcr conversión alimenticia alimento peso"><summary>FCR o conversión alimenticia</summary><div class="details-body"><p>Kg de alimento consumido divididos entre kg de peso vivo producido, ajustado correctamente por mortalidad cuando se hace análisis profesional. Un FCR de 1,70 significa aproximadamente 1,70 kg de alimento por kg de pollo. Menor suele ser mejor.</p></div></details>
+        <details data-term="fcr marginal venta"><summary>FCR marginal</summary><div class="details-body"><p>Alimento adicional necesario para producir el peso adicional entre dos fechas. Permite decidir si vale la pena mantener las aves más tiempo, aunque el FCR acumulado parezca bueno.</p></div></details>
+        <details data-term="uniformidad cv peso"><summary>Uniformidad y CV</summary><div class="details-body"><p>La uniformidad indica qué tan parecidos son los pesos. CV es el coeficiente de variación: menor variación significa lote más uniforme. Pesos muy diferentes suelen indicar mala distribución de alimento, agua, temperatura o enfermedad.</p></div></details>
+        <details data-term="crianza brooding pollitos calor"><summary>Crianza o brooding</summary><div class="details-body"><p>Periodo inicial en el que el pollito todavía no regula bien su temperatura. Incluye precalentar el piso, disponer alimento/agua y evitar corrientes directas.</p></div></details>
+        <details data-term="criadora brooder gas infrarrojo"><summary>Criadora</summary><div class="details-body"><p>Calentador localizado, normalmente infrarrojo a gas, utilizado durante los primeros días. No es una incubadora. Debe tener corte de gas seguro y control independiente de sobretemperatura.</p></div></details>
+        <details data-term="cama litter viruta cascarilla"><summary>Cama</summary><div class="details-body"><p>Material absorbente colocado sobre el piso: viruta o cascarilla. Recibe humedad y excrementos. Debe permanecer suelta y seca; una cama húmeda genera amoníaco, lesiones y enfermedades.</p></div></details>
+        <details data-term="humedad relativa rh"><summary>Humedad relativa (RH)</summary><div class="details-body"><p>Porcentaje de humedad que contiene el aire respecto al máximo posible a esa temperatura. Con RH alta, el jadeo enfría menos y la nebulización puede empeorar el problema.</p></div></details>
+        <details data-term="punto rocío condensación"><summary>Punto de rocío</summary><div class="details-body"><p>Temperatura a la que el agua comienza a condensarse. Ayuda a detectar riesgo de superficies mojadas y comparar realmente dos ubicaciones costeras.</p></div></details>
+        <details data-term="estrés térmico calor jadeo"><summary>Estrés térmico</summary><div class="details-body"><p>Situación en la que el ave no puede eliminar suficiente calor. Signos: jadeo, alas separadas, menos alimento, más agua e inmovilidad. Puede causar mortalidad rápida.</p></div></details>
+        <details data-term="wind chill sensación velocidad aire"><summary>Enfriamiento por velocidad de aire</summary><div class="details-body"><p>El aire en movimiento hace que el ave perciba una temperatura menor, aunque el termómetro no cambie. Es la herramienta principal en un clima caliente y húmedo.</p></div></details>
+        <details data-term="ventilación mínima"><summary>Ventilación mínima</summary><div class="details-body"><p>Renovación básica que funciona incluso cuando no se necesita enfriar. Retira humedad, CO₂, amoníaco y gases de combustión sin crear una corriente perjudicial sobre pollitos.</p></div></details>
+        <details data-term="ventilación natural abierto cortinas"><summary>Ventilación natural</summary><div class="details-body"><p>Intercambio de aire mediante laterales abiertos y viento. Es económica, pero variable; por eso se complementa con ventiladores y cortinas controladas.</p></div></details>
+        <details data-term="ventilación túnel extractor"><summary>Ventilación túnel</summary><div class="details-body"><p>Sistema cerrado donde extractores en un extremo hacen entrar aire por el extremo opuesto a alta velocidad. Es efectivo pero más costoso y no es necesario inicialmente con baja densidad y laterales abiertos.</p></div></details>
+        <details data-term="ventilador circulación extractor axial"><summary>Ventilador de circulación vs. extractor</summary><div class="details-body"><p>El de circulación mueve aire dentro/sobre las aves; el extractor expulsa aire y crea entrada de aire fresco. Un ventilador puede parecer potente sin producir la velocidad necesaria en toda la zona: siempre se valida con anemómetro.</p></div></details>
+        <details data-term="nipple tetina bebedero"><summary>Nipple o tetina</summary><div class="details-body"><p>Válvula de bebida accionada por el pico. Mantiene el agua más limpia que un bebedero abierto, pero requiere altura, presión y caudal correctos. Se recomiendan aproximadamente 10–12 aves por nipple.</p></div></details>
+        <details data-term="tolva hopper alimento"><summary>Tolva</summary><div class="details-body"><p>Recipiente que almacena temporalmente alimento y lo entrega al sistema. Sobre celdas de carga permite conocer inventario y consumo.</p></div></details>
+        <details data-term="sinfín auger alimento"><summary>Sinfín o auger</summary><div class="details-body"><p>Espiral accionada por motor que transporta alimento desde la tolva hacia los platos. Debe supervisarse por corriente, tiempo de marcha y protección contra funcionamiento en vacío.</p></div></details>
+        <details data-term="plato pan feeder comedero"><summary>Plato automático o pan feeder</summary><div class="details-body"><p>Comedero circular conectado a la línea de sinfín. Debe ser regulable en altura y nivel para reducir desperdicio y permitir acceso desde los primeros días.</p></div></details>
+        <details data-term="ad libitum libre acceso"><summary>Ad libitum</summary><div class="details-body"><p>Alimento disponible libremente. No significa llenar demasiado los platos: el nivel se ajusta para que exista acceso sin permitir que lo arrojen a la cama.</p></div></details>
+        <details data-term="preiniciador iniciador crecimiento finalizador alimento"><summary>Fases del alimento</summary><div class="details-body"><p>Formulaciones distintas según edad. El iniciador favorece el desarrollo temprano; crecimiento y finalizador ajustan energía, proteína y aminoácidos. Las edades cambian según fabricante.</p></div></details>
+        <details data-term="coccidiostato retiro medicamento"><summary>Coccidiostato y periodo de retiro</summary><div class="details-body"><p>Producto en el alimento para controlar coccidiosis. Algunas formulaciones exigen dejar de administrarlo cierto tiempo antes del beneficio. Se debe seguir la etiqueta y al veterinario.</p></div></details>
+        <details data-term="bioseguridad pediluvio visitantes"><summary>Bioseguridad</summary><div class="details-body"><p>Barreras contra entrada y propagación de enfermedades: acceso limitado, botas/ropa exclusivas, control de plagas, limpieza, agua segura y separación de otros animales.</p></div></details>
+        <details data-term="pediluvio botas desinfección"><summary>Pediluvio</summary><div class="details-body"><p>Recipiente con desinfectante para las botas al entrar. Sólo funciona si se retira primero la suciedad y se cambia la solución con la frecuencia indicada.</p></div></details>
+        <details data-term="vacío sanitario downtime"><summary>Vacío sanitario</summary><div class="details-body"><p>Periodo sin aves después de limpiar y desinfectar. Permite secado y reducción de contaminación antes del siguiente lote. Su duración se define con el veterinario y el riesgo local.</p></div></details>
+        <details data-term="mortalidad descarte cull"><summary>Mortalidad y descarte</summary><div class="details-body"><p>Mortalidad son aves encontradas muertas; descarte son aves retiradas por enfermedad, lesión o bajo desarrollo. Se registran por separado y se investiga cualquier cambio brusco.</p></div></details>
+        <details data-term="amoniaco nh3 co2 co"><summary>NH₃, CO₂ y CO</summary><div class="details-body"><p>NH₃ proviene de la cama húmeda; CO₂ de aves/combustión; CO de combustión incompleta y es peligroso. Son indicadores de ventilación y seguridad, no sustitutos de observar las aves.</p></div></details>
+        <details data-term="setpoint histéresis plc"><summary>Setpoint e histéresis</summary><div class="details-body"><p>Setpoint es el objetivo del control. La histéresis evita que un equipo arranque y pare continuamente alrededor del mismo valor. Para ventilación se prefieren etapas y temporizaciones.</p></div></details>
+        <details data-term="failsafe fallo seguro"><summary>Fail-safe o condición segura</summary><div class="details-body"><p>Respuesta física ante un fallo. Ejemplo: si se pierde el PLC, las cortinas pueden abrirse y un termostato independiente puede arrancar ventilación. La protección no debe depender de Internet.</p></div></details>
+        <details data-term="beneficiado canal rendimiento"><summary>Pollo vivo, beneficiado y rendimiento de canal</summary><div class="details-body"><p>Vivo se vende antes del sacrificio. Beneficiado ha sido sacrificado, desplumado y eviscerado. El peso vendible beneficiado es menor que el vivo; deben incluirse procesamiento, frío, higiene y merma.</p></div></details>
+      </div>
+    </section>
+
+    <section id="fuentes">
+      <h2>Fuentes y límites</h2>
+      <div class="card">
+        <ul>
+          <li><a href="https://www.cobbgenetics.com/assets/Cobb-Files/Broiler-Guide_English-2021-min.pdf" target="_blank" rel="noreferrer">Cobb Broiler Management Guide</a>: densidad, galpón, agua, alimento y ventilación.</li>
+          <li><a href="https://www.cobbgenetics.com/assets/Cobb-Files/2022-Cobb500-Broiler-Performance-Nutrition-Supplement.pdf" target="_blank" rel="noreferrer">Cobb 500 Performance & Nutrition Supplement</a>: peso y consumo objetivo.</li>
+          <li><a href="https://aviagen.com/assets/Tech_Center/Ross_Broiler/Aviagen-ROSS-Broiler-PocketGuide-EN.pdf" target="_blank" rel="noreferrer">Ross Broiler Pocket Guide 2025</a>: crianza, calidad de aire, iluminación, agua, bioseguridad y vacunación.</li>
+          <li><a href="https://weatherspark.com/y/27695/Average-Weather-in-La-Guaira-Venezuela-Year-Round" target="_blank" rel="noreferrer">WeatherSpark La Guaira</a>: contexto climático regional.</li>
+          <li>Precios: publicaciones enlazadas individualmente, consultadas el 18 de julio de 2026.</li>
+        </ul>
+        <p class="small">Las guías de genética describen objetivos bajo buenas condiciones, no garantías. El programa de vacunación, medicamentos, coccidiostatos, periodos de retiro y diagnóstico pertenecen al veterinario avícola local. Los cálculos económicos deben actualizarse con cotizaciones reales.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <strong>Proyecto granja modular · La Guaira</strong><br>
+      Documento de coordinación técnica. Sustituir estimaciones por cotizaciones y registrar toda decisión importante.
+    </div>
+  </footer>
+
+  <script>
+    const checklistKey = 'granja-pollos-checklist-v1';
+    const checks = [...document.querySelectorAll('.checklist input[type="checkbox"]')];
+    try {
+      const saved = JSON.parse(localStorage.getItem(checklistKey) || '[]');
+      checks.forEach((box, i) => box.checked = Boolean(saved[i]));
+    } catch (_) {}
+    checks.forEach(box => box.addEventListener('change', () => {
+      localStorage.setItem(checklistKey, JSON.stringify(checks.map(x => x.checked)));
+    }));
+
+    const glossaryItems = [...document.querySelectorAll('#glossaryList details')];
+    document.getElementById('glossarySearch').addEventListener('input', event => {
+      const query = event.target.value.trim().toLowerCase();
+      glossaryItems.forEach(item => {
+        const haystack = `${item.dataset.term || ''} ${item.textContent}`.toLowerCase();
+        item.hidden = query && !haystack.includes(query);
+        if (query && !item.hidden) item.open = true;
+      });
+    });
+    document.getElementById('expandGlossary').addEventListener('click', () => glossaryItems.forEach(x => x.open = true));
+    document.getElementById('collapseGlossary').addEventListener('click', () => glossaryItems.forEach(x => x.open = false));
+  </script>
+  <script>
+  (function(){
+    try{
+      var TABS=[['resumen','Resumen'],['comparacion','Engorde vs Ponedoras'],['precios','Precios VE/CO'],['ejecucion','Ejecución'],['galpon','Galpón'],['pane-layout','Layout galpón'],['alimentacion','Alimento'],['dosificacion','Dosificación'],['ventilacion','Ventilación'],['automatizacion','Automatización'],['componentes','Componentes (auto)'],['situaciones','Situaciones'],['economia','Economía'],['cotizaciones','Cotizaciones'],['modelo','Modelo engorde'],['ponedoras','Modelo ponedoras'],['materiales','Materiales'],['glosario','Glosario'],['fuentes','Fuentes']];
+      var panels=TABS.map(function(t){return document.getElementById(t[0]);});
+      if(panels.some(function(p){return !p;})) return; // falta algún panel -> se queda en modo scroll
+      var oldnav=document.querySelector('nav');
+      if(!oldnav) return;
+      var bar=document.createElement('nav'); bar.className='tabnav'; bar.setAttribute('aria-label','Pestañas');
+      var wrap=document.createElement('div'); wrap.className='wrap'; bar.appendChild(wrap);
+      function show(id){
+        TABS.forEach(function(t){var el=document.getElementById(t[0]); if(el) el.style.display=(t[0]===id?'':'none');});
+        var bs=wrap.querySelectorAll('button'); for(var i=0;i<bs.length;i++){ bs[i].classList.toggle('active', bs[i].getAttribute('data-id')===id); }
+        window.scrollTo(0,0);
+      }
+      TABS.forEach(function(t){
+        var b=document.createElement('button'); b.type='button'; b.className='tabbtn'; b.textContent=t[1]; b.setAttribute('data-id',t[0]);
+        b.addEventListener('click',function(){show(t[0]);}); wrap.appendChild(b);
+      });
+      oldnav.parentNode.insertBefore(bar, oldnav);
+      oldnav.style.display='none';
+      show('resumen');
+    }catch(e){ /* fallback: se queda todo visible en modo scroll */ }
+  })();
+  </script>
+  <script>
+  (function(){
+    var K='polloengorde-cotizaciones-v1';
+    var box=document.getElementById('cotizaciones'); if(!box) return;
+    var ins=box.querySelectorAll('input,textarea');
+    try{var s=JSON.parse(localStorage.getItem(K)||'[]'); for(var i=0;i<ins.length;i++){ if(s[i]!=null) ins[i].value=s[i]; }}catch(e){}
+    function save(){var a=[]; for(var i=0;i<ins.length;i++){a[i]=ins[i].value;} try{localStorage.setItem(K,JSON.stringify(a));}catch(e){}}
+    for(var i=0;i<ins.length;i++){ ins[i].addEventListener('input',save); }
+    var btn=box.querySelector('.qz-clear');
+    if(btn) btn.addEventListener('click',function(){ if(confirm('¿Borrar lo escrito en esta plantilla? (solo en este navegador)')){ localStorage.removeItem(K); for(var i=0;i<ins.length;i++){ ins[i].value=''; } } });
+  })();
+  </script>
+  <script>
+  (function(){
+    var box=document.getElementById('modelo'); if(!box) return;
+    var K='polloengorde-modelo-v1';
+    var ids=['ec-poll','ec-palim','ec-falim','ec-peso','ec-pventa','ec-mort','ec-cama','ec-san','ec-ener','ec-trans','ec-proc','ec-pollCO','ec-palimCO'];
+    function g(id){var el=document.getElementById(id); var v=el?parseFloat(el.value):NaN; return isNaN(v)?0:v;}
+    function set(id,v){var el=document.getElementById(id); if(el) el.textContent=v;}
+    function money(n){ if(!isFinite(n)) return '—'; return (n<0?'-':'')+'$'+Math.abs(n).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,','); }
+    function num0(n){ return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g,','); }
+    function calc(){
+      var poll=g('ec-poll'),palim=g('ec-palim'),falim=g('ec-falim'),peso=g('ec-peso'),pventa=g('ec-pventa'),mort=g('ec-mort')/100;
+      var varAve=g('ec-cama')+g('ec-san')+g('ec-ener')+g('ec-trans')+g('ec-proc');
+      var pollCO=g('ec-pollCO'), palimCO=g('ec-palimCO');
+      [100,250,500].forEach(function(N){
+        var vend=N*(1-mort), kg=vend*peso, ing=kg*pventa;
+        var cPoll=N*poll, cAlim=N*falim*palim, cOtros=N*varAve, cTot=cPoll+cAlim+cOtros;
+        var margen=ing-cTot, margAve=N?margen/N:0, costoKg=kg?cTot/kg:0, margKg=pventa-costoKg;
+        set('r-vend-'+N, num0(vend));
+        set('r-kg-'+N, kg.toFixed(1)+' kg');
+        set('r-ing-'+N, money(ing));
+        set('r-poll-'+N, money(cPoll));
+        set('r-alim-'+N, money(cAlim));
+        set('r-otros-'+N, money(cOtros));
+        set('r-tot-'+N, money(cTot));
+        set('r-margen-'+N, money(margen));
+        set('r-margave-'+N, money(margAve));
+        set('r-costokg-'+N, money(costoKg));
+        set('r-margkg-'+N, money(margKg));
+        var margCO=ing-(N*pollCO+N*falim*palimCO+cOtros);
+        set('r-mVE-'+N, money(margen));
+        set('r-mCO-'+N, money(margCO));
+        set('r-ahorro-'+N, money(margCO-margen));
+        var mac=document.getElementById('r-ahorro-'+N); if(mac) mac.style.color=(margCO-margen>=0?'var(--brand)':'var(--danger)');
+        var mc=document.getElementById('r-margen-'+N); if(mc) mc.style.color=(margen>=0?'var(--brand)':'var(--danger)');
+      });
+    }
+    try{var s=JSON.parse(localStorage.getItem(K)||'{}'); ids.forEach(function(id){ if(s[id]!=null){var el=document.getElementById(id); if(el) el.value=s[id];} });}catch(e){}
+    function save(){var o={}; ids.forEach(function(id){var el=document.getElementById(id); if(el) o[id]=el.value;}); try{localStorage.setItem(K,JSON.stringify(o));}catch(e){}}
+    ids.forEach(function(id){var el=document.getElementById(id); if(el) el.addEventListener('input',function(){save();calc();});});
+    calc();
+  })();
+  </script>
+  <script>
+  (function(){
+    var box=document.getElementById('ponedoras'); if(!box) return;
+    var K='polloengorde-ponedoras-v1';
+    var ids=['ep-postura','ep-phuevo','ep-falim','ep-palim','ep-pollona','ep-meses','ep-mort','ep-otros'];
+    function g(id){var el=document.getElementById(id); var v=el?parseFloat(el.value):NaN; return isNaN(v)?0:v;}
+    function set(id,v){var el=document.getElementById(id); if(el) el.textContent=v;}
+    function money(n){ if(!isFinite(n)) return '—'; return (n<0?'-':'')+'$'+Math.abs(n).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,','); }
+    function num0(n){ return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g,','); }
+    function calc(){
+      var post=g('ep-postura')/100, ph=g('ep-phuevo'), fa=g('ep-falim'), pa=g('ep-palim'), poll=g('ep-pollona'), meses=g('ep-meses'), mort=g('ep-mort')/100, otros=g('ep-otros');
+      var dias=meses*30;
+      [100,250,500].forEach(function(N){
+        var vivas=N*(1-mort/2);
+        var huevosDia=vivas*post, ingDia=huevosDia*ph, alimDia=vivas*fa*pa, otrosDia=vivas*otros;
+        var margDia=ingDia-alimDia-otrosDia, margMes=margDia*30, invPoll=N*poll;
+        var margNeto=margDia*dias-invPoll, mesesRecup=(margMes>0?invPoll/margMes:Infinity);
+        set('rp-hd-'+N, num0(huevosDia));
+        set('rp-id-'+N, money(ingDia));
+        set('rp-ad-'+N, money(alimDia));
+        set('rp-md-'+N, money(margDia));
+        set('rp-mm-'+N, money(margMes));
+        set('rp-inv-'+N, money(invPoll));
+        set('rp-neto-'+N, money(margNeto));
+        set('rp-rec-'+N, isFinite(mesesRecup)?mesesRecup.toFixed(1)+' meses':'—');
+        var mc=document.getElementById('rp-neto-'+N); if(mc) mc.style.color=(margNeto>=0?'var(--brand)':'var(--danger)');
+        var md=document.getElementById('rp-md-'+N); if(md) md.style.color=(margDia>=0?'var(--brand)':'var(--danger)');
+      });
+    }
+    try{var s=JSON.parse(localStorage.getItem(K)||'{}'); ids.forEach(function(id){ if(s[id]!=null){var el=document.getElementById(id); if(el) el.value=s[id];} });}catch(e){}
+    function save(){var o={}; ids.forEach(function(id){var el=document.getElementById(id); if(el) o[id]=el.value;}); try{localStorage.setItem(K,JSON.stringify(o));}catch(e){}}
+    ids.forEach(function(id){var el=document.getElementById(id); if(el) el.addEventListener('input',function(){save();calc();});});
+    calc();
+  })();
+  </script>
+</body>
+</html>
