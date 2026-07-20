@@ -148,6 +148,11 @@
     .cmp tr.diff td:first-child::after{content:" ★";color:var(--accent)}
     #ponedoras tbody td:not(.rowlabel){text-align:right;font-variant-numeric:tabular-nums}
     #ponedoras tr.ec-margin{font-weight:700;background:#eff8f1}
+    #modelo thead th:not(:first-child), #ponedoras thead th:not(:first-child){text-align:right}
+    #modelo tbody tr:nth-child(even):not(.ec-margin) td:not(.rowlabel), #ponedoras tbody tr:nth-child(even):not(.ec-margin) td:not(.rowlabel){background:#f7faf7}
+    #modelo td:not(:first-child), #modelo th:not(:first-child), #ponedoras td:not(:first-child), #ponedoras th:not(:first-child){border-left:1px solid #e7ece7}
+    #modelo tr.ec-margin td, #ponedoras tr.ec-margin td{background:#e4f3ea}
+    #modelo tbody td, #ponedoras tbody td{padding:10px}
   </style>
 </head>
 <body>
@@ -1103,7 +1108,7 @@
 
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Resultado</th><th>100 gallinas</th><th>250</th><th>500</th></tr></thead>
+            <thead><tr><th>Resultado</th><th>100 gallinas</th><th>250 gallinas</th><th>500 gallinas</th></tr></thead>
             <tbody>
               <tr><td class="rowlabel">Huevos por día</td><td id="rp-hd-100"></td><td id="rp-hd-250"></td><td id="rp-hd-500"></td></tr>
               <tr><td class="rowlabel">Ingreso por día</td><td id="rp-id-100"></td><td id="rp-id-250"></td><td id="rp-id-500"></td></tr>
