@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
   <meta name="description" content="Plan técnico y operativo para una granja modular de 100 a 500 pollos de engorde en la costa de La Guaira, Venezuela.">
-  <title>Proyecto de pollos de engorde · La Guaira</title>
+  <title>Granja avícola (ponedoras) · Naiguatá, La Guaira</title>
   <style>
     :root {
       --bg: #f3f6f1;
@@ -153,14 +153,15 @@
 <body>
   <header>
     <div class="wrap">
-      <div class="eyebrow">Documento de trabajo · Versión 1.0</div>
-      <h1>Granja modular de pollos de engorde</h1>
-      <p>Plan técnico, operativo y económico para comenzar con 100 aves y escalar de forma controlada hasta 500 en Todasana o Naiguatá, La Guaira.</p>
+      <div class="eyebrow">Documento de trabajo · Enfoque: PONEDORAS (huevos)</div>
+      <h1>Granja modular avícola — enfoque en ponedoras</h1>
+      <p>Plan técnico, operativo y económico para una granja en Naiguatá, La Guaira. <strong>El enfoque actual es la producción de huevos (ponedoras)</strong>; el material de pollos de engorde se conserva como referencia. Escalado por etapas 100 → 250 → 500.</p>
       <div class="meta">
-        <span class="pill">Última revisión: 18 julio 2026</span>
+        <span class="pill">🥚 Enfoque: ponedoras (huevos)</span>
+        <span class="pill">Naiguatá, La Guaira</span>
         <span class="pill">Clima tropical costero</span>
-        <span class="pill">Galpón propuesto: 6 × 12 m</span>
-        <span class="pill">Objetivo inicial de venta: 35–38 días</span>
+        <span class="pill">Galpón 6 × 12 m</span>
+        <span class="pill">Escalado 100 → 250 → 500</span>
       </div>
     </div>
   </header>
@@ -185,6 +186,10 @@
   <main class="wrap">
     <section id="resumen">
       <h2>Resumen de la propuesta</h2>
+      <div class="card ok" style="border-left:5px solid var(--brand)">
+        <h3>🥚 Enfoque actual del proyecto: PONEDORAS (huevos)</h3>
+        <p>Nos concentramos en la producción de huevos con gallinas ponedoras. El material de <strong>pollos de engorde no se pierde</strong> — queda como referencia en sus pestañas (Modelo engorde, Alimento, Economía) por si se decide cambiar más adelante. Pestañas clave para ponedoras: <strong>Modelo ponedoras</strong>, <strong>Precios VE/CO</strong>, <strong>Cotizaciones</strong> y <strong>Componentes (auto)</strong>.</p>
+      </div>
       <p class="section-intro">Se construye una sola infraestructura preparada para 500, pero se utiliza una división de 18 m² durante el piloto de 100. El crecimiento depende de resultados medidos, no de una fecha fija.</p>
       <div class="grid">
         <div class="card metric span-4"><strong>100 → 250 → 500</strong><span>Escalado después de dos lotes estables por etapa.</span></div>
@@ -762,7 +767,7 @@
 
       <div class="card ok">
         <h3>Recomendación en una frase</h3>
-        <p>Para dos principiantes en clima caliente que buscan <strong>menor riesgo y ingreso estable</strong>, las <strong>ponedoras</strong> son la entrada más perdonadora — aceptando que <strong>tardas ~4–5 meses en el primer ingreso</strong> y que te vuelves <strong>vendedor diario</strong> de un producto perecedero. Si prefieren <strong>ciclos cortos que puedan pausar e ingreso en golpes</strong>, el <strong>engorde</strong> encaja mejor (y ya tienen el diseño hecho). Ninguna es "mala": resuelven perfiles distintos.</p>
+        <p>Para dos principiantes en clima caliente que buscan <strong>menor riesgo y ingreso estable</strong>, las <strong>ponedoras</strong> son la entrada más perdonadora — aceptando que <strong>tardas ~4–5 meses en el primer ingreso</strong> y que te vuelves <strong>vendedor diario</strong> de un producto perecedero. Si prefieren <strong>ciclos cortos que puedan pausar e ingreso en golpes</strong>, el <strong>engorde</strong> encaja mejor (y ya tienen el diseño hecho). Ninguna es "mala": resuelven perfiles distintos. <strong>Decisión de trabajo (2026-07-20): nos enfocamos en PONEDORAS</strong>; el engorde queda como referencia y como opción de respaldo.</p>
       </div>
 
       <h3>1 · Comparación general</h3>
@@ -1193,6 +1198,17 @@
           <li><strong>Sugerencia:</strong> arrancar el piloto con <strong>ESP32 + datos</strong>; para producción estable a 500, migrar a <strong>PLC (LOGO! 8 o S7-1200)</strong>. La decisión sigue abierta en el backlog.</li>
         </ul>
       </div>
+
+      <div class="card callout">
+        <h3>⭐ Diseñar para poder cambiar a engorde sin rehacer todo</h3>
+        <p>El enfoque es ponedoras, pero no descartamos engorde. Por eso la selección final de componentes debe ser <strong>flexible</strong> — y por suerte la diferencia de automatización entre ambos es mínima (en ponedoras pesa el control de iluminación; casi todo lo demás es igual). Criterios para la propuesta final:</p>
+        <ul>
+          <li><strong>Dimensiona para el superconjunto (ponedoras):</strong> incluye el canal de iluminación / programa de luz. Si algún día pasas a engorde, simplemente no lo usas — nada que desmontar.</li>
+          <li><strong>Deja I/O de reserva</strong> (20–30% libre) y usa módulos de I/O ampliables, para sumar o quitar sensores sin cambiar el controlador.</li>
+          <li><strong>Cableado por borneras y etiquetado</strong>, no soldado fijo: cambiar un sensor o actuador es reconectar, no rehacer.</li>
+          <li><strong>Lógica por modos y parámetros</strong> (no "cableada"): pasar de ponedoras a engorde = cambiar setpoints y activar/desactivar el programa de luz, no reprogramar todo.</li>
+        </ul>
+      </div>
     </section>
 
     <section id="materiales">
@@ -1566,7 +1582,7 @@
   <script>
   (function(){
     try{
-      var TABS=[['resumen','Resumen'],['comparacion','Engorde vs Ponedoras'],['precios','Precios VE/CO'],['ejecucion','Ejecución'],['galpon','Galpón'],['pane-layout','Layout galpón'],['alimentacion','Alimento'],['dosificacion','Dosificación'],['ventilacion','Ventilación'],['automatizacion','Automatización'],['componentes','Componentes (auto)'],['situaciones','Situaciones'],['economia','Economía'],['cotizaciones','Cotizaciones'],['modelo','Modelo engorde'],['ponedoras','Modelo ponedoras'],['materiales','Materiales'],['glosario','Glosario'],['fuentes','Fuentes']];
+      var TABS=[['resumen','Resumen'],['comparacion','Engorde vs Ponedoras'],['ponedoras','Modelo ponedoras'],['precios','Precios VE/CO'],['cotizaciones','Cotizaciones'],['componentes','Componentes (auto)'],['galpon','Galpón'],['pane-layout','Layout galpón'],['ventilacion','Ventilación'],['automatizacion','Automatización'],['situaciones','Situaciones'],['modelo','Modelo engorde'],['alimentacion','Alimento'],['dosificacion','Dosificación'],['economia','Economía'],['ejecucion','Ejecución'],['materiales','Materiales'],['glosario','Glosario'],['fuentes','Fuentes']];
       var panels=TABS.map(function(t){return document.getElementById(t[0]);});
       if(panels.some(function(p){return !p;})) return; // falta algún panel -> se queda en modo scroll
       var oldnav=document.querySelector('nav');
