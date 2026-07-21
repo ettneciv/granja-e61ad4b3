@@ -1386,6 +1386,18 @@
             <g class="hmi-node" data-sensor="lux"><circle cx="470" cy="60" r="12" fill="#d98924"/><text x="470" y="64" text-anchor="middle" font-size="11" fill="#fff">☀</text></g>
             <g class="hmi-node" data-sensor="fans"><circle cx="620" cy="60" r="12" fill="#1f9c98"/><text x="620" y="64" text-anchor="middle" font-size="11" fill="#fff">🌀</text></g>
             <g class="hmi-node" data-sensor="eggs"><circle cx="650" cy="216" r="12" fill="#7a54c0"/><text x="650" y="220" text-anchor="middle" font-size="11" fill="#fff">🥚</text></g>
+            <g font-size="11" font-weight="700" text-anchor="start" paint-order="stroke" stroke="#fff" stroke-width="3.2">
+              <text id="nv-tint" x="377" y="64" fill="#1c4d33">–</text>
+              <text id="nv-rh" x="317" y="126" fill="#1c4d33">–</text>
+              <text id="nv-co2" x="247" y="188" fill="#1c4d33">–</text>
+              <text id="nv-nh3" x="487" y="240" fill="#1c4d33">–</text>
+              <text id="nv-wlevel" x="65" y="94" fill="#1c4d33">–</text>
+              <text id="nv-twater" x="107" y="174" fill="#1c4d33">–</text>
+              <text id="nv-feed" x="167" y="64" fill="#1c4d33">–</text>
+              <text id="nv-lux" x="487" y="64" fill="#1c4d33">–</text>
+              <text id="nv-fans" x="637" y="64" fill="#1c4d33">–</text>
+              <text id="nv-eggs" x="620" y="240" fill="#1c4d33">–</text>
+            </g>
           </svg>
         </div>
 
@@ -1471,6 +1483,7 @@
           var stt=x.st(P,x.v);
           var vv=document.getElementById('val-'+x.id); if(vv) vv.textContent=fmt(x);
           var dot=document.getElementById('dot-'+x.id); if(dot) dot.className='dot '+stt;
+          var nv=document.getElementById('nv-'+x.id); if(nv){ nv.textContent=fmt(x)+' '+x.u; nv.setAttribute('fill', stt==='alarm'?'#c0492f':(stt==='warn'?'#d98924':'#1c4d33')); }
           var tile=document.getElementById('tile-'+x.id);
           if(tile){ tile.classList.remove('st-warn','st-alarm','sel'); if(stt!=='ok') tile.classList.add('st-'+stt); if(x.id===sel) tile.classList.add('sel'); }
           if(stt!=='ok') alarms.push({x:x,stt:stt});
