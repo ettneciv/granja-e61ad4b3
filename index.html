@@ -165,6 +165,15 @@
     .hmi-node{cursor:pointer}
     .alarm-row{display:flex;gap:10px;align-items:center;padding:9px 11px;border:1px solid var(--line);border-radius:8px;margin:6px 0}
     .badge{display:inline-grid;place-items:center;min-width:18px;height:18px;border-radius:9px;background:var(--danger);color:#fff;font-size:11px;font-weight:700;padding:0 5px}
+    .modal-ov{position:fixed;inset:0;background:rgba(20,30,25,.45);display:none;align-items:center;justify-content:center;z-index:60;padding:16px}
+    .modal-ov.open{display:flex}
+    .modal{background:var(--surface);border-radius:14px;box-shadow:0 12px 40px rgba(0,0,0,.28);max-width:430px;width:100%;padding:18px;max-height:90vh;overflow:auto}
+    .modal h3{margin:0 0 8px}
+    .modal .x{float:right;border:0;background:transparent;color:var(--muted);font-size:22px;cursor:pointer;line-height:1;padding:0}
+    .modal label{display:block;font-size:12.5px;color:var(--muted);margin:10px 0 0}
+    .modal input{width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:8px;padding:8px;font:inherit;margin-top:4px;background:#fff;color:var(--ink)}
+    .modal .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    #paramTable input{color:var(--ink)}
     #modelo thead th:not(:first-child), #ponedoras thead th:not(:first-child){text-align:right}
     #modelo tbody tr:nth-child(even):not(.ec-margin) td:not(.rowlabel), #ponedoras tbody tr:nth-child(even):not(.ec-margin) td:not(.rowlabel){background:#f7faf7}
     #modelo td:not(:first-child), #modelo th:not(:first-child), #ponedoras td:not(:first-child), #ponedoras th:not(:first-child){border-left:1px solid #e7ece7}
@@ -236,7 +245,7 @@
           <thead><tr><th>Fase</th><th>Duración</th><th>Trabajo</th><th>Resultado requerido</th></tr></thead>
           <tbody>
             <tr><td>0. Modelo de negocio</td><td>1 semana</td><td>Cotizar pollito, tres alimentos, pollo vivo/beneficiado, transporte y procesamiento.</td><td>Costo por kg y precio mínimo de venta.</td></tr>
-            <tr><td>1. Selección del sitio</td><td>4–6 semanas</td><td>Registrar clima en Todasana y Naiguatá; revisar drenaje, acceso, viento, salinidad y seguridad.</td><td>Sitio aprobado y eje del galpón definido.</td></tr>
+            <tr><td>1. Preparación del sitio (Naiguatá)</td><td>4–6 semanas</td><td>Registrar clima en Naiguatá; revisar drenaje, acceso, viento, salinidad y seguridad.</td><td>Sitio preparado y eje del galpón definido.</td></tr>
             <tr><td>2. Ingeniería</td><td>2–3 semanas</td><td>Plano civil, layout, ventilación, agua, electricidad, I/O, causa-efecto y presupuesto.</td><td>Diseño congelado para construcción.</td></tr>
             <tr><td>3. Construcción</td><td>4–8 semanas</td><td>Piso, estructura, techo, malla, cortinas, drenajes y cuarto técnico.</td><td>Galpón lavable, seco y protegido.</td></tr>
             <tr><td>4. Instalación y pruebas</td><td>1–2 semanas</td><td>Montaje, calibración, prueba de fallos, velocidad de aire y operación de 72 h sin aves.</td><td>SAT aprobado y alarmas verificadas.</td></tr>
@@ -1356,7 +1365,7 @@
     <section id="hmi">
       <h2>HMI — panel de control (simulación)</h2>
       <div class="callout" style="border-left:5px solid var(--accent);background:#fff8ed">
-        <p><strong>⚠️ Simulación.</strong> Así se vería el panel de control (HMI) de la granja. Los valores son <strong>inventados</strong> (aún no hay hardware conectado) y cambian solos para dar la idea. <strong>Haz clic</strong> en un sensor —en el plano o en las tarjetas— para ver su detalle. En <strong>Parámetros</strong> ajustas los setpoints y las alarmas reaccionan.</p>
+        <p><strong>⚠️ Simulación.</strong> Así se vería el panel de control (HMI) de la granja. Los valores son <strong>inventados</strong> (aún no hay hardware conectado) y cambian solos para dar la idea. <strong>Haz clic en un sensor</strong> (en el plano o en una tarjeta) para ver su valor y <strong>fijar su advertencia y su alarma</strong>. En <strong>Parámetros</strong> ves y editas todos los límites juntos.</p>
       </div>
 
       <div class="hmi-bar">
@@ -1406,53 +1415,40 @@
       </div>
 
       <div id="hmi-param" hidden>
-        <div class="qz">
-          <div class="card">
-            <h3>Parámetros / setpoints</h3>
-            <p class="small">Cambia estos valores y las tarjetas/alarmas de "Vista general" reaccionan. Se guarda en este navegador.</p>
-            <div class="ec-grid">
-              <label>Temp objetivo (°C)<input id="hp-tset" type="number" step="0.5" value="26"></label>
-              <label>Temp ALARMA alta (°C)<input id="hp-tmax" type="number" step="0.5" value="30"></label>
-              <label>Humedad ALARMA (%)<input id="hp-rhmax" type="number" step="1" value="75"></label>
-              <label>CO₂ ALARMA (ppm)<input id="hp-co2max" type="number" step="100" value="3000"></label>
-              <label>NH₃ ALARMA (ppm)<input id="hp-nh3max" type="number" step="1" value="15"></label>
-              <label>Nivel agua mínimo (%)<input id="hp-wmin" type="number" step="1" value="20"></label>
-              <label>Horas de luz (programa)<input id="hp-luz" type="number" step="1" value="15"></label>
-            </div>
-          </div>
+        <div class="card">
+          <h3>Límites de alarma por sensor</h3>
+          <p class="small">Una <strong>advertencia</strong> y una <strong>alarma</strong> por sensor, del lado que aplica: <strong>alta</strong> para temperaturas y gases, <strong>baja</strong> para nivel de agua y tolva. Los informativos (luz, ventiladores, huevos) no tienen alarma. También los puedes fijar haciendo clic en el sensor. Se guarda en este navegador.</p>
+          <div id="paramTable"></div>
         </div>
       </div>
 
       <div id="hmi-alarm" hidden>
         <div class="card"><h3>Alarmas activas</h3><div id="alarmList"><p class="small" style="margin:0">—</p></div></div>
       </div>
+
+      <div class="modal-ov" id="hmiModal"><div class="modal" id="hmiModalCard"><div id="hmiModalBody"></div></div></div>
     </section>
 
     <script>
     (function(){
       var box=document.getElementById('hmi'); if(!box) return;
-      var K='polloengorde-hmi-param-v1';
-      var P={tset:26,tmax:30,rhmax:75,co2max:3000,nh3max:15,wmin:20,luz:15};
-      try{var s=JSON.parse(localStorage.getItem(K)||'{}'); for(var k in s){ if(P[k]!=null) P[k]=parseFloat(s[k]); }}catch(e){}
-      var pIds={'hp-tset':'tset','hp-tmax':'tmax','hp-rhmax':'rhmax','hp-co2max':'co2max','hp-nh3max':'nh3max','hp-wmin':'wmin','hp-luz':'luz'};
-      function loadParamInputs(){ for(var id in pIds){ var el=document.getElementById(id); if(el) el.value=P[pIds[id]]; } }
-      function saveParams(){ try{localStorage.setItem(K,JSON.stringify(P));}catch(e){} }
-      for(var id in pIds){ (function(id){ var el=document.getElementById(id); if(el){ el.value=P[pIds[id]]; el.addEventListener('input',function(){ var v=parseFloat(el.value); if(!isNaN(v)){ P[pIds[id]]=v; saveParams(); refresh(); } }); } })(id); }
-
-      var okS=function(){return 'ok';};
+      var KL='polloengorde-hmi-limits-v1';
+      function status(x){ if(x.dir==='high') return x.v>=x.alarm?'alarm':(x.v>=x.warn?'warn':'ok'); if(x.dir==='low') return x.v<=x.alarm?'alarm':(x.v<=x.warn?'warn':'ok'); return 'ok'; }
       var S=[
-        {id:'tint',nom:'Temp interior',u:'°C',dec:1,g:'Clima',desc:'Temperatura a altura de ave (mediana de 3 sensores).',v:26,lo:23,hi:32,step:0.4,st:function(P,v){return v>P.tmax?'alarm':(v>P.tmax-1.5?'warn':'ok');}},
-        {id:'rh',nom:'Humedad',u:'%',dec:0,g:'Clima',desc:'Humedad relativa interior. Con RH alta el jadeo enfría menos.',v:68,lo:55,hi:88,step:1.6,st:function(P,v){return v>P.rhmax?'alarm':(v>P.rhmax-5?'warn':'ok');}},
-        {id:'co2',nom:'CO₂',u:'ppm',dec:0,g:'Clima',desc:'Calidad de aire (renovación).',v:1600,lo:800,hi:4200,step:160,st:function(P,v){return v>P.co2max?'alarm':(v>P.co2max*0.8?'warn':'ok');}},
-        {id:'nh3',nom:'NH₃',u:'ppm',dec:0,g:'Clima',desc:'Amoníaco del excremento bajo las jaulas.',v:8,lo:2,hi:34,step:1.6,st:function(P,v){return v>P.nh3max?'alarm':(v>P.nh3max*0.7?'warn':'ok');}},
-        {id:'wlevel',nom:'Nivel agua',u:'%',dec:0,g:'Agua',desc:'Nivel del tanque de 1000 L.',v:74,lo:5,hi:100,drift:-0.8,refill:8,refto:96,st:function(P,v){return v<P.wmin?'alarm':(v<P.wmin+15?'warn':'ok');}},
-        {id:'twater',nom:'Temp agua',u:'°C',dec:1,g:'Agua',desc:'Agua caliente reduce el consumo (riesgo).',v:24,lo:20,hi:31,step:0.3,st:function(P,v){return v>28?'alarm':(v>26?'warn':'ok');}},
-        {id:'feed',nom:'Peso tolva',u:'kg',dec:0,g:'Alimento',desc:'Alimento disponible (celdas de carga).',v:140,lo:0,hi:200,drift:-0.6,refill:14,refto:180,st:function(P,v){return v<15?'warn':'ok';}},
-        {id:'lux',nom:'Luz',u:'lux',dec:0,g:'Iluminación',desc:'Nivel de luz (programa de postura).',v:22,lo:0,hi:40,step:2,st:okS},
-        {id:'fans',nom:'Ventiladores',u:'%',dec:0,g:'Ventilación',desc:'Etapa de ventilación (auto según temperatura).',v:40,lo:0,hi:100,derived:true,st:function(P,v){return v>=100?'warn':'ok';}},
-        {id:'eggs',nom:'Huevos hoy',u:'u',dec:0,g:'Huevos',desc:'Conteo acumulado del día (sensor IR).',v:128,lo:0,hi:999999,egg:true,st:okS}
+        {id:'tint',nom:'Temp interior',u:'°C',dec:1,g:'Clima',desc:'Temperatura a altura de ave (mediana de 3 sensores). En Naiguatá solo importa el lado alto.',v:26,lo:23,hi:33,step:0.4,dir:'high',warn:29,alarm:31},
+        {id:'rh',nom:'Humedad',u:'%',dec:0,g:'Clima',desc:'Humedad relativa interior. Con RH alta el jadeo enfría menos.',v:68,lo:55,hi:90,step:1.6,dir:'high',warn:72,alarm:78},
+        {id:'co2',nom:'CO₂',u:'ppm',dec:0,g:'Clima',desc:'Calidad de aire (renovación).',v:1600,lo:800,hi:4200,step:160,dir:'high',warn:2500,alarm:3000},
+        {id:'nh3',nom:'NH₃',u:'ppm',dec:0,g:'Clima',desc:'Amoníaco del excremento bajo las jaulas.',v:8,lo:2,hi:34,step:1.6,dir:'high',warn:12,alarm:20},
+        {id:'wlevel',nom:'Nivel agua',u:'%',dec:0,g:'Agua',desc:'Nivel del tanque de 1000 L. Aquí la alarma es del lado BAJO.',v:74,lo:5,hi:100,drift:-0.8,refill:8,refto:96,dir:'low',warn:30,alarm:15},
+        {id:'twater',nom:'Temp agua',u:'°C',dec:1,g:'Agua',desc:'Agua caliente reduce el consumo (riesgo).',v:24,lo:20,hi:31,step:0.3,dir:'high',warn:26,alarm:28},
+        {id:'feed',nom:'Peso tolva',u:'kg',dec:0,g:'Alimento',desc:'Alimento disponible (celdas de carga). Alarma del lado BAJO.',v:140,lo:0,hi:200,drift:-0.6,refill:14,refto:180,dir:'low',warn:20,alarm:8},
+        {id:'lux',nom:'Luz',u:'lux',dec:0,g:'Iluminación',desc:'Nivel de luz (programa de postura). Informativo.',v:22,lo:0,hi:40,step:2,dir:'none'},
+        {id:'fans',nom:'Ventiladores',u:'%',dec:0,g:'Ventilación',desc:'Etapa de ventilación (auto según temperatura). Informativo.',v:40,lo:0,hi:100,derived:true,dir:'none'},
+        {id:'eggs',nom:'Huevos hoy',u:'u',dec:0,g:'Huevos',desc:'Conteo acumulado del día (sensor IR). Informativo.',v:128,lo:0,hi:999999,egg:true,dir:'none'}
       ];
       var byId={}; S.forEach(function(x){byId[x.id]=x;});
+      try{var sl=JSON.parse(localStorage.getItem(KL)||'{}'); for(var lid in sl){ if(byId[lid]){ if(sl[lid].warn!=null) byId[lid].warn=parseFloat(sl[lid].warn); if(sl[lid].alarm!=null) byId[lid].alarm=parseFloat(sl[lid].alarm); } }}catch(e){}
+      function saveLimits(){ var o={}; S.forEach(function(x){ if(x.dir!=='none') o[x.id]={warn:x.warn,alarm:x.alarm}; }); try{localStorage.setItem(KL,JSON.stringify(o));}catch(e){} }
       var sel=null;
       var STN={ok:'Normal',warn:'Advertencia',alarm:'ALARMA'};
 
@@ -1460,7 +1456,7 @@
       function tick(){
         var tint=byId.tint;
         S.forEach(function(x){
-          if(x.derived){ x.v=clamp(((tint.v-24)/Math.max(1,(P.tmax-24)))*100,0,100); }
+          if(x.derived){ x.v=clamp(((tint.v-24)/Math.max(1,(tint.alarm-24)))*100,0,100); }
           else if(x.egg){ if(Math.random()<0.5) x.v+=1; }
           else if(x.drift!=null){ x.v+=x.drift+(Math.random()-0.5)*0.6; if(x.v<=x.refill) x.v=x.refto; }
           else { x.v=clamp(x.v+(Math.random()-0.5)*2*x.step, x.lo, x.hi); }
@@ -1472,7 +1468,7 @@
         S.forEach(function(x){
           var d=document.createElement('div'); d.className='kpi'; d.id='tile-'+x.id; d.setAttribute('data-id',x.id);
           d.innerHTML='<div class="k-name"><span class="dot ok" id="dot-'+x.id+'"></span>'+x.nom+'</div><div class="k-val"><span id="val-'+x.id+'">'+fmt(x)+'</span><span class="k-u">'+x.u+'</span></div>';
-          d.addEventListener('click',function(){ select(x.id); });
+          d.addEventListener('click',function(){ openModal(x.id); });
           g.appendChild(d);
         });
       }
@@ -1480,7 +1476,7 @@
       function refresh(){
         var alarms=[];
         S.forEach(function(x){
-          var stt=x.st(P,x.v);
+          var stt=status(x);
           var vv=document.getElementById('val-'+x.id); if(vv) vv.textContent=fmt(x);
           var dot=document.getElementById('dot-'+x.id); if(dot) dot.className='dot '+stt;
           var nv=document.getElementById('nv-'+x.id); if(nv){ nv.textContent=fmt(x)+' '+x.u; nv.setAttribute('fill', stt==='alarm'?'#c0492f':(stt==='warn'?'#d98924':'#1c4d33')); }
@@ -1489,10 +1485,11 @@
           if(stt!=='ok') alarms.push({x:x,stt:stt});
         });
         // detalle
-        if(sel){ var x=byId[sel], stt=x.st(P,x.v);
-          document.getElementById('hmiDetail').innerHTML='<h3 style="margin:0 0 6px">'+x.nom+' <span class="dot '+stt+'" style="vertical-align:middle"></span> <span class="small">'+STN[stt]+'</span></h3>'+
-            '<div style="font-size:30px;font-weight:700;color:var(--brand)">'+fmt(x)+' <span class="small" style="font-weight:400">'+x.u+'</span></div>'+
-            '<p class="small" style="margin:6px 0 0">'+x.desc+' · Grupo: '+x.g+'</p>';
+        if(sel){ var xd=byId[sel], sd=status(xd);
+          var lim = xd.dir==='none' ? '<p class="small" style="margin:6px 0 0">Informativo (sin alarma). '+xd.desc+'</p>' :
+            '<p class="small" style="margin:6px 0 0">'+xd.desc+'</p><p class="small" style="margin:4px 0 0">Límites: ⚠️ '+xd.warn+' · 🔴 '+xd.alarm+' '+xd.u+' (lado '+(xd.dir==='high'?'alto':'bajo')+'). <a href="#" id="detEdit">editar</a></p>';
+          document.getElementById('hmiDetail').innerHTML='<h3 style="margin:0 0 6px">'+xd.nom+' <span class="dot '+sd+'" style="vertical-align:middle"></span> <span class="small">'+STN[sd]+'</span></h3><div style="font-size:30px;font-weight:700;color:var(--brand)">'+fmt(xd)+' <span class="small" style="font-weight:400">'+xd.u+'</span></div>'+lim;
+          var de=document.getElementById('detEdit'); if(de) de.onclick=function(e){e.preventDefault(); openModal(sel);};
         }
         // alarmas
         var list=document.getElementById('alarmList');
@@ -1502,8 +1499,27 @@
         } else { badge.style.display='none'; list.innerHTML='<p class="small" style="margin:0">Sin alarmas. Todo en rango. ✅</p>'; }
       }
       // nodos del plano
+      function buildParamTable(){ var el=document.getElementById('paramTable'); if(!el) return;
+        var rows=S.filter(function(x){return x.dir!=='none';}).map(function(x){ var when=x.dir==='high'?'supera':'baja de';
+          return '<tr><td class="rowlabel">'+x.nom+'</td><td class="small">'+when+'</td><td><input type="number" step="0.1" style="width:78px" data-lim="warn" data-id="'+x.id+'" value="'+x.warn+'"> '+x.u+'</td><td><input type="number" step="0.1" style="width:78px" data-lim="alarm" data-id="'+x.id+'" value="'+x.alarm+'"> '+x.u+'</td></tr>';
+        }).join('');
+        el.innerHTML='<div class="table-wrap"><table><thead><tr><th>Sensor</th><th>Alarma cuando</th><th>⚠️ Advertencia</th><th>🔴 Alarma</th></tr></thead><tbody>'+rows+'</tbody></table></div>';
+        var ins=el.querySelectorAll('input[data-lim]'); for(var i=0;i<ins.length;i++){ (function(inp){ inp.addEventListener('input',function(){ var x=byId[inp.getAttribute('data-id')]; var v=parseFloat(inp.value); if(!isNaN(v)){ x[inp.getAttribute('data-lim')]=v; saveLimits(); refresh(); } }); })(ins[i]); }
+      }
+      function openModal(id){ var x=byId[id]; if(!x) return; sel=id; var stt=status(x); var body=document.getElementById('hmiModalBody');
+        var html='<button type="button" class="x" id="mX">×</button><h3>'+x.nom+' <span class="dot '+stt+'" style="vertical-align:middle"></span></h3><div style="font-size:26px;font-weight:700;color:var(--brand)">'+fmt(x)+' <span class="small" style="font-weight:400">'+x.u+'</span></div><p class="small" style="margin:6px 0 0">'+x.desc+'</p>';
+        if(x.dir==='none'){ html+='<p class="small" style="margin-top:12px">Sensor <strong>informativo</strong>: no tiene alarma configurable.</p><div style="margin-top:12px"><button type="button" class="secondary" id="mClose">Cerrar</button></div>'; }
+        else { html+='<p class="small" style="margin-top:12px">Se activan cuando el valor <strong>'+(x.dir==='high'?'SUPERA':'BAJA de')+'</strong> el límite.</p><div class="row2"><label>⚠️ Advertencia ('+x.u+')<input type="number" step="0.1" id="mWarn" value="'+x.warn+'"></label><label>🔴 Alarma ('+x.u+')<input type="number" step="0.1" id="mAlarm" value="'+x.alarm+'"></label></div><div style="margin-top:14px;display:flex;gap:8px"><button type="button" id="mSave">Guardar</button><button type="button" class="secondary" id="mClose">Cerrar</button></div>'; }
+        body.innerHTML=html; document.getElementById('hmiModal').classList.add('open');
+        var xb=document.getElementById('mX'); if(xb) xb.onclick=closeModal;
+        var cb=document.getElementById('mClose'); if(cb) cb.onclick=closeModal;
+        var sv=document.getElementById('mSave'); if(sv) sv.onclick=function(){ var w=parseFloat(document.getElementById('mWarn').value), a=parseFloat(document.getElementById('mAlarm').value); if(!isNaN(w)) x.warn=w; if(!isNaN(a)) x.alarm=a; saveLimits(); buildParamTable(); refresh(); closeModal(); };
+        refresh();
+      }
+      function closeModal(){ document.getElementById('hmiModal').classList.remove('open'); }
+      var ov=document.getElementById('hmiModal'); if(ov) ov.addEventListener('click',function(e){ if(e.target===ov) closeModal(); });
       var nodes=box.querySelectorAll('.hmi-node');
-      for(var i=0;i<nodes.length;i++){ (function(n){ n.addEventListener('click',function(){ select(n.getAttribute('data-sensor')); }); })(nodes[i]); }
+      for(var i=0;i<nodes.length;i++){ (function(n){ n.addEventListener('click',function(){ openModal(n.getAttribute('data-sensor')); }); })(nodes[i]); }
       // sub-pestañas
       var subs=box.querySelectorAll('.hmi-sub');
       for(var j=0;j<subs.length;j++){ (function(b){ b.addEventListener('click',function(){
@@ -1514,7 +1530,7 @@
         document.getElementById('hmi-alarm').hidden=(s!=='alarm');
       }); })(subs[j]); }
 
-      buildTiles(); select('tint'); refresh();
+      buildTiles(); buildParamTable(); sel='tint'; refresh();
       setInterval(function(){ tick(); refresh(); }, 2000);
     })();
     </script>
