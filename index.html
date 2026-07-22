@@ -507,11 +507,16 @@
         </div>
       </div>
 
-      <div class="toolbar" style="margin-top:14px">
+      <div class="toolbar" style="margin-top:14px;flex-wrap:wrap">
         <button type="button" onclick="window.print()">Imprimir el plan</button>
+        <button type="button" class="secondary" id="planSyncNow">Sincronizar ahora</button>
         <button type="button" class="secondary" id="planReset">Borrar lo marcado</button>
-        <span class="small">Se guarda automáticamente en este navegador (no se comparte entre dispositivos).</span>
+        <label class="small" style="display:flex;align-items:center;gap:6px">Quién marca:
+          <input id="planWho" type="text" placeholder="tu nombre" style="width:120px;padding:5px 8px;border:1px solid var(--line);border-radius:8px;font:inherit;font-size:.95em">
+        </label>
+        <span class="small" id="planSync" style="font-weight:700"></span>
       </div>
+      <p class="small" id="planSyncHelp" style="margin-top:6px"></p>
     </section>
 
     <section id="galpon">
@@ -1789,60 +1794,161 @@
   </footer>
 
   <script>
-    // Plan de obra: se guarda por CLAVE (data-k), no por posición.
-    // Así, añadir o reordenar casillas no descuadra lo ya marcado.
+    // ===================== PLAN DE OBRA =====================
+    // Se guarda por CLAVE (data-k), no por posición: añadir o reordenar
+    // casillas no descuadra lo ya marcado.
+    //
+    // SINCRONIZACIÓN CON GOOGLE SHEETS (opcional)
+    // Deja SHEETS_URL vacío y todo funciona sólo en este navegador, como antes.
+    // Para compartir entre los dos socios, sigue los pasos de
+    // work/apps-script-plan.gs y pega aquí la URL /exec y el mismo TOKEN.
+    const SHEETS_URL   = '';
+    const SHEETS_TOKEN = '';
+
     (function () {
       const KEY = 'granja-ponedoras-plan-v1';
+      const KEY_PEND = 'granja-ponedoras-plan-pend-v1';
+      const KEY_WHO = 'granja-ponedoras-quien';
       const boxes = [...document.querySelectorAll('.checklist input[type="checkbox"][data-k]')];
       const notes = [...document.querySelectorAll('.plan-note[data-k]')];
       if (!boxes.length && !notes.length) return;
 
-      let state = {};
-      try { state = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (_) { state = {}; }
+      const $sync = document.getElementById('planSync');
+      const $help = document.getElementById('planSyncHelp');
+      const $who = document.getElementById('planWho');
+      const $now = document.getElementById('planSyncNow');
 
-      const save = () => {
-        try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (_) {}
+      const read = (k, d) => { try { return JSON.parse(localStorage.getItem(k) || '') ?? d; } catch (_) { return d; } };
+      let state = read(KEY, {}) || {};
+      let pending = read(KEY_PEND, {}) || {};   // cambios locales aún no confirmados en el Sheet
+
+      const saveLocal = () => {
+        try {
+          localStorage.setItem(KEY, JSON.stringify(state));
+          localStorage.setItem(KEY_PEND, JSON.stringify(pending));
+        } catch (_) {}
       };
 
-      const refresh = () => {
+      const render = () => {
+        boxes.forEach(b => { b.checked = Boolean(state[b.dataset.k]); });
+        notes.forEach(a => {
+          const v = state[a.dataset.k];
+          // No pisar lo que se está escribiendo en este momento.
+          if (document.activeElement !== a) a.value = (typeof v === 'string') ? v : '';
+        });
         document.querySelectorAll('.plan-group').forEach(group => {
           const inputs = [...group.querySelectorAll('input[type="checkbox"][data-k]')];
           if (!inputs.length) return;
           const done = inputs.filter(x => x.checked).length;
-          const pct = Math.round(done / inputs.length * 100);
           const label = group.querySelector('.grp-count');
           if (label) {
             label.textContent = `${done} / ${inputs.length}`;
             label.classList.toggle('done', done === inputs.length);
           }
           const fill = group.querySelector('.bar > i');
-          if (fill) fill.style.width = pct + '%';
+          if (fill) fill.style.width = Math.round(done / inputs.length * 100) + '%';
         });
       };
 
-      boxes.forEach(box => {
-        box.checked = Boolean(state[box.dataset.k]);
-        box.addEventListener('change', () => {
-          state[box.dataset.k] = box.checked;
-          save(); refresh();
-        });
-      });
+      const setStatus = (txt, color) => { if ($sync) { $sync.textContent = txt; $sync.style.color = color || 'var(--muted)'; } };
+      const hora = () => new Date().toLocaleTimeString('es-VE', { hour: '2-digit', minute: '2-digit' });
 
-      notes.forEach(area => {
-        if (typeof state[area.dataset.k] === 'string') area.value = state[area.dataset.k];
-        area.addEventListener('input', () => { state[area.dataset.k] = area.value; save(); });
-      });
+      // ---------- sin Sheet configurado: comportamiento de siempre ----------
+      if (!SHEETS_URL) {
+        setStatus('· sólo en este navegador');
+        if ($help) $help.textContent = 'Lo marcado se guarda en este dispositivo y no se comparte. Para que los dos socios vean lo mismo, hay que conectar el Google Sheet (ver work/apps-script-plan.gs).';
+        if ($now) $now.disabled = true;
+        if ($who) $who.closest('label').style.display = 'none';
+      } else if ($help) {
+        $help.textContent = 'Lo marcado se guarda aquí y se sincroniza con el Google Sheet compartido. Si no hay internet se guarda igual y se envía cuando vuelva.';
+      }
+
+      // ---------- edición ----------
+      const marcar = (k, v) => { state[k] = v; pending[k] = v; saveLocal(); programarSync(); };
+
+      boxes.forEach(box => box.addEventListener('change', () => { marcar(box.dataset.k, box.checked); render(); }));
+
+      let tNota = null;
+      notes.forEach(area => area.addEventListener('input', () => {
+        clearTimeout(tNota);
+        tNota = setTimeout(() => marcar(area.dataset.k, area.value), 600);
+      }));
+
+      if ($who) {
+        $who.value = localStorage.getItem(KEY_WHO) || '';
+        $who.addEventListener('input', () => { try { localStorage.setItem(KEY_WHO, $who.value); } catch (_) {} });
+      }
+
+      // ---------- sincronización ----------
+      let tSync = null, corriendo = false;
+      function programarSync() { if (!SHEETS_URL) return; clearTimeout(tSync); tSync = setTimeout(sync, 1200); }
+
+      // fetch no trae timeout: con una red que se cuelga (en vez de fallar) la
+      // promesa nunca se resuelve, 'corriendo' se queda en true y la sincronización
+      // no vuelve a intentarlo jamás. Con AbortController siempre acaba.
+      async function pedir(url, opciones, ms) {
+        const ctrl = new AbortController();
+        const corte = setTimeout(() => ctrl.abort(), ms || 15000);
+        try {
+          const r = await fetch(url, Object.assign({ signal: ctrl.signal }, opciones || {}));
+          return await r.json();
+        } finally {
+          clearTimeout(corte);
+        }
+      }
+
+      async function sync() {
+        if (!SHEETS_URL || corriendo) return;
+        corriendo = true;
+        const enviadas = Object.keys(pending);
+        setStatus(enviadas.length ? '⟳ guardando…' : '⟳ comprobando…');
+        try {
+          let datos;
+          if (enviadas.length) {
+            const cambios = enviadas.map(k => ({ k: k, v: pending[k] }));
+            datos = await pedir(SHEETS_URL, {
+              method: 'POST',
+              // text/plain a propósito: application/json dispara un preflight
+              // CORS que Apps Script no sabe responder y rompe la petición.
+              headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+              body: JSON.stringify({ token: SHEETS_TOKEN, por: ($who && $who.value) || '', cambios: cambios })
+            });
+          } else {
+            datos = await pedir(SHEETS_URL + '?token=' + encodeURIComponent(SHEETS_TOKEN));
+          }
+
+          if (!datos || !datos.ok) throw new Error((datos && datos.error) || 'respuesta');
+
+          // Sólo se limpia lo que se envió: lo tocado durante la petición sobrevive.
+          enviadas.forEach(k => { delete pending[k]; });
+          // El Sheet manda, salvo en las claves con cambios locales sin enviar.
+          Object.keys(datos.estado || {}).forEach(k => { if (!(k in pending)) state[k] = datos.estado[k]; });
+
+          saveLocal(); render();
+          setStatus('✓ sincronizado ' + hora(), 'var(--brand)');
+        } catch (err) {
+          setStatus('⚠ sin conexión — guardado aquí', 'var(--accent)');
+        } finally {
+          corriendo = false;
+        }
+      }
+
+      if ($now) $now.addEventListener('click', sync);
 
       const reset = document.getElementById('planReset');
       if (reset) reset.addEventListener('click', () => {
-        if (!confirm('¿Borrar todo lo marcado y las notas del plan? (solo en este navegador)')) return;
-        state = {}; save();
-        boxes.forEach(b => b.checked = false);
-        notes.forEach(a => a.value = '');
-        refresh();
+        const aviso = SHEETS_URL
+          ? '¿Borrar todo lo marcado y las notas del plan?\n\nEsto también lo borra en el Google Sheet compartido, para los dos socios.'
+          : '¿Borrar todo lo marcado y las notas del plan? (sólo en este navegador)';
+        if (!confirm(aviso)) return;
+        Object.keys(state).forEach(k => { pending[k] = (k.charAt(0) === 'n') ? '' : false; });
+        state = {}; Object.keys(pending).forEach(k => { state[k] = pending[k]; });
+        saveLocal(); render();
+        if (SHEETS_URL) sync();
       });
 
-      refresh();
+      render();
+      if (SHEETS_URL) { sync(); setInterval(sync, 60000); }
     })();
 
     const glossaryItems = [...document.querySelectorAll('#glossaryList details')];
