@@ -90,6 +90,22 @@
     .check { display: flex; gap: 10px; align-items: flex-start; padding: 10px; border: 1px solid var(--line); border-radius: 10px; }
     .check input { margin-top: 4px; width: 18px; height: 18px; accent-color: var(--brand); }
     .check:has(input:checked) { background: #eef8f0; color: #43604b; }
+    .check:has(input:checked) span { text-decoration: line-through; text-decoration-color: #9dbaa6; }
+    .grp-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+    .grp-head h3 { margin: 0; }
+    .grp-count { font-size: .85em; font-weight: 700; color: var(--muted); white-space: nowrap; }
+    .grp-count.done { color: var(--brand); }
+    .bar { height: 7px; background: #e5ece6; border-radius: 99px; overflow: hidden; margin: 8px 0 12px; }
+    .bar > i { display: block; height: 100%; width: 0; background: var(--brand); transition: width .25s ease; }
+    .sub { font-weight: 700; font-size: .92em; color: #42604b; margin: 14px 0 6px; }
+    .sub:first-of-type { margin-top: 4px; }
+    .plan-note { width: 100%; min-height: 54px; resize: vertical; margin-top: 10px; padding: 8px 10px;
+      border: 1px solid var(--line); border-radius: 10px; font: inherit; font-size: .92em; background: #fcfdfc; color: var(--ink); }
+    .gate { counter-reset: gate; }
+    .gate .g { display: flex; gap: 10px; padding: 9px 0; border-bottom: 1px dashed #e3d9c8; }
+    .gate .g:last-child { border-bottom: 0; }
+    .gate .g b.n { flex: 0 0 26px; height: 26px; border-radius: 50%; background: var(--danger, #c0492f); color: #fff;
+      display: grid; place-items: center; font-size: .82em; }
     .toolbar { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
     button, .button {
       border: 0; border-radius: 9px; padding: 9px 12px; cursor: pointer; text-decoration: none;
@@ -201,6 +217,7 @@
   <nav aria-label="Navegación principal">
     <div class="wrap">
       <a href="#resumen">Resumen</a>
+      <a href="#plan">Plan de obra</a>
       <a href="#ejecucion">Ejecución</a>
       <a href="#galpon">Galpón</a>
       <a href="#jaulas">Jaulas &amp; layout</a>
@@ -262,17 +279,238 @@
       <div class="card callout">
         <p style="margin:0"><strong>Ojo con el ciclo largo.</strong> El "piloto" dura más de un año y hay <strong>~4–5 meses sin ingreso</strong> hasta el primer huevo. No se puede esperar al final del ciclo para corregir: la evaluación real se hace a los <strong>3 meses de postura</strong>, cuando ya se ve la curva.</p>
       </div>
-      <div class="card">
-        <h3>Checklist inmediato</h3>
-        <div class="checklist" data-checklist="initial">
-          <label class="check"><input type="checkbox"><span>Pedir al proveedor de jaulas la <strong>ficha completa</strong>: fondo del puesto, alto libre por piso, peso del módulo, nipples por línea, calibre y tipo de galvanizado, precio, flete y armado.</span></label>
-          <label class="check"><input type="checkbox"><span>Cotizar <strong>pollonas</strong> de 15–18 semanas (ISA Brown / Lohmann / Hy-Line) puestas en Naiguatá, con vacunas aplicadas certificadas por escrito.</span></label>
-          <label class="check"><input type="checkbox"><span>Cotizar <strong>alimento de postura</strong> en Venezuela y en Colombia, con ficha técnica y costo puesto en Naiguatá (flete + aduana + merma).</span></label>
-          <label class="check"><input type="checkbox"><span>Confirmar el <strong>precio real del huevo</strong> que recibiría la granja (no el minorista) y el canal de venta.</span></label>
-          <label class="check"><input type="checkbox"><span>Cotizar la <strong>obra civil de 96 m²</strong> con cercha de 8 m de luz — es la línea más grande del CAPEX.</span></label>
-          <label class="check"><input type="checkbox"><span>Instalar registradores climáticos 4–6 semanas en Naiguatá (drenaje, orientación fina, estrategia de cortinas).</span></label>
-          <label class="check"><input type="checkbox"><span>Contactar veterinario avícola local para programa sanitario, vacunación y necropsias.</span></label>
+      <div class="card ok" style="border-left:5px solid var(--brand)">
+        <h3>📋 El checklist vive en la pestaña «Plan de obra»</h3>
+        <p style="margin-bottom:0">Esta tabla dice <em>en qué orden</em> pasan las cosas. El <strong>trabajo concreto marcable</strong> — agrupado por tipo de acción, con lo que hay que cerrar antes de vaciar concreto — está en <strong>«Plan de obra»</strong>. Se mantiene una sola lista a propósito: dos checklists paralelos se contradicen a la semana.</p>
+      </div>
+    </section>
+
+    <section id="plan">
+      <h2>Plan de obra — checklist por grupo de acción</h2>
+      <p class="section-intro">Prioridad acordada (2026-07-22): <strong>construir el galpón</strong>. Esta pestaña ordena el trabajo por <strong>tipo de acción</strong>, no por fecha. Lo marcado <strong>se guarda en este navegador</strong> — cada quien lleva su copia hasta que exista la app compartida.</p>
+
+      <div class="card ok" style="border-left:5px solid var(--brand)">
+        <h3>✅ Pueden empezar la obra sin cerrar la elección de jaula</h3>
+        <p>Lo comprobé con los cuatro modelos del catálogo: <strong>todos caben</strong> en el galpón de 8 × 12 m con los pasillos propuestos.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Modelo</th><th>2 filas + 3 pasillos</th><th>¿Cabe en 8 m?</th><th>4 módulos de largo</th><th>Libre al este</th></tr></thead>
+            <tbody>
+              <tr><td>M1 — 84 aves</td><td>7,60 m</td><td>✔ sobra 0,40 m</td><td>8,97 m</td><td>2,03 m</td></tr>
+              <tr><td>M2 — 96 aves</td><td>7,60 m</td><td>✔ sobra 0,40 m</td><td>10,21 m</td><td>0,79 m</td></tr>
+              <tr style="background:#eef7ef"><td><strong>M3 — 126 aves</strong> ⭐</td><td>8,00 m</td><td>✔ exacto</td><td>8,97 m</td><td>2,03 m</td></tr>
+              <tr><td>M4 — 144 aves</td><td>8,00 m</td><td>✔ exacto</td><td>10,21 m</td><td>0,79 m</td></tr>
+            </tbody>
+          </table>
         </div>
+        <p style="margin-bottom:0">Tampoco bloquean la obra: el <strong>fondo del puesto</strong> (define el cm²/ave, no el edificio), la plataforma de control (PLC vs ESP32), la marca de alimento ni el proveedor de pollonas. <strong>Se puede construir mientras esas cotizaciones avanzan en paralelo.</strong></p>
+      </div>
+
+      <div class="callout danger">
+        <h3>⛔ Lo que SÍ hay que cerrar antes de vaciar concreto</h3>
+        <p>Estas diez cosas son <strong>caras o imposibles de corregir</strong> una vez fraguado el piso. Todo lo demás se puede ajustar después.</p>
+        <div class="gate">
+          <div class="g"><b class="n">1</b><div><strong>Ancho de 8 m.</strong> Un galpón no se ensancha. A 6 m solo cabe una fila y el techo de capacidad se queda en 504 aves para siempre.</div></div>
+          <div class="g"><b class="n">2</b><div><strong>Eje largo este-oeste.</strong> Define la carga solar de los próximos 20 años. Girado 90° recibe sol de mañana y tarde sobre las caras abiertas.</div></div>
+          <div class="g"><b class="n">3</b><div><strong>Altura al alero ≥ 2,5–3 m.</strong> El módulo mide 1,80 m, el proveedor pide ~2 m libres y los ventiladores van a ≥2,0 m. Con el alero bajo no hay dónde montarlos.</div></div>
+          <div class="g"><b class="n">4</b><div><strong>Piso a nivel de verdad.</strong> Es lo que hace que el huevo ruede solo a la bandeja. Un piso torcido no se arregla sin demoler. Verificar con nivel de manguera o láser, <em>no a ojo</em>.</div></div>
+          <div class="g"><b class="n">5</b><div><strong>Marcar en el piso la posición definitiva de Fila A y Fila B.</strong> Una fila cargada no se mueve después. Si la Fila A se pone "provisional" al centro, la expansión obliga a desmontarla.</div></div>
+          <div class="g"><b class="n">6</b><div><strong>Pendiente y drenajes hacia afuera, en los dos lados largos.</strong> El agua de lavado no debe cruzar por debajo de las jaulas hacia el otro lado.</div></div>
+          <div class="g"><b class="n">7</b><div><strong>Ductos de agua y eléctricos embebidos.</strong> Dejarlos en el vaciado cuesta poco; picar el piso después cuesta mucho y lo debilita justo donde apoyan las patas.</div></div>
+          <div class="g"><b class="n">8</b><div><strong>Puntos de anclaje de ventiladores en la cercha.</strong> La estructura debe soportar peso y vibración de hasta 3 líneas. Preverlo en el cálculo, no soldarlo improvisado después.</div></div>
+          <div class="g"><b class="n">9</b><div><strong>Cuarto técnico al oeste, con su losa y acometida.</strong> Acorta todos los recorridos de agua, alimento y energía.</div></div>
+          <div class="g"><b class="n">10</b><div><strong>Un solo acceso de personas, con pediluvio.</strong> La bioseguridad se diseña en el plano; después solo se remienda.</div></div>
+        </div>
+      </div>
+
+      <div class="card callout">
+        <h3>Orden de dependencias — qué bloquea a qué</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Para empezar…</th><th>Tiene que estar listo…</th><th>Por qué</th></tr></thead>
+            <tbody>
+              <tr><td>B · Obra civil</td><td>A (solo las decisiones de la lista roja)</td><td>Las cotizaciones de aves y alimento pueden seguir abiertas.</td></tr>
+              <tr><td>C · Agua · D · Electricidad</td><td>B — ductos embebidos y cuarto técnico</td><td>Si no, hay que picar.</td></tr>
+              <tr><td>E · Ventilación</td><td>B — estructura con anclajes</td><td>Los ventiladores cuelgan de la cercha.</td></tr>
+              <tr><td>F · Jaulas</td><td>B — piso nivelado y curado · C — bajantes de agua</td><td>Montar sobre piso torcido arruina la rodadura del huevo.</td></tr>
+              <tr><td>G · Control</td><td>C, D, E, F instalados</td><td>No se puede probar lo que no existe.</td></tr>
+              <tr><td>I · Aves</td><td><strong>G — prueba de 72 h sin aves aprobada</strong></td><td>Regla dura: las pollonas llegan <em>después</em> de probar fallos, nunca antes.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="card span-12 plan-group">
+          <div class="grp-head"><h3>A · Decisiones y cotizaciones <span class="tag est">papel · empieza ya</span></h3><span class="grp-count"></span></div>
+          <div class="bar"><i></i></div>
+          <div class="checklist">
+            <label class="check"><input type="checkbox" data-k="a1"><span>Confirmar <strong>galpón de 8 × 12 m</strong> y descartar 12 × 12 (D-021).</span></label>
+            <label class="check"><input type="checkbox" data-k="a2"><span>Confirmar reparto de pasillos: 1,10 + 2,10 + <strong>1,60</strong> + 2,10 + 1,10 m.</span></label>
+            <label class="check"><input type="checkbox" data-k="a3"><span>Confirmar el modelo de jaula (recomendado <strong>M3</strong>) — <em>no bloquea la obra</em>.</span></label>
+            <label class="check"><input type="checkbox" data-k="a4"><span>Pedir por escrito la ficha de la jaula: <strong>fondo del puesto</strong>, alto libre, peso, nipples/línea, <strong>tipo de galvanizado</strong>, precio, flete y armado.</span></label>
+            <label class="check"><input type="checkbox" data-k="a5"><span><strong>Tres</strong> presupuestos de obra civil de 96 m² con cercha de 8 m de luz.</span></label>
+            <label class="check"><input type="checkbox" data-k="a6"><span>Cotizar pollonas de 15–18 semanas puestas en Naiguatá, con vacunas certificadas.</span></label>
+            <label class="check"><input type="checkbox" data-k="a7"><span>Cotizar alimento de postura (VE y CO) con costo puesto en Naiguatá.</span></label>
+            <label class="check"><input type="checkbox" data-k="a8"><span>Confirmar el <strong>precio real del huevo</strong> que recibe la granja y el canal de venta.</span></label>
+            <label class="check"><input type="checkbox" data-k="a9"><span>Fijar presupuesto máximo y de dónde sale el dinero de cada etapa.</span></label>
+            <label class="check"><input type="checkbox" data-k="a10"><span>Verificar permisos de construcción y requisitos sanitarios en La Guaira.</span></label>
+          </div>
+          <textarea class="plan-note" data-k="nA" placeholder="Notas del grupo A…"></textarea>
+        </div>
+
+        <div class="card span-12 plan-group" style="border-left:5px solid var(--brand)">
+          <div class="grp-head"><h3>B · Obra civil <span class="tag confirm">PRIORIDAD</span></h3><span class="grp-count"></span></div>
+          <div class="bar"><i></i></div>
+          <div class="checklist">
+            <div class="sub">B1 · Terreno y replanteo</div>
+            <label class="check"><input type="checkbox" data-k="b1"><span>Instalar registradores de clima 4–6 semanas <em>(puede correr en paralelo con todo lo demás)</em>.</span></label>
+            <label class="check"><input type="checkbox" data-k="b2"><span>Limpiar y nivelar el terreno; revisar escorrentía, elevación y riesgo de quebrada.</span></label>
+            <label class="check"><input type="checkbox" data-k="b3"><span>Replantear el rectángulo 8 × 12 m con el <strong>eje largo este-oeste</strong>.</span></label>
+            <label class="check"><input type="checkbox" data-k="b4"><span>Marcar en el terreno la <strong>posición definitiva de Fila A y Fila B</strong> y los tres pasillos.</span></label>
+            <label class="check"><input type="checkbox" data-k="b5"><span>Verificar acceso de camión para materiales, jaulas y alimento.</span></label>
+            <div class="sub">B2 · Fundaciones y piso</div>
+            <label class="check"><input type="checkbox" data-k="b6"><span>Fundaciones y sobrecimiento; piso <strong>elevado</strong> sobre el terreno natural.</span></label>
+            <label class="check"><input type="checkbox" data-k="b7"><span>Dejar <strong>embebidos</strong> los ductos de agua y eléctricos antes de vaciar.</span></label>
+            <label class="check"><input type="checkbox" data-k="b8"><span>Vaciar el piso <strong>a nivel</strong> — verificado con manguera o láser, no a ojo.</span></label>
+            <label class="check"><input type="checkbox" data-k="b9"><span>Acabado liso y lavable, sin fisuras donde apoyarán las patas de las jaulas.</span></label>
+            <label class="check"><input type="checkbox" data-k="b10"><span>Pendiente suave (~1,5%) hacia los dos lados largos + canaleta perimetral exterior.</span></label>
+            <label class="check"><input type="checkbox" data-k="b11"><span>Losa del cuarto técnico (~3 × 4 m) al extremo oeste.</span></label>
+            <div class="sub">B3 · Estructura y techo</div>
+            <label class="check"><input type="checkbox" data-k="b12"><span>Estructura <strong>anticorrosión</strong> — galvanizado en caliente o equivalente (aire salino).</span></label>
+            <label class="check"><input type="checkbox" data-k="b13"><span>Alero a ~3 m; cumbrera a <strong>4,5–4,9 m</strong> (8 m de luz, misma pendiente).</span></label>
+            <label class="check"><input type="checkbox" data-k="b14"><span>Cercha de 8 m con <strong>puntos de anclaje previstos</strong> para hasta 3 líneas de ventiladores.</span></label>
+            <label class="check"><input type="checkbox" data-k="b15"><span>Techo claro/aislado, <strong>cumbrera ventilada</strong> protegida de lluvia, aleros amplios.</span></label>
+            <div class="sub">B4 · Cerramiento</div>
+            <label class="check"><input type="checkbox" data-k="b16"><span>Malla en los dos lados largos (norte y sur).</span></label>
+            <label class="check"><input type="checkbox" data-k="b17"><span>Cortinas enrollables — manuales al inicio, motorizadas después.</span></label>
+            <label class="check"><input type="checkbox" data-k="b18"><span>Frontones cerrados; <strong>portón al este</strong>; puerta única de personas al oeste.</span></label>
+            <label class="check"><input type="checkbox" data-k="b19"><span>Pediluvio en la puerta de personas.</span></label>
+          </div>
+          <textarea class="plan-note" data-k="nB" placeholder="Notas de obra: avance, contratista, problemas…"></textarea>
+        </div>
+
+        <div class="card span-6 plan-group">
+          <div class="grp-head"><h3>C · Agua</h3><span class="grp-count"></span></div>
+          <div class="bar"><i></i></div>
+          <div class="checklist">
+            <label class="check"><input type="checkbox" data-k="c1"><span><strong>Analizar el agua de la fuente</strong>: pH, TDS y coliformes — antes de que lleguen las aves.</span></label>
+            <label class="check"><input type="checkbox" data-k="c2"><span>Tanque de 1.000 L opaco, tapa hermética, bajo sombra.</span></label>
+            <label class="check"><input type="checkbox" data-k="c3"><span>Bomba, filtro 40–50 μm, regulador de presión, manómetro y bypass.</span></label>
+            <label class="check"><input type="checkbox" data-k="c4"><span>Cabezal al oeste con caudalímetro y sensor de temperatura de agua.</span></label>
+            <label class="check"><input type="checkbox" data-k="c5"><span>Bajantes previstas para <strong>6 líneas de nipples por módulo</strong>.</span></label>
+            <label class="check"><input type="checkbox" data-k="c6"><span>Purga al final de cada línea.</span></label>
+            <label class="check"><input type="checkbox" data-k="c7"><span>Probar presión y caudal sin aves; verificar que no gotea sobre el piso.</span></label>
+          </div>
+          <textarea class="plan-note" data-k="nC" placeholder="Notas de agua…"></textarea>
+        </div>
+
+        <div class="card span-6 plan-group">
+          <div class="grp-head"><h3>D · Electricidad y respaldo</h3><span class="grp-count"></span></div>
+          <div class="bar"><i></i></div>
+          <div class="checklist">
+            <label class="check"><input type="checkbox" data-k="d1"><span>Acometida y tablero en el cuarto técnico.</span></label>
+            <label class="check"><input type="checkbox" data-k="d2"><span>Gabinete <strong>IP66</strong>, prensaestopas, puesta a tierra y protección de sobretensión.</span></label>
+            <label class="check"><input type="checkbox" data-k="d3"><span>Circuitos separados: ventiladores · bomba · iluminación · control.</span></label>
+            <label class="check"><input type="checkbox" data-k="d4"><span>UPS para el control; <strong>respaldo/planta + ATS</strong> para ventiladores y bomba.</span></label>
+            <label class="check"><input type="checkbox" data-k="d5"><span><strong>Probar el arranque del respaldo con un corte real</strong>, no solo verificar que enciende.</span></label>
+            <label class="check"><input type="checkbox" data-k="d6"><span>Iluminación con programador de luz y su propio respaldo.</span></label>
+          </div>
+          <textarea class="plan-note" data-k="nD" placeholder="Notas de electricidad…"></textarea>
+        </div>
+
+        <div class="card span-6 plan-group">
+          <div class="grp-head"><h3>E · Ventilación y clima</h3><span class="grp-count"></span></div>
+          <div class="bar"><i></i></div>
+          <div class="checklist">
+            <label class="check"><input type="checkbox" data-k="e1"><span>Exigir <strong>curva caudal-presión</strong> al proveedor, no solo el diámetro.</span></label>
+            <label class="check"><input type="checkbox" data-k="e2"><span>Instalar la primera línea sobre el pasillo norte y la central.</span></label>
+            <label class="check"><input type="checkbox" data-k="e3"><span>Todos en el <strong>mismo sentido oeste→este</strong>, inclinados hacia la cara de las jaulas, a ≥2,0 m.</span></label>
+            <label class="check"><input type="checkbox" data-k="e4"><span>Medir con anemómetro <strong>en los 3 pisos y las 2 caras</strong>: objetivo 1,5–2,0 m/s, sin zonas muertas.</span></label>
+            <label class="check"><input type="checkbox" data-k="e5"><span>Agregar ventiladores <strong>solo según medición</strong>, no por suposición.</span></label>
+            <label class="check"><input type="checkbox" data-k="e6"><span>Termostato de alta temperatura <strong>independiente</strong> del controlador.</span></label>
+          </div>
+          <textarea class="plan-note" data-k="nE" placeholder="Notas de ventilación: mediciones del anemómetro…"></textarea>
+        </div>
+
+        <div class="card span-6 plan-group">
+          <div class="grp-head"><h3>F · Jaulas</h3><span class="grp-count"></span></div>
+          <div class="bar"><i></i></div>
+          <div class="checklist">
+            <label class="check"><input type="checkbox" data-k="f1"><span>Recibir e inspeccionar: galvanizado, soldaduras, calibre y que no falten piezas.</span></label>
+            <label class="check"><input type="checkbox" data-k="f2"><span>Medir el <strong>fondo real del puesto</strong> y calcular el cm²/ave (referencia 450–550).</span></label>
+            <label class="check"><input type="checkbox" data-k="f3"><span>Armar el módulo #1 en la <strong>posición definitiva</strong> de la Fila A, extremo oeste.</span></label>
+            <label class="check"><input type="checkbox" data-k="f4"><span>Verificar que queda a nivel y <strong>probar la rodadura con huevos reales</strong> antes de meter aves.</span></label>
+            <label class="check"><input type="checkbox" data-k="f5"><span>Conectar las 6 líneas de nipples; ajustar presión y altura respecto al ave.</span></label>
+            <label class="check"><input type="checkbox" data-k="f6"><span>Comprobar acceso a agua y comedero en los <strong>tres</strong> pisos.</span></label>
+            <label class="check"><input type="checkbox" data-k="f7"><span>Definir la rutina de retiro de excremento: frecuencia, herramienta y destino.</span></label>
+          </div>
+          <textarea class="plan-note" data-k="nF" placeholder="Notas de jaulas: fondo medido, cm²/ave…"></textarea>
+        </div>
+
+        <div class="card span-12 plan-group">
+          <div class="grp-head"><h3>G · Control y automatización <span class="tag est">no bloquea la obra</span></h3><span class="grp-count"></span></div>
+          <div class="bar"><i></i></div>
+          <div class="checklist">
+            <label class="check"><input type="checkbox" data-k="g1"><span>Decidir plataforma: <strong>PLC vs Arduino/ESP32</strong>.</span></label>
+            <label class="check"><input type="checkbox" data-k="g2"><span>Lista de I/O + matriz causa-efecto + filosofía de alarmas.</span></label>
+            <label class="check"><input type="checkbox" data-k="g3"><span>Montar tablero: borneras etiquetadas, <strong>20–30% de I/O de reserva</strong>, nada soldado fijo.</span></label>
+            <label class="check"><input type="checkbox" data-k="g4"><span>Sensores en su sitio: T/RH de <strong>alarma en el piso 3</strong>, control en piso 1, <strong>NH₃ abajo</strong> junto a la franja de excremento.</span></label>
+            <label class="check"><input type="checkbox" data-k="g5"><span>Programa de luz cargado y verificado con luxómetro en los tres pisos.</span></label>
+            <label class="check"><input type="checkbox" data-k="g6"><span><strong>Prueba de 72 h sin aves</strong> — corte eléctrico, fallo de ventilador, falta de agua, pérdida del controlador, sensor caído.</span></label>
+            <label class="check"><input type="checkbox" data-k="g7"><span>Verificar que ninguna alarma crítica depende de Internet.</span></label>
+          </div>
+          <textarea class="plan-note" data-k="nG" placeholder="Notas de control: resultados de la prueba de 72 h…"></textarea>
+        </div>
+
+        <div class="card span-6 plan-group">
+          <div class="grp-head"><h3>H · Bioseguridad y sanidad</h3><span class="grp-count"></span></div>
+          <div class="bar"><i></i></div>
+          <div class="checklist">
+            <label class="check"><input type="checkbox" data-k="h1"><span>Contactar <strong>veterinario avícola local</strong>: programa sanitario, vacunación y necropsias.</span></label>
+            <label class="check"><input type="checkbox" data-k="h2"><span>Acceso único con pediluvio mantenido; botas y ropa exclusivas del galpón.</span></label>
+            <label class="check"><input type="checkbox" data-k="h3"><span>Control de plagas (roedores, aves silvestres, insectos).</span></label>
+            <label class="check"><input type="checkbox" data-k="h4"><span>Almacenamiento de alimento seco, cerrado y elevado del piso.</span></label>
+            <label class="check"><input type="checkbox" data-k="h5"><span>Registro de visitantes y regla de "no entra quien viene de otra granja".</span></label>
+          </div>
+          <textarea class="plan-note" data-k="nH" placeholder="Notas sanitarias…"></textarea>
+        </div>
+
+        <div class="card span-6 plan-group">
+          <div class="grp-head"><h3>I · Aves y arranque</h3><span class="grp-count"></span></div>
+          <div class="bar"><i></i></div>
+          <div class="checklist">
+            <label class="check"><input type="checkbox" data-k="i0"><span>⛔ <strong>Confirmar que la prueba de 72 h (G6) está aprobada</strong> antes de encargar aves.</span></label>
+            <label class="check"><input type="checkbox" data-k="i1"><span>Cerrar proveedor de pollonas y fecha de entrega.</span></label>
+            <label class="check"><input type="checkbox" data-k="i2"><span>Recibir 126 pollonas de 15–18 sem con <strong>vacunas certificadas por escrito</strong>.</span></label>
+            <label class="check"><input type="checkbox" data-k="i3"><span><strong>Pesar una muestra al recibir</strong> — la uniformidad predice cómo arrancará la postura.</span></label>
+            <label class="check"><input type="checkbox" data-k="i4"><span>Alojar en el módulo #1 y verificar que todas encuentran agua el primer día.</span></label>
+            <label class="check"><input type="checkbox" data-k="i5"><span>Iniciar el registro diario desde el día 1, aunque todavía no pongan.</span></label>
+          </div>
+          <textarea class="plan-note" data-k="nI" placeholder="Notas de las aves: fecha, proveedor, peso al recibir…"></textarea>
+        </div>
+
+        <div class="card span-12 plan-group">
+          <div class="grp-head"><h3>J · Operación diaria <span class="tag est">rutina, cuando ya hay aves</span></h3><span class="grp-count"></span></div>
+          <div class="bar"><i></i></div>
+          <p class="small" style="margin:0 0 8px">Esto no se marca una vez: es la rutina. Sirve como guion para que los dos socios hagan lo mismo.</p>
+          <div class="checklist">
+            <label class="check"><input type="checkbox" data-k="j1"><span>Recoger el huevo <strong>al menos 2 veces al día</strong> — el que se queda se ensucia o lo picotean.</span></label>
+            <label class="check"><input type="checkbox" data-k="j2"><span>Llenar los canales y revisar que todos los nipples den agua.</span></label>
+            <label class="check"><input type="checkbox" data-k="j3"><span>Registrar: <strong>huevos</strong>, mortalidad, consumo de agua y alimento, T/RH máx-mín.</span></label>
+            <label class="check"><input type="checkbox" data-k="j4"><span>Mirar a las aves del <strong>piso 3</strong> — son las primeras en sufrir el calor.</span></label>
+            <label class="check"><input type="checkbox" data-k="j5"><span>Raspar el excremento cada 2–3 días y revisar el olor a amoníaco.</span></label>
+            <label class="check"><input type="checkbox" data-k="j6"><span>Revisar el cascarón al clasificar: fino o roto = calcio, calor o edad del lote.</span></label>
+            <label class="check"><input type="checkbox" data-k="j7"><span>Evaluación de fondo a los <strong>3 meses de postura</strong> — no esperar al final del ciclo.</span></label>
+          </div>
+          <textarea class="plan-note" data-k="nJ" placeholder="Notas de operación…"></textarea>
+        </div>
+      </div>
+
+      <div class="toolbar" style="margin-top:14px">
+        <button type="button" onclick="window.print()">Imprimir el plan</button>
+        <button type="button" class="secondary" id="planReset">Borrar lo marcado</button>
+        <span class="small">Se guarda automáticamente en este navegador (no se comparte entre dispositivos).</span>
       </div>
     </section>
 
@@ -1551,15 +1789,61 @@
   </footer>
 
   <script>
-    const checklistKey = 'granja-ponedoras-checklist-v1';
-    const checks = [...document.querySelectorAll('.checklist input[type="checkbox"]')];
-    try {
-      const saved = JSON.parse(localStorage.getItem(checklistKey) || '[]');
-      checks.forEach((box, i) => box.checked = Boolean(saved[i]));
-    } catch (_) {}
-    checks.forEach(box => box.addEventListener('change', () => {
-      localStorage.setItem(checklistKey, JSON.stringify(checks.map(x => x.checked)));
-    }));
+    // Plan de obra: se guarda por CLAVE (data-k), no por posición.
+    // Así, añadir o reordenar casillas no descuadra lo ya marcado.
+    (function () {
+      const KEY = 'granja-ponedoras-plan-v1';
+      const boxes = [...document.querySelectorAll('.checklist input[type="checkbox"][data-k]')];
+      const notes = [...document.querySelectorAll('.plan-note[data-k]')];
+      if (!boxes.length && !notes.length) return;
+
+      let state = {};
+      try { state = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (_) { state = {}; }
+
+      const save = () => {
+        try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (_) {}
+      };
+
+      const refresh = () => {
+        document.querySelectorAll('.plan-group').forEach(group => {
+          const inputs = [...group.querySelectorAll('input[type="checkbox"][data-k]')];
+          if (!inputs.length) return;
+          const done = inputs.filter(x => x.checked).length;
+          const pct = Math.round(done / inputs.length * 100);
+          const label = group.querySelector('.grp-count');
+          if (label) {
+            label.textContent = `${done} / ${inputs.length}`;
+            label.classList.toggle('done', done === inputs.length);
+          }
+          const fill = group.querySelector('.bar > i');
+          if (fill) fill.style.width = pct + '%';
+        });
+      };
+
+      boxes.forEach(box => {
+        box.checked = Boolean(state[box.dataset.k]);
+        box.addEventListener('change', () => {
+          state[box.dataset.k] = box.checked;
+          save(); refresh();
+        });
+      });
+
+      notes.forEach(area => {
+        if (typeof state[area.dataset.k] === 'string') area.value = state[area.dataset.k];
+        area.addEventListener('input', () => { state[area.dataset.k] = area.value; save(); });
+      });
+
+      const reset = document.getElementById('planReset');
+      if (reset) reset.addEventListener('click', () => {
+        if (!confirm('¿Borrar todo lo marcado y las notas del plan? (solo en este navegador)')) return;
+        state = {}; save();
+        boxes.forEach(b => b.checked = false);
+        notes.forEach(a => a.value = '');
+        refresh();
+      });
+
+      refresh();
+    })();
 
     const glossaryItems = [...document.querySelectorAll('#glossaryList details')];
     document.getElementById('glossarySearch').addEventListener('input', event => {
@@ -1576,7 +1860,7 @@
   <script>
   (function(){
     try{
-      var TABS=[['resumen','Resumen'],['ejecucion','Ejecución'],['galpon','Galpón'],['jaulas','Jaulas & layout'],['ventilacion','Ventilación'],['alimentacion','Alimento'],['automatizacion','Automatización'],['componentes','Componentes (auto)'],['hmi','HMI (simulación)'],['situaciones','Situaciones'],['ponedoras','Modelo económico'],['precios','Precios VE/CO'],['cotizaciones','Cotizaciones'],['materiales','Materiales'],['glosario','Glosario'],['fuentes','Fuentes']];
+      var TABS=[['resumen','Resumen'],['plan','Plan de obra'],['ejecucion','Ejecución'],['galpon','Galpón'],['jaulas','Jaulas & layout'],['ventilacion','Ventilación'],['alimentacion','Alimento'],['automatizacion','Automatización'],['componentes','Componentes (auto)'],['hmi','HMI (simulación)'],['situaciones','Situaciones'],['ponedoras','Modelo económico'],['precios','Precios VE/CO'],['cotizaciones','Cotizaciones'],['materiales','Materiales'],['glosario','Glosario'],['fuentes','Fuentes']];
       var panels=TABS.map(function(t){return document.getElementById(t[0]);});
       if(panels.some(function(p){return !p;})) return; // falta algún panel -> se queda en modo scroll
       var oldnav=document.querySelector('nav');
