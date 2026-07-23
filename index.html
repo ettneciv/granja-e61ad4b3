@@ -53,6 +53,36 @@
     h2 { font-size: clamp(24px, 4vw, 34px); margin: 0 0 6px; }
     h3 { margin: 0 0 8px; font-size: 18px; }
     .section-intro { color: var(--muted); max-width: 850px; margin: 0 0 18px; }
+
+    /* ===== Visor 3D del galpón (CSS 3D puro, sin librerías) ===== */
+    .v3d-wrap { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background:
+      linear-gradient(#eef3f5, #e4ebe6); position: relative; margin: 4px 0 6px; }
+    .v3d-stage { height: 460px; position: relative; overflow: hidden; cursor: grab;
+      touch-action: none; -webkit-user-select: none; user-select: none; perspective: 1300px; }
+    .v3d-stage.drag { cursor: grabbing; }
+    .v3d-world { position: absolute; left: 50%; top: 54%; width: 0; height: 0;
+      transform-style: preserve-3d; will-change: transform; }
+    .v3d-face { position: absolute; transform-origin: 50% 50%; box-sizing: border-box; }
+    .v3d-lbl { position: absolute; transform-origin: 50% 50%; white-space: nowrap;
+      font: 700 11px/1.2 system-ui,Segoe UI,sans-serif; color: #2f5b3f; pointer-events: none;
+      background: rgba(255,255,255,.78); padding: 2px 6px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,.15); }
+    .v3d-lbl.dim { color: #2f77c2; background: rgba(255,255,255,.7); }
+    .v3d-hud { position: absolute; left: 12px; top: 12px; display: flex; flex-direction: column;
+      gap: 4px; font: 600 11.5px/1.3 system-ui,Segoe UI,sans-serif; color: #33473b;
+      background: rgba(255,255,255,.82); padding: 8px 10px; border-radius: 10px; box-shadow: var(--shadow); }
+    .v3d-hud b { color: var(--brand); }
+    .v3d-ctrl { position: absolute; right: 12px; bottom: 12px; display: flex; gap: 6px; flex-wrap: wrap;
+      justify-content: flex-end; max-width: 70%; }
+    .v3d-ctrl button { font: 600 12px system-ui,Segoe UI,sans-serif; padding: 7px 11px; border-radius: 9px;
+      border: 1px solid var(--line); background: rgba(255,255,255,.92); color: var(--ink); cursor: pointer; }
+    .v3d-ctrl button:hover { background: #fff; border-color: var(--brand); }
+    .v3d-ctrl button.on { background: var(--brand); color: #fff; border-color: var(--brand); }
+    .v3d-zoom { position: absolute; left: 12px; bottom: 12px; display: flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,.82); padding: 6px 10px; border-radius: 10px;
+      font: 600 11px system-ui,Segoe UI,sans-serif; color: var(--muted); }
+    .v3d-zoom input { width: 96px; accent-color: var(--brand); }
+    .v3d-hint { text-align: center; font-size: .82em; color: var(--muted); padding: 6px; }
+    @media (max-width: 560px){ .v3d-stage { height: 380px; } .v3d-ctrl { max-width: 60%; } }
     .card {
       background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
       box-shadow: var(--shadow); padding: 20px; margin: 14px 0;
@@ -564,6 +594,214 @@
         <span class="tag est">recomendación</span> El modelo concreto (M3), el <strong>ancho del galpón</strong> y el reparto de pasillos son la propuesta de esta página (D-020 / D-021) — falta confirmarlos.
         <span class="tag warn">cambio 2026-07-22</span> El colega informa que hay espacio para <strong>8 × 12 m, incluso 12 × 12</strong>. Esta página está recalculada a <strong>8 × 12</strong>; el §3 explica por qué 8 sí y 12 no.
       </div>
+
+      <section>
+        <h3>0 · Maqueta 3D — gírala con el dedo</h3>
+        <p class="intro">Modelo a escala del galpón de 8 × 12 m con las <strong>dos filas de 4 módulos (504 → 1.008 aves)</strong>, el techo a dos aguas y el cuarto técnico al oeste. Arrastra para rotar, pellizca o usa la barra para acercar.</p>
+        <div class="v3d-wrap">
+          <div class="v3d-stage" id="v3dStage" aria-label="Maqueta 3D del galpón, rotable">
+            <div class="v3d-world" id="v3dWorld"></div>
+            <div class="v3d-hud" id="v3dHud">
+              <div>Galpón <b>8 × 12 m</b></div>
+              <div>Fila A — instalada · Fila B — reserva</div>
+              <div id="v3dCount">8 módulos M3 · 1.008 aves</div>
+            </div>
+            <div class="v3d-zoom">Zoom <input type="range" id="v3dZoom" min="60" max="200" value="105"></div>
+            <div class="v3d-ctrl">
+              <button type="button" id="v3dReset">Vista inicial</button>
+              <button type="button" id="v3dTop">Planta</button>
+              <button type="button" id="v3dRoof" class="on">Techo</button>
+              <button type="button" id="v3dB" class="on">Fila B</button>
+            </div>
+          </div>
+          <p class="v3d-hint">Arrastra para girar · rueda o barra para acercar · «Planta» = vista desde arriba · «Techo» y «Fila B» se pueden ocultar para ver el interior.</p>
+        </div>
+      </section>
+
+      <script>
+      (function () {
+        var stage = document.getElementById('v3dStage'),
+            world = document.getElementById('v3dWorld');
+        if (!stage || !world) return;
+
+        var S = 26;                 // px por metro (base)
+        var LEN = 12, WID = 8;      // galpón, metros
+        var view = { ax: 58, ay: -32, zoom: 1.05 };
+        var DEF = { ax: 58, ay: -32, zoom: 1.05 };
+        var labels = [];            // {el, x, y, z}  (metros: x=largo, y=alto, z=ancho)
+        var roofEls = [], filaBEls = [];
+
+        // --- helpers de construcción -------------------------------------
+        // Coord de mundo: x = a lo largo (0..12), z = a lo ancho (0..8), y = alto (arriba +)
+        function M(v) { return v * S; }
+        function pos(xm, ym, zm) {           // metros -> px, y hacia arriba = negativo
+          return 'translate3d(' + M(xm - LEN / 2) + 'px,' + (-M(ym)) + 'px,' + M(zm - WID / 2) + 'px)';
+        }
+        function face(w, h, css) {
+          var f = document.createElement('div');
+          f.className = 'v3d-face';
+          f.style.width = M(w) + 'px'; f.style.height = M(h) + 'px';
+          f.style.left = (-M(w) / 2) + 'px'; f.style.top = (-M(h) / 2) + 'px';
+          for (var k in css) f.style[k] = css[k];
+          return f;
+        }
+        // caja: centro en (cx,cz) sobre el piso, base a 'base' metros de alto
+        function box(cx, cz, base, w, d, h, opt) {
+          opt = opt || {};
+          var g = document.createElement('div');
+          g.className = 'v3d-face';
+          g.style.transformStyle = 'preserve-3d';
+          g.style.transform = pos(cx, base + h / 2, cz);
+          var W = M(w), D = M(d), H = M(h);
+          var side = opt.side || 'rgba(120,160,130,.9)',
+              top = opt.top || 'rgba(150,185,158,.95)',
+              border = opt.border || 'rgba(40,70,50,.85)';
+          var def = { border: '1px solid ' + border, background: side };
+          if (opt.grad) def.backgroundImage = opt.grad;
+          function add(w2, h2, tr, bg) {
+            var f = face(w2, h2, def); f.style.background = bg || side;
+            if (opt.grad && bg !== top) f.style.backgroundImage = opt.grad;
+            f.style.transform = tr; g.appendChild(f); return f;
+          }
+          add(w, d, 'rotateX(90deg) translateZ(' + (H / 2) + 'px)', top);            // techo
+          if (!opt.noBottom) add(w, d, 'rotateX(-90deg) translateZ(' + (H / 2) + 'px)', opt.bottom || side);
+          add(w, h, 'translateZ(' + (D / 2) + 'px)');                                // frente +z
+          add(w, h, 'rotateY(180deg) translateZ(' + (D / 2) + 'px)');                // atrás
+          add(d, h, 'rotateY(90deg) translateZ(' + (W / 2) + 'px)');                 // derecha +x
+          add(d, h, 'rotateY(-90deg) translateZ(' + (W / 2) + 'px)');                // izquierda
+          world.appendChild(g);
+          return g;
+        }
+        // plano suelto (para el techo)
+        function plane(cx, cy, cz, w, h, rot, css) {
+          var f = face(w, h, css);
+          f.style.transform = pos(cx, cy, cz) + ' ' + rot;
+          world.appendChild(f);
+          return f;
+        }
+        function label(text, xm, ym, zm, cls) {
+          var el = document.createElement('div');
+          el.className = 'v3d-lbl' + (cls ? ' ' + cls : '');
+          el.textContent = text;
+          world.appendChild(el);
+          var o = { el: el, x: xm, y: ym, z: zm };
+          labels.push(o); return o;
+        }
+
+        // --- construir la escena -----------------------------------------
+        // Losa de piso 8x12
+        box(LEN / 2, WID / 2, -0.18, LEN, WID, 0.18,
+            { side: '#d8ddd6', top: '#eef2ec', bottom: '#cdd3cb', border: 'rgba(90,110,96,.6)' });
+        // Pasillo central 1,60 m (banda clara sobre la losa)
+        box(LEN / 2, WID / 2, 0.001, LEN - 0.2, 1.60, 0.02,
+            { side: '#e7efe8', top: '#f4f8f3', border: 'rgba(120,150,128,.5)', noBottom: true });
+
+        // Módulos: 4 a lo largo x 2 filas
+        var xc = [2.065, 4.345, 6.625, 8.905];
+        var filaA = 2.15, filaB = 5.85, MW = 2.13, MD = 2.10, MH = 1.80;
+        var tierGrad = 'repeating-linear-gradient(to top, rgba(30,55,38,.18) 0 1px, transparent 1px ' + M(MH/3) + 'px)';
+        xc.forEach(function (x, i) {
+          box(x, filaA, 0, MW, MD, MH, { side: 'rgba(120,170,132,.96)', top: 'rgba(90,140,104,.98)',
+            border: 'rgba(25,55,35,.9)', grad: tierGrad });
+          var b = box(x, filaB, 0, MW, MD, MH, { side: 'rgba(150,170,155,.55)', top: 'rgba(120,150,128,.6)',
+            border: 'rgba(90,120,98,.8)', grad: tierGrad });
+          filaBEls.push(b);
+        });
+        label('Fila A · instalada', 5.5, 2.05, filaA, '');
+        label('Fila B · reserva', 5.5, 2.05, filaB, 'dim');
+        label('Pasillo 1,60 m', 2.4, 0.25, WID / 2, 'dim');
+
+        // Cuarto técnico (anexo sólido al oeste)
+        box(-1.6, WID / 2, 0, 3.0, 4.0, 2.4,
+            { side: 'rgba(180,170,150,.9)', top: 'rgba(150,140,120,.95)', border: 'rgba(90,80,60,.9)' });
+        label('Cuarto técnico', -1.6, 2.7, WID / 2, '');
+
+        // Postes (esquinas del galpón, hasta el alero 3 m)
+        [[0.15, 0.15], [LEN - 0.15, 0.15], [0.15, WID - 0.15], [LEN - 0.15, WID - 0.15],
+         [LEN / 2, 0.15], [LEN / 2, WID - 0.15]].forEach(function (p) {
+          box(p[0], p[1], 0, 0.14, 0.14, 3.0, { side: '#8a6d4a', top: '#6f573a', border: '#4a3a26' });
+        });
+
+        // Techo a dos aguas (dos planos translúcidos) — alero 3 m, cumbrera 4,7 m
+        var eave = 3.0, ridge = 4.7, half = WID / 2;
+        var slope = Math.sqrt(half * half + (ridge - eave) * (ridge - eave));   // largo del faldón
+        var pitch = Math.atan2(ridge - eave, half) * 180 / Math.PI;             // grados
+        var roofCss = { background: 'rgba(120,150,160,.42)', border: '1px solid rgba(70,95,105,.7)',
+                        backgroundImage: 'repeating-linear-gradient(90deg, rgba(255,255,255,.18) 0 2px, transparent 2px 14px)' };
+        // faldón norte (z de 0 a 4) y sur (z de 4 a 8), ambos suben hacia la cumbrera
+        roofEls.push(plane(LEN / 2, (eave + ridge) / 2, WID / 4, LEN, slope,
+            'rotateX(' + (90 - pitch) + 'deg)', roofCss));
+        roofEls.push(plane(LEN / 2, (eave + ridge) / 2, 3 * WID / 4, LEN, slope,
+            'rotateX(' + (-(90 - pitch)) + 'deg)', roofCss));
+        label('cumbrera 4,7 m', LEN / 2, ridge + 0.35, WID / 2, 'dim');
+
+        // Etiquetas de orientación y medidas
+        label('OESTE · servicios', -0.3, 0.1, WID / 2, 'dim');
+        label('ESTE · portón', LEN + 0.3, 0.1, WID / 2, 'dim');
+        label('8 m', LEN + 0.4, 0.05, WID / 2, 'dim');
+        label('12 m', LEN / 2, 0.05, -0.6, 'dim');
+
+        // --- render + interacción ----------------------------------------
+        function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
+        function render() {
+          world.style.transform =
+            'rotateX(' + view.ax + 'deg) rotateY(' + view.ay + 'deg) scale(' + view.zoom + ')';
+          var inv = ' rotateY(' + (-view.ay) + 'deg) rotateX(' + (-view.ax) + 'deg)';
+          for (var i = 0; i < labels.length; i++) {
+            var o = labels[i];
+            o.el.style.transform = pos(o.x, o.y, o.z) + inv + ' translate(-50%,-50%)';
+          }
+        }
+
+        var drag = null;
+        stage.addEventListener('pointerdown', function (e) {
+          drag = { x: e.clientX, y: e.clientY, ax: view.ax, ay: view.ay };
+          stage.classList.add('drag'); stage.setPointerCapture(e.pointerId);
+        });
+        stage.addEventListener('pointermove', function (e) {
+          if (!drag) return;
+          view.ay = drag.ay + (e.clientX - drag.x) * 0.4;
+          view.ax = clamp(drag.ax - (e.clientY - drag.y) * 0.4, 6, 88);
+          render();
+        });
+        function endDrag() { drag = null; stage.classList.remove('drag'); }
+        stage.addEventListener('pointerup', endDrag);
+        stage.addEventListener('pointercancel', endDrag);
+        stage.addEventListener('pointerleave', endDrag);
+
+        var zoomEl = document.getElementById('v3dZoom');
+        stage.addEventListener('wheel', function (e) {
+          e.preventDefault();
+          view.zoom = clamp(view.zoom * (e.deltaY < 0 ? 1.1 : 0.9), 0.5, 2.4);
+          if (zoomEl) zoomEl.value = Math.round(view.zoom * 100); render();
+        }, { passive: false });
+        if (zoomEl) zoomEl.addEventListener('input', function () {
+          view.zoom = (+zoomEl.value) / 100; render();
+        });
+
+        function setView(v) { view.ax = v.ax; view.ay = v.ay; view.zoom = v.zoom;
+          if (zoomEl) zoomEl.value = Math.round(view.zoom * 100); render(); }
+        document.getElementById('v3dReset').addEventListener('click', function () { setView(DEF); });
+        document.getElementById('v3dTop').addEventListener('click', function () {
+          setView({ ax: 88, ay: 0, zoom: view.zoom }); });
+
+        var roofBtn = document.getElementById('v3dRoof');
+        roofBtn.addEventListener('click', function () {
+          var show = !roofBtn.classList.contains('on'); roofBtn.classList.toggle('on', show);
+          roofEls.forEach(function (el) { el.style.display = show ? '' : 'none'; });
+          labels.forEach(function (o) { if (o.el.textContent.indexOf('cumbrera') === 0) o.el.style.display = show ? '' : 'none'; });
+        });
+        var bBtn = document.getElementById('v3dB'), cnt = document.getElementById('v3dCount');
+        bBtn.addEventListener('click', function () {
+          var show = !bBtn.classList.contains('on'); bBtn.classList.toggle('on', show);
+          filaBEls.forEach(function (el) { el.style.display = show ? '' : 'none'; });
+          labels.forEach(function (o) { if (o.el.textContent.indexOf('Fila B') === 0) o.el.style.display = show ? '' : 'none'; });
+          if (cnt) cnt.textContent = show ? '8 módulos M3 · 1.008 aves' : '4 módulos M3 · 504 aves (Fila A)';
+        });
+
+        render();
+      })();
+      </script>
 
       <section>
         <h3>1 · Los 4 modelos del catálogo</h3>
