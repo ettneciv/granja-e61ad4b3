@@ -608,6 +608,8 @@
             </div>
             <div class="v3d-zoom">Zoom <input type="range" id="v3dZoom" min="60" max="200" value="105"></div>
             <div class="v3d-ctrl">
+              <button type="button" id="v3dLeft" title="Girar a la izquierda">⟲</button>
+              <button type="button" id="v3dRight" title="Girar a la derecha">⟳</button>
               <button type="button" id="v3dReset">Vista inicial</button>
               <button type="button" id="v3dTop">Planta</button>
               <button type="button" id="v3dRoof" class="on">Techo</button>
@@ -730,9 +732,9 @@
                         backgroundImage: 'repeating-linear-gradient(90deg, rgba(255,255,255,.18) 0 2px, transparent 2px 14px)' };
         // faldón norte (z de 0 a 4) y sur (z de 4 a 8), ambos suben hacia la cumbrera
         roofEls.push(plane(LEN / 2, (eave + ridge) / 2, WID / 4, LEN, slope,
-            'rotateX(' + (90 - pitch) + 'deg)', roofCss));
-        roofEls.push(plane(LEN / 2, (eave + ridge) / 2, 3 * WID / 4, LEN, slope,
             'rotateX(' + (-(90 - pitch)) + 'deg)', roofCss));
+        roofEls.push(plane(LEN / 2, (eave + ridge) / 2, 3 * WID / 4, LEN, slope,
+            'rotateX(' + (90 - pitch) + 'deg)', roofCss));
         label('cumbrera 4,7 m', LEN / 2, ridge + 0.35, WID / 2, 'dim');
 
         // Etiquetas de orientación y medidas
@@ -753,21 +755,32 @@
           }
         }
 
+        // Arrastre: el pointerdown arranca en el stage, pero move/up se escuchan
+        // en TODA la ventana. Si no, cuando el dedo sale del recuadro (fácil en
+        // móvil) el gesto se corta y parece que sólo gira en un eje.
         var drag = null;
-        stage.addEventListener('pointerdown', function (e) {
-          drag = { x: e.clientX, y: e.clientY, ax: view.ax, ay: view.ay };
-          stage.classList.add('drag'); stage.setPointerCapture(e.pointerId);
-        });
-        stage.addEventListener('pointermove', function (e) {
+        function onMove(e) {
           if (!drag) return;
-          view.ay = drag.ay + (e.clientX - drag.x) * 0.4;
-          view.ax = clamp(drag.ax - (e.clientY - drag.y) * 0.4, 6, 88);
+          if (e.cancelable) e.preventDefault();
+          view.ay = drag.ay + (e.clientX - drag.x) * 0.4;                 // horizontal → girar
+          view.ax = clamp(drag.ax - (e.clientY - drag.y) * 0.4, 4, 90);   // vertical → inclinar
           render();
+        }
+        function onUp() {
+          if (!drag) return;
+          drag = null; stage.classList.remove('drag');
+          window.removeEventListener('pointermove', onMove);
+          window.removeEventListener('pointerup', onUp);
+          window.removeEventListener('pointercancel', onUp);
+        }
+        stage.addEventListener('pointerdown', function (e) {
+          e.preventDefault();
+          drag = { x: e.clientX, y: e.clientY, ax: view.ax, ay: view.ay };
+          stage.classList.add('drag');
+          window.addEventListener('pointermove', onMove, { passive: false });
+          window.addEventListener('pointerup', onUp);
+          window.addEventListener('pointercancel', onUp);
         });
-        function endDrag() { drag = null; stage.classList.remove('drag'); }
-        stage.addEventListener('pointerup', endDrag);
-        stage.addEventListener('pointercancel', endDrag);
-        stage.addEventListener('pointerleave', endDrag);
 
         var zoomEl = document.getElementById('v3dZoom');
         stage.addEventListener('wheel', function (e) {
@@ -784,6 +797,10 @@
         document.getElementById('v3dReset').addEventListener('click', function () { setView(DEF); });
         document.getElementById('v3dTop').addEventListener('click', function () {
           setView({ ax: 88, ay: 0, zoom: view.zoom }); });
+        document.getElementById('v3dLeft').addEventListener('click', function () {
+          view.ay -= 30; render(); });
+        document.getElementById('v3dRight').addEventListener('click', function () {
+          view.ay += 30; render(); });
 
         var roofBtn = document.getElementById('v3dRoof');
         roofBtn.addEventListener('click', function () {
