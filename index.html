@@ -83,6 +83,13 @@
     .v3d-zoom input { width: 96px; accent-color: var(--brand); }
     .v3d-hint { text-align: center; font-size: .82em; color: var(--muted); padding: 6px; }
     @media (max-width: 560px){ .v3d-stage { height: 380px; } .v3d-ctrl { max-width: 60%; } }
+    /* galería de fotos reales de la jaula */
+    .jgal { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; margin: 8px 0; }
+    .jgal figure { margin: 0; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: #fff; }
+    .jgal img { display: block; width: 100%; height: 150px; object-fit: cover; background: #eef2ec; }
+    .jgal figcaption { font-size: .82em; color: var(--muted); padding: 6px 8px; }
+    .jgal-note { border: 1px dashed var(--line); border-radius: 10px; padding: 14px; color: var(--muted);
+      font-size: .9em; background: #fbfcfb; }
     .card {
       background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
       box-shadow: var(--shadow); padding: 20px; margin: 14px 0;
@@ -614,6 +621,7 @@
               <button type="button" id="v3dTop">Planta</button>
               <button type="button" id="v3dRoof" class="on">Techo</button>
               <button type="button" id="v3dB" class="on">Fila B</button>
+              <button type="button" id="v3dFoto" title="Textura de foto real en los módulos">Foto real</button>
             </div>
           </div>
           <p class="v3d-hint">Arrastra para girar · rueda o barra para acercar · «Planta» = vista desde arriba · «Techo» y «Fila B» se pueden ocultar para ver el interior.</p>
@@ -660,17 +668,19 @@
               border = opt.border || 'rgba(40,70,50,.85)';
           var def = { border: '1px solid ' + border, background: side };
           if (opt.grad) def.backgroundImage = opt.grad;
-          function add(w2, h2, tr, bg) {
+          function add(w2, h2, tr, bg, role) {
             var f = face(w2, h2, def); f.style.background = bg || side;
             if (opt.grad && bg !== top) f.style.backgroundImage = opt.grad;
-            f.style.transform = tr; g.appendChild(f); return f;
+            f.style.transform = tr; f.dataset.role = role || 'side';
+            if (opt.collect && role === 'side') opt.collect.push(f);
+            g.appendChild(f); return f;
           }
-          add(w, d, 'rotateX(90deg) translateZ(' + (H / 2) + 'px)', top);            // techo
-          if (!opt.noBottom) add(w, d, 'rotateX(-90deg) translateZ(' + (H / 2) + 'px)', opt.bottom || side);
-          add(w, h, 'translateZ(' + (D / 2) + 'px)');                                // frente +z
-          add(w, h, 'rotateY(180deg) translateZ(' + (D / 2) + 'px)');                // atrás
-          add(d, h, 'rotateY(90deg) translateZ(' + (W / 2) + 'px)');                 // derecha +x
-          add(d, h, 'rotateY(-90deg) translateZ(' + (W / 2) + 'px)');                // izquierda
+          add(w, d, 'rotateX(90deg) translateZ(' + (H / 2) + 'px)', top, 'top');     // techo
+          if (!opt.noBottom) add(w, d, 'rotateX(-90deg) translateZ(' + (H / 2) + 'px)', opt.bottom || side, 'bottom');
+          add(w, h, 'translateZ(' + (D / 2) + 'px)', null, 'side');                  // frente +z
+          add(w, h, 'rotateY(180deg) translateZ(' + (D / 2) + 'px)', null, 'side');  // atrás
+          add(d, h, 'rotateY(90deg) translateZ(' + (W / 2) + 'px)', null, 'side');   // derecha +x
+          add(d, h, 'rotateY(-90deg) translateZ(' + (W / 2) + 'px)', null, 'side');  // izquierda
           world.appendChild(g);
           return g;
         }
@@ -702,11 +712,12 @@
         var xc = [2.065, 4.345, 6.625, 8.905];
         var filaA = 2.15, filaB = 5.85, MW = 2.13, MD = 2.10, MH = 1.80;
         var tierGrad = 'repeating-linear-gradient(to top, rgba(30,55,38,.18) 0 1px, transparent 1px ' + M(MH/3) + 'px)';
+        var modFaces = [];   // caras laterales de los módulos, para la textura de foto real
         xc.forEach(function (x, i) {
           box(x, filaA, 0, MW, MD, MH, { side: 'rgba(120,170,132,.96)', top: 'rgba(90,140,104,.98)',
-            border: 'rgba(25,55,35,.9)', grad: tierGrad });
+            border: 'rgba(25,55,35,.9)', grad: tierGrad, collect: modFaces });
           var b = box(x, filaB, 0, MW, MD, MH, { side: 'rgba(150,170,155,.55)', top: 'rgba(120,150,128,.6)',
-            border: 'rgba(90,120,98,.8)', grad: tierGrad });
+            border: 'rgba(90,120,98,.8)', grad: tierGrad, collect: modFaces });
           filaBEls.push(b);
         });
         label('Fila A · instalada', 5.5, 2.05, filaA, '');
@@ -819,7 +830,78 @@
           if (cnt) cnt.textContent = show ? '8 módulos M3 · 1.008 aves' : '4 módulos M3 · 504 aves (Fila A)';
         });
 
+        // Textura de foto real en los módulos (img/jaulas/jaula-05-lateral.jpg).
+        // Si el archivo aún no existe, avisa y no cambia nada.
+        var TEX = 'img/jaulas/jaula-05-lateral.jpg';
+        var fotoBtn = document.getElementById('v3dFoto'), texReady = null;
+        // El botón sólo existe si la foto está guardada. Si no, se oculta:
+        // así el sitio publicado no muestra controles que no hacen nada.
+        fotoBtn.style.display = 'none';
+        (function () {
+          var probe = new Image();
+          probe.onload = function () { texReady = true; fotoBtn.style.display = ''; };
+          probe.onerror = function () { texReady = false; };
+          probe.src = TEX;
+        })();
+        function aplicarTex(on) {
+          modFaces.forEach(function (f) {
+            if (on) {
+              f.style.backgroundImage = "url('" + TEX + "')";
+              f.style.backgroundSize = 'cover';
+              f.style.backgroundPosition = 'center';
+              f.style.opacity = '0.96';
+            } else {
+              f.style.backgroundImage = tierGrad;
+              f.style.backgroundSize = '';
+              f.style.opacity = '';
+            }
+          });
+        }
+        fotoBtn.addEventListener('click', function () {
+          if (texReady !== true) return;              // el botón está oculto en ese caso
+          var turnOn = !fotoBtn.classList.contains('on');
+          fotoBtn.classList.toggle('on', turnOn);
+          aplicarTex(turnOn);
+        });
+
         render();
+      })();
+      </script>
+
+      <section>
+        <h3>0.1 · La jaula real — fotos del proveedor</h3>
+        <p class="intro">Estas son las fotos reales del producto (batería tipo A). La maqueta 3D de arriba está modelada a partir de ellas; con el botón <strong>«Foto real»</strong> se puede texturizar los módulos con la foto lateral.</p>
+        <div class="jgal" id="jgal">
+          <figure><img loading="lazy" src="img/jaulas/jaula-01-frontal.jpg" alt="Batería tipo A, vista frontal"><figcaption>Batería tipo A completa (3/4 frontal)</figcaption></figure>
+          <figure><img loading="lazy" src="img/jaulas/jaula-02-frente.jpg" alt="Vista de frente"><figcaption>De frente — forma de A, patas en X</figcaption></figure>
+          <figure><img loading="lazy" src="img/jaulas/jaula-03-canal-alimento.jpg" alt="Canal de alimento"><figcaption>Canal de alimento (10,1 cm/ave)</figcaption></figure>
+          <figure><img loading="lazy" src="img/jaulas/jaula-04-linea-nipples.jpg" alt="Línea de nipples"><figcaption>Línea de nipples de PVC a lo largo</figcaption></figure>
+          <figure><img loading="lazy" src="img/jaulas/jaula-05-lateral.jpg" alt="Batería tipo A, lateral"><figcaption>Batería completa (3/4 del otro lado)</figcaption></figure>
+          <figure><img loading="lazy" src="img/jaulas/jaula-06-nipple-detalle.jpg" alt="Detalle de nipple"><figcaption>Detalle de un nipple (bebedero)</figcaption></figure>
+        </div>
+      </section>
+      <script>
+      (function () {
+        // Si las fotos todavía no están guardadas, se oculta la SECCIÓN COMPLETA
+        // (no un aviso interno): el sitio se ve terminado y la galería aparece
+        // sola en cuanto los archivos existan en site/img/jaulas/.
+        //
+        // Se decide con UNA sonda, no con los <img> de la galería: esos llevan
+        // loading="lazy" (para no gastar datos móviles) y dentro de una pestaña
+        // oculta nunca intentan cargar, así que su evento 'error' no es fiable.
+        var gal = document.getElementById('jgal');
+        if (!gal) return;
+        var sec = gal.closest('section');
+        if (sec) sec.style.display = 'none';           // oculta por defecto
+        var sonda = new Image();
+        sonda.onload = function () { if (sec) sec.style.display = ''; };
+        sonda.onerror = function () { /* se queda oculta */ };
+        sonda.src = 'img/jaulas/jaula-01-frontal.jpg';
+        // Limpieza secundaria: si alguna foto suelta falta, se oculta sólo esa.
+        [].forEach.call(gal.querySelectorAll('figure'), function (fig) {
+          var img = fig.querySelector('img');
+          img.addEventListener('error', function () { fig.style.display = 'none'; });
+        });
       })();
       </script>
 
