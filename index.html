@@ -401,6 +401,7 @@
           <div class="bar"><i></i></div>
           <div class="checklist">
             <div class="sub">B1 · Terreno y replanteo</div>
+            <label class="check" style="border-color:var(--danger);background:#fff6f4"><input type="checkbox" data-k="b0"><span>⚠ <strong>ANTES DE TODO — confirmar que la parcela NO está en el cauce ni en el abanico aluvial de una quebrada</strong> (plano topográfico + caminar el terreno). Naiguatá está entre el mar y el Ávila empinado: es la topografía del deslave de Vargas de 1999. Ver el aviso en la pestaña «Galpón».</span></label>
             <label class="check"><input type="checkbox" data-k="b1"><span>Instalar registradores de clima 4–6 semanas <em>(puede correr en paralelo con todo lo demás)</em>.</span></label>
             <label class="check"><input type="checkbox" data-k="b2"><span>Limpiar y nivelar el terreno; revisar escorrentía, elevación y riesgo de quebrada.</span></label>
             <label class="check"><input type="checkbox" data-k="b3"><span>Replantear el rectángulo 8 × 12 m con el <strong>eje largo este-oeste</strong>.</span></label>
@@ -559,6 +560,56 @@
     <section id="galpon">
       <h2>El galpón</h2>
       <p class="section-intro">La estructura que aloja las jaulas. El clima costero manda el diseño: caliente, húmedo (~70–85%), salino y con lluvia impulsada por viento. El objetivo de la forma es <strong>sacar calor</strong>.</p>
+
+      <div class="card ok" style="border-left:5px solid var(--brand)">
+        <h3>📍 Sitio exacto — 10°36'52,4"N 66°44'03,8"W</h3>
+        <p>Naiguatá, La Guaira. En decimal: <strong>10,6146 N · −66,7344 W</strong>. Con la coordenada fija ya se pueden calcular las posiciones del sol, que confirman unas decisiones y obligan a corregir otras.</p>
+        <div class="grid">
+          <div class="card span-6">
+            <h3>Lo que confirma</h3>
+            <ul>
+              <li><strong>El eje este-oeste es el correcto.</strong> A esta latitud el sol sale y se pone a ±24° del este/oeste exacto todo el año → el sol bajo de mañana y de tarde pega contra los <strong>frontones cortos</strong>, no contra las caras largas abiertas.</li>
+              <li><strong>El cuarto técnico al oeste hace de parachoques</strong> contra el sol de la tarde, que es el más caliente. No estaba planeado así, pero juega a favor.</li>
+              <li><strong>La brisa marina entra por el norte</strong> (la costa mira al norte) → buena ventilación cruzada. De noche se invierte y baja del Ávila: las cortinas deben manejar los dos sentidos.</li>
+            </ul>
+          </div>
+          <div class="card span-6">
+            <h3>Lo que obliga a corregir</h3>
+            <ul>
+              <li><strong>Las dos caras largas reciben sol directo</strong> en algún momento: entre ~16-abr y ~27-ago el sol pasa al <strong>norte</strong> del cenit; el resto del año al sur. No basta con proteger un lado.</li>
+              <li><strong>El peor caso es el 21 de diciembre: sol a 55,9° desde el SUR.</strong> Con alero de 1 m la sombra baja sólo ~1,5 m → el sol entraría <strong>dentro de la zona de jaulas</strong> (0,4–1,8 m). <span class="tag est">a dimensionar</span> el <strong>alero sur debe ser más generoso</strong> que el norte, o la cortina sur asume el trabajo.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Fecha</th><th>Sol al mediodía</th><th>Desde dónde</th><th>Duración del día</th><th>Luz artificial para llegar a 15,5 h</th></tr></thead>
+            <tbody>
+              <tr><td>21 de diciembre</td><td><strong>55,9°</strong> (el más bajo)</td><td>Sur</td><td>11 h 22 min</td><td><strong>4 h 07 min</strong></td></tr>
+              <tr><td>Equinoccios</td><td>79,4°</td><td>Sur (casi cenit)</td><td>12 h 00 min</td><td>3 h 30 min</td></tr>
+              <tr><td>~16-abr y ~27-ago</td><td><strong>90°</strong> (cenit exacto)</td><td>Vertical</td><td>~12 h 15 min</td><td>~3 h 15 min</td></tr>
+              <tr><td>21 de junio</td><td>77,2°</td><td><strong>Norte</strong></td><td>12 h 37 min</td><td><strong>2 h 53 min</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small" style="margin-bottom:0">Mediodía solar ≈ <strong>12:26</strong> hora local (el sitio está 6,7° al oeste del meridiano de la hora venezolana), ±15 min según el mes → amanece ~6:05–6:50 y anochece ~18:05–18:50.</p>
+      </div>
+
+      <div class="callout danger">
+        <h3>⚠ Verificación de sitio que hay que hacer ANTES de vaciar concreto</h3>
+        <p>Naiguatá está en la franja costera estrecha entre el Caribe y el macizo del <strong>Ávila</strong>, que se levanta muy empinado a pocos kilómetros (Pico Naiguatá, 2.765 m). Esa es exactamente la topografía que produjo los <strong>flujos de escombros de Vargas en diciembre de 1999</strong>, que arrasaron este litoral.</p>
+        <p><strong>Hay que confirmar, en plano topográfico y caminando el terreno, que la parcela no está en el cauce ni en el abanico aluvial de una quebrada.</strong> Qué mirar: cuál es la quebrada más cercana, por dónde corre el agua en un aguacero fuerte, si hay marcas de crecidas anteriores, y qué hay ladera arriba.</p>
+        <p style="margin-bottom:0">Esto pesa más que cualquier decisión de ventilación o de jaula: <strong>un galpón perfecto en el sitio equivocado se pierde entero.</strong> <span class="tag warn">razonamiento regional</span> Sale de la coordenada y de la geografía de la zona, <strong>no</strong> de un levantamiento de la parcela — por eso hay que verificarlo en campo.</p>
+      </div>
+
+      <div class="callout open">
+        <h3>Lo que la coordenada NO dice (hay que medirlo)</h3>
+        <ul style="margin:0">
+          <li><strong>Elevación</strong> sobre el nivel del mar.</li>
+          <li><strong>Distancia real a la orilla</strong> — gobierna qué tan agresivo es el aire salino y, por tanto, qué galvanizado exigirle a las jaulas y a la estructura.</li>
+          <li><strong>Pendiente natural y hacia dónde drena</strong> — define la caída del piso y la canaleta perimetral.</li>
+        </ul>
+      </div>
       <div class="grid">
         <div class="card span-6">
           <h3>Dimensiones</h3>
