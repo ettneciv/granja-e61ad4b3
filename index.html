@@ -746,9 +746,12 @@
         // --- render + interacción ----------------------------------------
         function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
         function render() {
+          // rotateX NEGATIVO = mirar desde ARRIBA (ver el techo). Con signo
+          // positivo se veía el galpón desde abajo.
           world.style.transform =
-            'rotateX(' + view.ax + 'deg) rotateY(' + view.ay + 'deg) scale(' + view.zoom + ')';
-          var inv = ' rotateY(' + (-view.ay) + 'deg) rotateX(' + (-view.ax) + 'deg)';
+            'rotateX(' + (-view.ax) + 'deg) rotateY(' + view.ay + 'deg) scale(' + view.zoom + ')';
+          // inverso exacto para que las etiquetas miren a cámara: Ry(-ay) Rx(+ax)
+          var inv = ' rotateY(' + (-view.ay) + 'deg) rotateX(' + view.ax + 'deg)';
           for (var i = 0; i < labels.length; i++) {
             var o = labels[i];
             o.el.style.transform = pos(o.x, o.y, o.z) + inv + ' translate(-50%,-50%)';
